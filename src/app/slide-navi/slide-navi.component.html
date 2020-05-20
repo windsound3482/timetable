@@ -1,0 +1,39 @@
+<mat-sidenav-container
+    class="example-container" (backdropClick)="close('backdrop')" >
+  <mat-sidenav #sidenav (keydown.escape)="close('escape')" disableClose>
+    <mat-list role="list">
+        <mat-list-item role="listitem">
+          <a [routerLink]="['/']">
+            <button mat-raised-button color="basic" >
+              <mat-icon aria-hidden="false" >home</mat-icon>
+              Home
+            </button>
+          </a>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+            Item 2
+        </mat-list-item>
+        <mat-list-item role="listitem">
+            <a [routerLink]="['/DragDrop']">
+              <button mat-raised-button color="basic" >
+                <mat-icon aria-hidden="false" >note_add</mat-icon>
+                File-Upload
+              </button>
+            </a>
+        </mat-list-item>
+    </mat-list>
+    <p><button mat-raised-button color="primary" (click)="close('toggle button')">
+      <mat-icon aria-hidden="false" >exit_to_app</mat-icon>
+      Close</button></p>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    
+    <p><button mat-icon-button aria-hidden="false" aria-label="Example home icon" (click)="sidenav.open()">
+        <mat-icon>menu</mat-icon>
+    </button></p>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
