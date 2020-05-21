@@ -11,7 +11,12 @@
           </a>
         </mat-list-item>
         <mat-list-item role="listitem">
-            Item 2
+          <a [routerLink]="['/Editor']">
+            <button mat-raised-button color="basic" >
+              <mat-icon aria-hidden="false" >map</mat-icon>
+               Editor
+            </button>
+          </a>
         </mat-list-item>
         <mat-list-item role="listitem">
             <a [routerLink]="['/DragDrop']">
@@ -20,13 +25,13 @@
                 File-Upload
               </button>
             </a>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-        <mat-list-item role="listitem">
-          <button mat-raised-button color="primary" (click)="close('toggle button')">
+         </mat-list-item>
+         <mat-divider></mat-divider>
+          <mat-list-item role="listitem">
+            <button mat-raised-button color="primary" (click)="close('toggle button')">
             <mat-icon aria-hidden="false" >exit_to_app</mat-icon>
               Close
-          </button>
+           </button>
         </mat-list-item>
     </mat-list>
     
@@ -34,10 +39,11 @@
 
   <mat-sidenav-content>
     
-    <p><button mat-icon-button aria-hidden="false" aria-label="Example home icon" (click)="sidenav.open()">
+    <button mat-icon-button aria-hidden="false" aria-label="Example home icon" (click)="sidenav.open()">
         <mat-icon>menu</mat-icon>
-    </button></p>
+    </button>
     <router-outlet></router-outlet>
+    
   </mat-sidenav-content>
 </mat-sidenav-container>
 

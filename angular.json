@@ -130,5 +130,10 @@
   "defaultProject": "timetable",
   "cli": {
     "analytics": "c991b9db-fa47-4295-a69c-b4edcaf6616b"
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "css"
+    }
   }
 }
