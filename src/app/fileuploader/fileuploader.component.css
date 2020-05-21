@@ -1,10 +1,10 @@
 .uploadfilecontainer {
     background-image: url("../../assets/cloud.jpg");
     background-repeat: no-repeat;
-    background-size: 100px;
+    background-size: 250px;
     background-position: center;
     height: 200px;
-    width: 80%;
+    width: 90%;
     margin: 20px auto;
     border: 2px dashed #1C8ADB;
     border-radius: 10px;

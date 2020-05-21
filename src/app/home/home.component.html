@@ -1,1 +1,70 @@
-<p>home works!</p>
+<mat-grid-list cols="2" rowHeight="2:1">
+    <mat-grid-tile class="titleA" [colspan]="2" [rowspan]="1">
+        <div class="my-container">
+            <p > GTFS  EDITOR <img src='./../../assets/logo.png' ></p>
+        </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile >
+        <mat-card class="example-card1">
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image1"></div>
+              <mat-card-title>Instruction</mat-card-title>
+              <mat-card-subtitle> for users </mat-card-subtitle>
+            </mat-card-header>
+               <mat-card-content>
+              <p>
+                GTFS Editor is a powerful webbased Editor, 
+                which provides you many efficient tools to adjust the gtfs files which is already exist, 
+                as well as create your own gtfs files.
+              </p>
+              <mat-list>
+                <mat-list-item> Press UPLOAD to upload your own gtfs files </mat-list-item>
+                <mat-list-item> Press EDIT to edit the uploaded files, as well as create your own file </mat-list-item>
+                <mat-list-item> Press DOWNLOAD to download the edited files </mat-list-item>
+               </mat-list>
+            </mat-card-content>
+            <mat-card-actions>
+              
+              <a [routerLink]="['/DragDrop']">
+                <button mat-button>UPLOAD</button>
+              </a>
+              <a [routerLink]="['/Editor']">
+                <button mat-button>EDIT</button>
+              </a>
+                
+              
+              <button mat-button>DOWNLOAD</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-grid-tile>
+
+    <mat-grid-tile >
+        <mat-card class="example-card1">
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image2"></div>
+              <mat-card-title>Join us</mat-card-title>
+              <mat-card-subtitle> for developers</mat-card-subtitle>
+            </mat-card-header>
+               <mat-card-content>
+              <p>
+                Timetable Project(for GTFS Editor) is an opensource project, which was founded at the Technical University of Darmstadt. 
+                The Project is coded unter Typescript+Angular. Please join us to contribute your contribution to the open-source softwares. 
+                We believe "Community over Code".
+              </p>
+              <mat-list>
+                <mat-list-item> Contract us: charles9908@hotmail.com </mat-list-item>
+                <mat-list-item> Press VIEW to check the code in the Github. </mat-list-item>
+               </mat-list>
+            </mat-card-content>
+            <mat-card-actions>
+              
+              <a href="https://github.com/windsound3482/timetable">
+                <button mat-button>VIEW</button>
+              </a>
+              
+            </mat-card-actions>
+        </mat-card>
+    </mat-grid-tile>
+    
+  </mat-grid-list>

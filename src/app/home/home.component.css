@@ -1,0 +1,50 @@
+.titleA
+{
+    text-align: right;
+}
+.titleA p{
+    color: orange;
+    font-size: 70px;
+    font-weight:900;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+}
+.my-container img{
+    width: 100px;
+}
+.titleA::after
+{
+    content: "";
+    display: block;
+    background-image: url("../../assets/map.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;  
+}
+
+.example-card {
+    max-width: calc(50vw - 5px);
+  }
+  
+.example-header-image1 {
+    background-image: url('./../../assets/logo.png');
+    background-size: cover;
+}
+
+.example-header-image2 {
+    background-image: url('./../../assets/github.png');
+    background-size: cover;
+}
+.example-card1 p{
+    font-size: 16px;
+    font-weight:300;
+}
