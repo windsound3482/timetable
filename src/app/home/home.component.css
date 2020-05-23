@@ -2,19 +2,15 @@
 {
     text-align: right;
 }
-.titleA p{
+.titleA h1{
     color: orange;
     font-size: 70px;
     font-weight:900;
-    top:0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    position: absolute;
+    float:right;
+    
 }
-.my-container img{
-    width: 100px;
-}
+
+
 .titleA::after
 {
     content: "";
@@ -32,7 +28,7 @@
 }
 
 .example-card {
-    max-width: calc(50vw - 5px);
+    max-width: calc(49vw);
   }
   
 .example-header-image1 {
@@ -45,6 +41,6 @@
     background-size: cover;
 }
 .example-card1 p{
-    font-size: 16px;
+    font-size: 20px;
     font-weight:300;
 }

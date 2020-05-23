@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ZipService } from '../zip.service';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http'
 
 @Component({
@@ -11,7 +11,7 @@ export class FileuploaderComponent implements OnInit {
 
   constructor(
     private http:HttpClient,
-    
+    private zip:ZipService,
   ) { }
 
   ngOnInit(): void {
@@ -22,13 +22,11 @@ export class FileuploaderComponent implements OnInit {
   uploadFile(event) {
     for (let index = 0; index < event.length; index++) {
       const element = event[index]; 
+      this.zip.getZipContent(element);
       this.files.push(element.name);
     }  
   }
 
-  uploadFileToActivity() {
-    
-  }
   deleteAttachment(index) {
     this.files.splice(index, 1)
   }

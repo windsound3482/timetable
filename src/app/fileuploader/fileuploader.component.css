@@ -29,11 +29,10 @@
 }
 
 .files-list .delete-file {
-    background: transparent;
     border: none;
     cursor: pointer;
 }
 
-.files-list .delete-file img {
+.files-list .delete-file mat-icon {
     width: 30px;
 }

@@ -17,6 +17,7 @@ import { FileuploaderComponent } from './fileuploader/fileuploader.component';
 import { DragDropDirective } from './drag-drop.directive';
 import { TableComponent } from './table/table.component';
 import { HomeComponent } from './home/home.component';
+import { AllfileService } from './allfile.service';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import { HomeComponent } from './home/home.component';
     MatNativeDateModule,
     
   ],
-  providers: [],
+  providers: [AllfileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
