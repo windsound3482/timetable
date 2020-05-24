@@ -30,6 +30,6 @@ export class AllfileService {
   }
   constructor() {
     this.agencylist=[["agency_id","agency_name","agency_url","agency_timezone","agency_phone","agency_lang"]
-    ,["FunBus","The Fun Bus","http://www.thefunbus.org","America/Los_Angeles,(310) 555-0222","en"]];
+    ,["FunBus","The Fun Bus","http://www.thefunbus.org","America/Los_Angeles","(310) 555-0222","en"]];
   }
 }

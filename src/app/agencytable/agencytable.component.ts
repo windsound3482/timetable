@@ -27,7 +27,7 @@ export class AgencytableComponent implements OnInit {
     this.dataSource=[];
     this.dataSource=this.file.getagencyList();
     let name:Array<string>= (this.dataSource)[0];
-    for (let i=1;i<name.length;i++){
+    for (let i=0;i<name.length;i++){
       this.displayedColumns.push(name[i]);
     }
     this.database=this.dataSource.slice(1);
