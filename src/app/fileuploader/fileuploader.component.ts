@@ -18,16 +18,19 @@ export class FileuploaderComponent implements OnInit {
     
   }
   files: any = [];
- 
+  details: Array<Array<string>> = [];
   uploadFile(event) {
     for (let index = 0; index < event.length; index++) {
       const element = event[index]; 
-      this.zip.getZipContent(element);
+      
       this.files.push(element.name);
+      let detail: Array<string>=this.zip.getZipContent(element);
+      this.details.push(detail);
     }  
   }
 
   deleteAttachment(index) {
-    this.files.splice(index, 1)
+    this.files.splice(index, 1);
+    this.details.splice(index,1);
   }
 }

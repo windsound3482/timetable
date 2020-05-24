@@ -9,6 +9,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {MatNativeDateModule} from '@angular/material/core';
 import {DemoMaterialModule} from './material-module';
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MapComponent } from './map/map.component';
@@ -18,6 +19,8 @@ import { DragDropDirective } from './drag-drop.directive';
 import { TableComponent } from './table/table.component';
 import { HomeComponent } from './home/home.component';
 import { AllfileService } from './allfile.service';
+import { AgencytableComponent } from './agencytable/agencytable.component';
+import { EditorComponent } from './editor/editor.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,8 @@ import { AllfileService } from './allfile.service';
     DragDropDirective,
     TableComponent,
     HomeComponent,
+    AgencytableComponent,
+    EditorComponent,
   
    
   ],
@@ -37,7 +42,7 @@ import { AllfileService } from './allfile.service';
     BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent  },
-      { path: 'Editor', component:MapComponent},
+      { path: 'Editor', component:EditorComponent},
       { path: 'DragDrop',component:FileuploaderComponent}
     ]),
     MatSidenavModule,
@@ -47,7 +52,7 @@ import { AllfileService } from './allfile.service';
     HttpClientModule,
     DemoMaterialModule,
     MatNativeDateModule,
-    
+    FormsModule,
   ],
   providers: [AllfileService],
   bootstrap: [AppComponent]

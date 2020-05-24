@@ -1,3 +1,6 @@
 .example-tab-icon {
     margin-right: 8px;
-  }
+}
+.mattabg{
+  max-width: calc(80vw)
+}

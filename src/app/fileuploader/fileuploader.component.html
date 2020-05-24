@@ -2,9 +2,14 @@
 <div class="uploadfilecontainer" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)">
     <input hidden type="file" accept="application/zip" #fileInput (change)="uploadFile($event.target.files)" />
 </div>
-<div  class="files-list" *ngFor="let file of files;let i= index">
-    <p> {{ file }} </p>
-    <button mat-fab color="primary" class="delete-file" (click)="deleteAttachment(i)">
-      <mat-icon>delete</mat-icon>
+<div  *ngFor="let file of files;let i= index">
+    <div  class="files-list">
+      <p> {{ file }} </p>
+      <button mat-fab color="primary" class="delete-file" (click)="deleteAttachment(i)">
+        <mat-icon>delete</mat-icon>
     </button>
+    </div>
+    <div  class="detail-list" *ngFor="let detail of details[i]">
+      <p> {{detail}}</p>
+    </div>
 </div>

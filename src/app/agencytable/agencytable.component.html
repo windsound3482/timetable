@@ -1,0 +1,18 @@
+<mat-table [dataSource]="database" class="mat-elevation-z8">
+    <div *ngFor="let pos of displayedColumns;let i= index">
+    <ng-container [matColumnDef]= "pos">
+      <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
+      <mat-cell *matCellDef="let element; let j = index"> 
+          <mat-form-field class="example-form-field">
+            <input matInput type="text" [(ngModel)]="element[i]" > 
+            <button mat-button *ngIf="element[i]" matSuffix mat-icon-button aria-label="Clear" (click)="element[i]=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+         </mat-cell>
+    </ng-container>
+    </div>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
