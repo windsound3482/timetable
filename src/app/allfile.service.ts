@@ -6,6 +6,7 @@ import { ZipService } from './zip.service';
 export class AllfileService {
   
   agencylist:Array<Array<string>>=[];
+
   public setFile(file:Blob,filename:string) {
     let items:Array<Array<string>>=[]; 
     var reader:FileReader = new FileReader();
@@ -27,6 +28,10 @@ export class AllfileService {
   
   public getagencyList(){
     return this.agencylist;
+  }
+
+  public setagencyList(file:string[][]){
+    this.agencylist=file;
   }
   constructor() {
     this.agencylist=[["agency_id","agency_name","agency_url","agency_timezone","agency_phone","agency_lang"]

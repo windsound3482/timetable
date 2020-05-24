@@ -34,7 +34,15 @@ export class AgencytableComponent implements OnInit {
     console.log(this.database[0][2]);
     
   }
-
+  
+  onSave(){
+    this.dataSource=[];
+    this.dataSource.push(this.displayedColumns);
+    this.dataSource=this.dataSource.concat(this.database);
+    
+    this.file.setagencyList(this.dataSource);
+    window.alert('Your File agency.txt has already been saved!');
+  }
   
 }
  

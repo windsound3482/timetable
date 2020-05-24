@@ -2,5 +2,8 @@
     margin-right: 8px;
 }
 .mattabg{
-  max-width: calc(80vw)
+  position:absolute;
+  max-width: calc(85vw);
+  
+  
 }
