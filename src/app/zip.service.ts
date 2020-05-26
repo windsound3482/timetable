@@ -34,6 +34,7 @@ export class ZipService {
     let tempstr:string ='';
     let temprow=temp.length;
     
+
     for (var i=0;i<temprow;i++)
     {
       let tempstrr:string[]=temp[i];
@@ -42,6 +43,20 @@ export class ZipService {
       tempstr=tempstr.concat('\n');
     }
     this.jszip.file("agency.txt",tempstr);
+
+    temp=this.allfile.getfeedinfo();
+    tempstr ='';
+    temprow=temp.length;
+    for (var i=0;i<temprow;i++)
+    {
+      let tempstrr:string[]=temp[i];
+      console.log(tempstrr.toString());
+      tempstr=tempstr.concat(tempstrr.toString());
+      tempstr=tempstr.concat('\n');
+    }
+    this.jszip.file("feed_info.txt",tempstr);
+
+
     this.jszip.generateAsync({type:"blob"}).then((blob) => {
       FileSaver.saveAs(blob, "hello.zip");
     });

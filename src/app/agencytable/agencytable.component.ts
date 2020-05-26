@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild} from '@angular/core';
 import { AllfileService } from '../allfile.service';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
+
 export interface agency {
   agency_id:string;
   agency_name:string;
@@ -22,7 +25,9 @@ export class AgencytableComponent implements OnInit {
   ) { }
   displayedColumns: string[]=[];
   dataSource :Array<Array<string>>;
-  database :Array<Array<string>>;
+  database :Array<Array<string>>; 
+  dataTable : MatTableDataSource<string[]>;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   ngOnInit(): void {
     this.dataSource=[];
     this.dataSource=this.file.getagencyList();
@@ -31,13 +36,16 @@ export class AgencytableComponent implements OnInit {
       this.displayedColumns.push(name[i]);
     }
     this.database=this.dataSource.slice(1);
-    console.log(this.database[0][2]);
-    
+    this.dataTable=new MatTableDataSource<string[]>(this.database);
+    this.dataTable.paginator = this.paginator;
   }
+ 
+
   
   onSave(){
     this.dataSource=[];
     this.dataSource.push(this.displayedColumns);
+    this.database=this.dataTable.data;
     this.dataSource=this.dataSource.concat(this.database);
     
     this.file.setagencyList(this.dataSource);

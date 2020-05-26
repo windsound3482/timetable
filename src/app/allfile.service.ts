@@ -5,7 +5,8 @@ import { ZipService } from './zip.service';
 })
 export class AllfileService {
   
-  agencylist:Array<Array<string>>=[];
+  agencylist:string[][]=[];
+  feedinfo:string[][]=[];
 
   public setFile(file:Blob,filename:string) {
     let items:Array<Array<string>>=[]; 
@@ -24,17 +25,30 @@ export class AllfileService {
     {
       this.agencylist=items;
     }
+    if (filename==="feed_info.txt")
+    {
+      this.feedinfo=items;
+    } 
   }
-  
+  //get and set List to every CSV functions
   public getagencyList(){
     return this.agencylist;
   }
-
   public setagencyList(file:string[][]){
     this.agencylist=file;
   }
+
+  public getfeedinfo(){
+    return this.feedinfo;
+  }
+  public setfeedinfo(file:string[][]){
+    this.feedinfo=file;
+  }
   constructor() {
     this.agencylist=[["agency_id","agency_name","agency_url","agency_timezone","agency_phone","agency_lang"]
-    ,["FunBus","The Fun Bus","http://www.thefunbus.org","America/Los_Angeles","(310) 555-0222","en"]];
+      ,["FunBus","The Fun Bus","http://www.thefunbus.org","America/Los_Angeles","(310) 555-0222","en"]];
+    this.feedinfo=[["feed_publisher_name","feed_publisher_url","feed_lang","feed_start_date","feed_end_date","feed_version"],
+      ["SBB","http://www.sbb.ch/","DE","20191215","20201212","20200519"]
+      ];
   }
 }

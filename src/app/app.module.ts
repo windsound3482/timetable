@@ -22,6 +22,7 @@ import { AllfileService } from './allfile.service';
 import { AgencytableComponent } from './agencytable/agencytable.component';
 import { EditorComponent } from './editor/editor.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { FeedinfoComponent } from './feedinfo/feedinfo.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     AgencytableComponent,
     EditorComponent,
     ToolbarComponent,
+    FeedinfoComponent,
   
    
   ],

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Output,EventEmitter} from '@angular/core';
 import { ZipService } from '../zip.service';
-import { zip } from 'rxjs';
+
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',

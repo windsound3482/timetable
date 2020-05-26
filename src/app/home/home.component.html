@@ -15,7 +15,17 @@
               <p>
                 GTFS Editor is a powerful webbased Editor, 
                 which provides you many efficient tools to adjust the gtfs files which is already exist, 
-                as well as create your own gtfs files.
+                as well as create your own GTFS files. 
+              </p>
+              <p>
+              The General Transit Feed Specification (GTFS) defines 
+              a common format for public transportation schedules and associated geographic information. 
+              You can find the detailed reference here: 
+              <a href='https://developers.google.com/transit/gtfs/reference'> Google GTFS Format
+              </a>
+              </p>
+              <p>
+                Press download button to get an example for the GTFS Feed.
               </p>
             </mat-card-content>
              
@@ -30,7 +40,7 @@
               </a>
                 
               
-              <button mat-button>DOWNLOAD</button>
+              <button mat-button (click)="download()">DOWNLOAD</button>
             </mat-card-actions>
         </mat-card>
     </mat-grid-tile>
