@@ -1,0 +1,29 @@
+.mat-calendar-body-cell.selected
+{
+  background-color:purple;
+  border-radius: 50%
+}
+.mat-calendar
+{
+  float:right;
+  margin-left:calc(30vw);
+  width:calc(35vw)
+}
+
+.myoptionclass {
+    float:left;
+    position:relative;
+    margin-right:(30vw);
+    left:25px;
+    top:20px;
+    width: 200px;
+    
+}
+.myoptionclass .example-form-field{
+    font-size: medium;
+}
+
+.myoptionclass .date-select .mat-form-field + .mat-form-field {
+    display:inline;
+}
+  

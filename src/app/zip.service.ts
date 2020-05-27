@@ -4,13 +4,33 @@ import * as JSZip from 'jszip';
 import * as fs from 'fs'
 import * as FileSaver from 'file-saver';
 import { zip } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ZipService {
   jszip = new JSZip();
-  constructor(private allfile:AllfileService) { 
+  constructor(
+    private allfile:AllfileService,
+    private http: HttpClient,
+  ) { 
+    this.http.get('../../assets/sample-feed.zip',{responseType: 'arraybuffer'}).subscribe(
+      (files) => {
+        this.jszip.loadAsync(files).then((zip) => {
+          
+          zip.forEach((relativePath, defile) => {
+            defile.async("blob").then((data)=> {
+              this.allfile.setFile(data,defile.name);
+            });
+            
+          });
+          
+        });
+      }
+    );
   }
 
   public   getZipContent (file): Array<string>{ 

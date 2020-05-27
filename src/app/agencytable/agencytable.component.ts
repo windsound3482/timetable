@@ -3,16 +3,6 @@ import { AllfileService } from '../allfile.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 
-export interface agency {
-  agency_id:string;
-  agency_name:string;
-  agency_url:string;
-  agency_timezone:string;
-  agency_lang:string;
-  agency_phone:string;
-}
-
-
 @Component({
   selector: 'app-agencytable',
   templateUrl: './agencytable.component.html',
@@ -24,8 +14,8 @@ export class AgencytableComponent implements OnInit {
     private file:AllfileService,
   ) { }
   displayedColumns: string[]=[];
-  dataSource :Array<Array<string>>;
-  database :Array<Array<string>>; 
+  dataSource :string[][];
+  database :string[][]; 
   dataTable : MatTableDataSource<string[]>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   ngOnInit(): void {
@@ -52,6 +42,13 @@ export class AgencytableComponent implements OnInit {
     window.alert('Your File agency.txt has already been saved!');
   }
   
+
+  addaLine(){
+    this.database=this.dataTable.data;
+    this.database.push([]);
+    this.dataTable=new MatTableDataSource<string[]>(this.database);
+    this.dataTable.paginator = this.paginator;
+  }
 }
  
 

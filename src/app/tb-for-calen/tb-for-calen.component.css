@@ -1,0 +1,13 @@
+.example-card {
+    position:fixed;
+    float:right;
+    margin-left:calc(85vw);
+    max-width: calc(13vw);
+    
+  }
+  
+  
+.example-header-image {
+    background-image: url('./../../assets/logo.png');
+    background-size: cover;
+}
