@@ -60,7 +60,6 @@ export class ZipService {
     for (var i=0;i<temprow;i++)
     {
       let tempstrr:string[]=temp[i];
-      console.log(tempstrr.toString());
       tempstr=tempstr.concat(tempstrr.toString());
       tempstr=tempstr.concat('\n');
     }
@@ -72,7 +71,6 @@ export class ZipService {
     for (var i=0;i<temprow;i++)
     {
       let tempstrr:string[]=temp[i];
-      console.log(tempstrr.toString());
       tempstr=tempstr.concat(tempstrr.toString());
       tempstr=tempstr.concat('\n');
     }
@@ -84,11 +82,21 @@ export class ZipService {
     for (var i=0;i<temprow;i++)
     {
       let tempstrr:string[]=temp[i];
-      console.log(tempstrr.toString());
       tempstr=tempstr.concat(tempstrr.toString());
       tempstr=tempstr.concat('\n');
     }
     this.jszip.file("calendar.txt",tempstr);
+
+    temp=this.calen.getexp();
+    tempstr ='';
+    temprow=temp.length;
+    for (var i=0;i<temprow;i++)
+    {
+      let tempstrr:string[]=temp[i];
+      tempstr=tempstr.concat(tempstrr.toString());
+      tempstr=tempstr.concat('\n');
+    }
+    this.jszip.file("calendar_dates.txt",tempstr);
 
     this.jszip.generateAsync({type:"blob"}).then((blob) => {
       FileSaver.saveAs(blob, "hello.zip");
