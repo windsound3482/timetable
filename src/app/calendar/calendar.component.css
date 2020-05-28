@@ -1,3 +1,6 @@
+table {
+  width: 100%;
+}
 .mat-calendar-body-cell.selected
 {
   background-color:purple;
@@ -6,24 +9,38 @@
 .mat-calendar
 {
   float:right;
-  margin-left:calc(30vw);
-  width:calc(35vw)
+  margin-left:calc(1vw);
+  width:calc(35vw);
 }
 
 .myoptionclass {
     float:left;
     position:relative;
-    margin-right:(30vw);
-    left:25px;
-    top:20px;
-    width: 200px;
-    
-}
-.myoptionclass .example-form-field{
+    left:35px;
+    top:25px;
+    max-width:calc(30vw);
     font-size: medium;
 }
+    
 
-.myoptionclass .date-select .mat-form-field + .mat-form-field {
-    display:inline;
+.myoptionclass .example-form-field{
+    font-size: large;
+}
+
+.myoptionclass .date-select .mat-form-field+.mat-form-field {
+  margin-left:(1vw);
+  font-size: medium;
+}
+
+.myoptionclass .example-section{
+  
+  align-content: left;
+  align-items: center;
+  height: 50px;
+}
+
+.myoptionclass .example-section .example-margin {
+  margin: 0 10px;
+  font-size: medium;
 }
   
