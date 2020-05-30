@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 export class CalendarservService {
   calendarList:string[][]=[];
   calendarexp:string[][]=[];
+  mode:boolean;
+  
   public setcalender(data:string[][]){
     this.calendarList=data;
     
@@ -22,5 +24,17 @@ export class CalendarservService {
     return this.calendarexp;
   }
   
-  constructor() { }
+  public setmode(recomm:boolean){
+    this.mode=recomm;
+  }
+
+  public getmode(){
+    return this.mode;
+  }
+  constructor() { 
+    this.setcalender([["service_id","monday","tuesday","wednesday","thursday",
+      "friday","saturday","sunday","start_date","end_date"]]);
+    this.calendarexp=([["service_id","date","exception_type"]]);
+    this.setmode(true);
+  }
 }

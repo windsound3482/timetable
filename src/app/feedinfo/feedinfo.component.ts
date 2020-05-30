@@ -35,7 +35,7 @@ export class FeedinfoComponent implements OnInit {
     }
     let copydatabase=this.database.slice();
     let tempindex=this.displayedColumns.length;
-    for (var i=0;i<this.database.length;i++)
+    for (var i=this.database.length - 1;i>=0;i--)
     {
       let deleteeable=true;
       for (var j=0;j<tempindex;j++)

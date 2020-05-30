@@ -39,7 +39,7 @@ export class AgencytableComponent implements OnInit {
     for (var i=0;i<this.database.length;i++)
     {
       let deleteeable=true;
-      for (var j=0;j<tempindex;j++)
+      for (var j=tempindex-1;j>=0;j--)
       if (this.database[i][j]!="" && this.database[i][j]!=null)
       {
         deleteeable=false;

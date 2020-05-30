@@ -16,27 +16,15 @@ export class ZipService {
   jszip = new JSZip();
   constructor(
     private allfile:AllfileService,
-    private http: HttpClient,
+    
     private calen:CalendarservService,
   ) { 
-    this.http.get('../../assets/sample-feed.zip',{responseType: 'arraybuffer'}).subscribe(
-      (files) => {
-        this.jszip.loadAsync(files).then((zip) => {
-          
-          zip.forEach((relativePath, defile) => {
-            defile.async("blob").then((data)=> {
-              this.allfile.setFile(data,defile.name);
-            });
-            
-          });
-          
-        });
-      }
-    );
+    
   }
 
   public   getZipContent (file): Array<string>{ 
     let files:Array<string>=[];
+    this.jszip=new JSZip();
     this.jszip.loadAsync(file).then((zip) => {
        
         zip.forEach((relativePath, defile) => {
@@ -47,11 +35,16 @@ export class ZipService {
         });
         
       });
-      return files;
+    if (this.jszip.file("calendar.txt")==null)
+    {
+      this.calen.setmode(false);
+    }
+    return files;
   }
 
   public downloadFile()
   {
+    this.jszip=new JSZip();
     let temp:string[][]=this.allfile.getagencyList();
     let tempstr:string ='';
     let temprow=temp.length;

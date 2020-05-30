@@ -2,7 +2,7 @@ import { Component, OnInit ,ViewEncapsulation,ViewChild ,}from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-
+import { AltercalenComponent } from '../altercalen/altercalen.component';
 
 import { CalendarservService } from '../calendarserv.service';
 import { Data } from '@angular/router';
@@ -14,7 +14,11 @@ import { Data } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class CalendarComponent implements OnInit {
-  constructor(private file:CalendarservService,) { }
+  constructor(private file:CalendarservService,) { 
+
+  }
+
+  @ViewChild(AltercalenComponent ) altercalen: AltercalenComponent ;
   //select date on the calendar
   
   onSave(calendar: any){
@@ -83,7 +87,7 @@ export class CalendarComponent implements OnInit {
       if ((event>dateend) || (event<datebegin))
       {
         let temp:string[]=["","",""];
-        temp[expidindex]=this.calendarData[this.current][this.c_ID];
+        temp[expidindex]=this.value;
         temp[exptypeindex]="1";
         temp[expdateindex]=date;
         this.calendarexpData.push(temp);
@@ -95,17 +99,18 @@ export class CalendarComponent implements OnInit {
           
           for (var i=1;i<this.calendarexpData.length;i++)
           {
-            if ((this.calendarexpData[i][expidindex]==this.calendarData[this.current][this.c_ID]) && 
+            if ((this.calendarexpData[i][expidindex]==this.value) && 
             (this.calendarexpData[i][expdateindex]==date))
             {
               this.calendarexpData.splice(i,1);
+              break;
             } 
           }
         }
         else
         {
           let temp:string[]=["","",""];
-          temp[expidindex]=this.calendarData[this.current][this.c_ID];
+          temp[expidindex]=this.value;
           temp[exptypeindex]="1";
           temp[expdateindex]=date;
           this.calendarexpData.push(temp);
@@ -118,10 +123,11 @@ export class CalendarComponent implements OnInit {
       {
         for (var i=1;i<this.calendarexpData.length;i++)
           {
-            if ((this.calendarexpData[i][expidindex]==this.calendarData[this.current][this.c_ID]) && 
+            if ((this.calendarexpData[i][expidindex]==this.value) && 
             (this.calendarexpData[i][expdateindex]==date))
             {
               this.calendarexpData.splice(i,1);
+              break;
             } 
           }
       }
@@ -130,7 +136,7 @@ export class CalendarComponent implements OnInit {
         {
 
           let temp:string[]=["","",""];
-          temp[expidindex]=this.calendarData[this.current][this.c_ID];
+          temp[expidindex]=this.value;
           temp[exptypeindex]="2";
           temp[expdateindex]=date;
           this.calendarexpData.push(temp);
@@ -140,11 +146,13 @@ export class CalendarComponent implements OnInit {
         {
           for (var i=1;i<this.calendarexpData.length;i++)
           {
-            if ((this.calendarexpData[i][expidindex]==this.calendarData[this.current][this.c_ID]) && 
+            if ((this.calendarexpData[i][expidindex]==this.value) && 
             (this.calendarexpData[i][expdateindex]==date))
             {
               this.calendarexpData.splice(i,1);
+              break;
             } 
+            
           }
         }
       }
@@ -209,23 +217,44 @@ export class CalendarComponent implements OnInit {
     this.daya=dayava;
 
     let expidindex=this.calendarexpData[0].indexOf("service_id");
-    for (var i=1;i<this.calendarexpData.length;i++)
+    let expatde:string[][]=this.calendarexpData.slice();
+    for (var i=this.calendarexpData.length - 1 ;i>=1;i--)
     {
-      if (this.calendarexpData[i][expidindex]==this.calendarData[this.current][this.c_ID]) 
+      if (this.calendarexpData[i][expidindex]==this.value) 
           
       {
-         this.calendarexpData.splice(i,1);
+         expatde.splice(i,1);
       } 
     }
-    
-    
+    this.calendarexpData=expatde;
+  }
+  
+  onDelete(calendar){
+    if (this.current==this.calendarData.length)
+    {
+      window.alert("You wnt to add a new service, you can not delete it at once!!!");
+      return;
+    }
+    this.calendarData.splice(this.current,1);
+    let expidindex=this.calendarexpData[0].indexOf("service_id");
+    let expatde:string[][]=this.calendarexpData.slice();
+    for (var i=this.calendarexpData.length - 1 ;i>=1;i--)
+    {
+      if (this.calendarexpData[i][expidindex]==this.value) 
+          
+      {
+         expatde.splice(i,1);
+      } 
+    }
+    this.calendarexpData=expatde;
+    this.onSave(calendar);
   }
 
   paintwithexp(calendar: any){
     let expidindex=this.calendarexpData[0].indexOf("service_id");
     let exptypeindex=this.calendarexpData[0].indexOf("exception_type");
     let expdateindex=this.calendarexpData[0].indexOf("date");
-    let editid=this.calendarData[this.current][this.c_ID];
+    let editid=this.value;
     for (var i=1;i<this.calendarexpData.length;i++)
     {
       if (this.calendarexpData[i][expidindex]==editid)
@@ -326,26 +355,40 @@ export class CalendarComponent implements OnInit {
   c_Sat:number;
   c_Sun:number;
   c_ID:number;
-  
+  mode:boolean;
   ngOnInit(): void {
+    this.mode=this.file.getmode();
+    this.displayedColumns=[];
     this.calendarData=this.file.getcalender();
     this.calendarexpData=this.file.getexp();
-    this.c_start_date=this.calendarData[0].indexOf("start_date");
-    this.c_end_date=this.calendarData[0].indexOf("end_date");
-    this.c_Mon=this.calendarData[0].indexOf("monday");
-    this.c_Tue=this.calendarData[0].indexOf("tuesday");
-    this.c_Wed=this.calendarData[0].indexOf("wednesday");
-    this.c_Thu=this.calendarData[0].indexOf("thursday");
-    this.c_Fri=this.calendarData[0].indexOf("friday");
-    this.c_Sat=this.calendarData[0].indexOf("saturday");
-    this.c_Sun=this.calendarData[0].indexOf("sunday");
-    this.c_ID=this.calendarData[0].indexOf("service_id");
     let name:Array<string>= (this.calendarData)[0];
+    if (this.mode)
+    {
+      
+      this.c_start_date=this.calendarData[0].indexOf("start_date");
+      this.c_end_date=this.calendarData[0].indexOf("end_date");
+      this.c_Mon=this.calendarData[0].indexOf("monday");
+      this.c_Tue=this.calendarData[0].indexOf("tuesday");
+      this.c_Wed=this.calendarData[0].indexOf("wednesday");
+      this.c_Thu=this.calendarData[0].indexOf("thursday");
+      this.c_Fri=this.calendarData[0].indexOf("friday");
+      this.c_Sat=this.calendarData[0].indexOf("saturday");
+      this.c_Sun=this.calendarData[0].indexOf("sunday");
+      this.c_ID=this.calendarData[0].indexOf("service_id");
+      
+    }
     for (let i=0;i<name.length;i++){
       this.displayedColumns.push(name[i]);
     }
     this.database=this.calendarData.slice(1);
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
+
+  }
+
+  changemode(){
+    this.mode=this.file.getmode();
+    this.altercalen.ngOnInit();
+    this.ngOnInit();
   }
 }
