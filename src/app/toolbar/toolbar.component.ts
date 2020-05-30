@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Output,EventEmitter} from '@angular/core';
+
 import { ZipService } from '../zip.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { ZipService } from '../zip.service';
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
-  @Output() notify= new EventEmitter();
+  
   constructor(
     private zip:ZipService,
   ) { }

@@ -6,6 +6,24 @@
       </ng-template>
       <app-agencytable></app-agencytable>
     </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">event_note</mat-icon>
+        Calendar
+      </ng-template>
+  
+      <app-calendar></app-calendar>
+    </mat-tab>
+    
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">contact_support</mat-icon>
+        Feed_info
+      </ng-template>
+  
+      <app-feedinfo></app-feedinfo>
+    </mat-tab>
   
     <mat-tab>
       <ng-template mat-tab-label>
@@ -40,14 +58,7 @@
         Content 2
       </mat-tab>
     
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="example-tab-icon">event_note</mat-icon>
-          Calendar
-        </ng-template>
-    
-        <app-calendar></app-calendar>
-      </mat-tab>
+      
 
       <mat-tab>
         <ng-template mat-tab-label>
@@ -125,13 +136,6 @@
         Content 3
       </mat-tab>
 
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="example-tab-icon">contact_support</mat-icon>
-          Feed_info
-        </ng-template>
-    
-        <app-feedinfo></app-feedinfo>
-      </mat-tab>
+      
   </mat-tab-group>
 

@@ -1,13 +1,13 @@
-<app-toolbar (notify)="onSave()"></app-toolbar>
+<app-toolbar></app-toolbar>
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataTable" class="mat-elevation-z8">
       <div *ngFor="let pos of displayedColumns;let i= index">
       <ng-container [matColumnDef]= "pos">
         <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
             <mat-cell *matCellDef="let element"> 
-            
+               
               <input matInput type="text" style="border:0;outline:0;" [(ngModel)]="element[i]" > 
-            
+              
           </mat-cell>
       </ng-container>
       </div>
@@ -15,9 +15,37 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> 
     </table> 
-    <button mat-stroked-button (click)="addaLine()">Add a Line</button>
+    
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    
 </div>
+<mat-toolbar>
+  <button mat-stroked-button (click)="addaLine()">Add a Line</button>
+  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+  <mat-form-field>
+    <mat-select [formControl]="nameget" (selectionChange)="changecol()" multiple>
+      <mat-select-trigger>
+        {{nameget.value ? nameget.value[0] : ''}}
+        <span *ngIf="nameget.value?.length > 1" class="example-additional-selection">
+          (+{{nameget.value.length - 1}} {{nameget.value?.length === 2 ? 'other' : 'others'}})
+        </span>
+      </mat-select-trigger>
+      <mat-option *ngFor="let name of names" [value]="name">{{name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <span class="example-spacer"></span>
+  <button mat-raised-button color="warn" (click)="onSave()" >
+    Save 
+  </button>
+  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
+  <button mat-raised-button  (click)=" onReset()" >
+    Reset
+  </button>
+</mat-toolbar>
+
+
+
+
 
 
  

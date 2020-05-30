@@ -16,7 +16,7 @@ export class AllfileService {
     reader.onload = (progressEvent) => {
   
       // By lines
-      var lines = (reader.result as string).replace(/\r\n/g, "\n").split("\n");
+      var lines = (reader.result as string).replace(/"/g,"").replace(/\r\n/g, "\n").split("\n");
       for(var line = 0; line < lines.length; line++){
         items[line]=(lines[line] as string).split(',');
       }
