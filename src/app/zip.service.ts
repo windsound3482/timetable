@@ -60,29 +60,62 @@ export class ZipService {
       tempstr=tempstr.concat('\n');
     }
     this.jszip.file("agency.txt",tempstr);
-
-    temp=this.allfile.getfeedinfo();
-    tempstr ='';
-    temprow=temp.length;
-    for (var i=0;i<temprow;i++)
+    
+    temp=this.allfile.gettranslation();
+    if (temp.length>1)
     {
-      let tempstrr:string[]=temp[i];
-      tempstr=tempstr.concat(tempstrr.toString());
-      tempstr=tempstr.concat('\n');
+      tempstr ='';
+      temprow=temp.length;
+      for (var i=0;i<temprow;i++)
+      {
+        let tempstrr:string[]=temp[i];
+        tempstr=tempstr.concat(tempstrr.toString());
+        tempstr=tempstr.concat('\n');
+      }
+      this.jszip.file("translations.txt",tempstr);
     }
 
-    this.jszip.file("feed_info.txt",tempstr);
+    let temp1=this.allfile.getfeedinfo();
+    if ((temp.length>1) || (temp1.length>1))
+    {
+      tempstr ='';
+      temprow=temp.length;
+      for (var i=0;i<temprow;i++)
+      {
+        let tempstrr:string[]=temp[i];
+        tempstr=tempstr.concat(tempstrr.toString());
+        tempstr=tempstr.concat('\n');
+      }
 
+      this.jszip.file("feed_info.txt",tempstr);
+    }
     temp=this.allfile.getshapeTable();
-    tempstr ='';
-    temprow=temp.length;
-    for (var i=0;i<temprow;i++)
+    if (temp.length>1)
     {
-      let tempstrr:string[]=temp[i];
-      tempstr=tempstr.concat(tempstrr.toString());
-      tempstr=tempstr.concat('\n');
+      tempstr ='';
+      temprow=temp.length;
+      for (var i=0;i<temprow;i++)
+      {
+        let tempstrr:string[]=temp[i];
+        tempstr=tempstr.concat(tempstrr.toString());
+        tempstr=tempstr.concat('\n');
+      }
+      this.jszip.file("shapes.txt",tempstr);
     }
-    this.jszip.file("shapes.txt",tempstr);
+
+    temp=this.allfile.getattribution();
+    if (temp.length>1)
+    {
+      tempstr ='';
+      temprow=temp.length;
+      for (var i=0;i<temprow;i++)
+      {
+        let tempstrr:string[]=temp[i];
+        tempstr=tempstr.concat(tempstrr.toString());
+        tempstr=tempstr.concat('\n');
+      }
+      this.jszip.file("attributions.txt",tempstr);
+    }
 
     if (this.calen.getmode()==true)
     {

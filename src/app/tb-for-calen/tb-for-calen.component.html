@@ -1,33 +1,25 @@
 <mat-card class="example-card">
     <mat-card-header>
       
-      <mat-card-title>Introduction</mat-card-title>
-      <mat-card-subtitle>important</mat-card-subtitle>
+      <mat-card-title>Toolbar</mat-card-title>
+      <mat-card-subtitle>Two Ways</mat-card-subtitle>
       <div mat-card-avatar class="example-header-image"></div>
     </mat-card-header>
     
     <mat-card-content>
-       <p>
-           It is more efficient and comfortable to edit this part with a calendar, please following the steps, which showed bellow
-       </p>
-       <p>
-           1.enter the serve-ID to select which Calendar you want to edit
-       </p>
-       <p>
-           2.press edit button. Before you press save or cancel button, you can't select a new ID to be edited.
-        </p>
-      
       <p>
-        Please remeber, each File without SAVE will not save automatically!!!
+        Recommended: Use calendar_dates.txt in conjunction with calendar.txt to define exceptions. 
       </p>
       <p>
-        Save is to save the files in to Web(temporary storage). It will lost, when you leave this application. 
-        Download is to save the edited files to your local storage.
+        Alternate: Omit calendar.txt, and specify each date of service in calendar_dates.txt. 
+      </p>
+      <p>
+        For further information:<a href="https://developers.google.com/transit/gtfs/reference#calendar_datestxt">
+        Google-reference/calendar</a>
       </p>
     </mat-card-content>
     <mat-card-actions>
       <button mat-button (click)="switchmode()">SWITCH MODE</button>
-      <p></p>
       <button mat-button (click)="download()">DOWNLOAD</button>
     </mat-card-actions>
   </mat-card>

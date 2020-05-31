@@ -6,6 +6,15 @@
       </ng-template>
       <app-agencytable></app-agencytable>
     </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">translate</mat-icon>
+        Translations
+      </ng-template>
+  
+      <app-translation></app-translation>
+    </mat-tab>
     
     <mat-tab>
       <ng-template mat-tab-label>
@@ -22,6 +31,15 @@
         Shapes
       </ng-template>
       <app-shapetable></app-shapetable>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">settings</mat-icon>
+        Attributions
+      </ng-template>
+  
+      <app-attributions></app-attributions>
     </mat-tab>
   
     <mat-tab>
@@ -111,23 +129,9 @@
         Content 2
       </mat-tab>
     
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="example-tab-icon">translate</mat-icon>
-          Translations
-        </ng-template>
-    
-        Content 3
-      </mat-tab>
+      
 
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="example-tab-icon">settings</mat-icon>
-          Attributions
-        </ng-template>
-    
-        Content 3
-      </mat-tab>
+      
 
       
   </mat-tab-group>

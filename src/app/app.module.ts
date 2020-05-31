@@ -29,6 +29,10 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { TbForCalenComponent } from './tb-for-calen/tb-for-calen.component';
 import { AltercalenComponent } from './altercalen/altercalen.component';
 import { ShapetableComponent } from './shapetable/shapetable.component';
+import { AttributionsComponent } from './attributions/attributions.component';
+import { TranslationComponent } from './translation/translation.component';
+import {WarningDialog} from './tb-for-calen/tb-for-calen.component';
+
 
 @NgModule({
   declarations: [
@@ -47,6 +51,9 @@ import { ShapetableComponent } from './shapetable/shapetable.component';
     TbForCalenComponent,
     AltercalenComponent,
     ShapetableComponent,
+    AttributionsComponent,
+    TranslationComponent,
+    WarningDialog
   
    
   ],
@@ -70,6 +77,7 @@ import { ShapetableComponent } from './shapetable/shapetable.component';
     MatNativeDateModule,
     FormsModule,
     ReactiveFormsModule,
+   
     
   ],
   providers: [AllfileService],

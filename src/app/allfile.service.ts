@@ -10,7 +10,8 @@ export class AllfileService {
   feedinfo:string[][]=[];
   calendarList:string[][]=[];
   shapetable:string[][]=[];
-
+  attribution:string[][]=[];
+  translation:string[][]=[];
   public setFile(file:Blob,filename:string) {
     let items:Array<Array<string>>=[]; 
     var reader:FileReader = new FileReader();
@@ -30,6 +31,12 @@ export class AllfileService {
 
     if (filename==="shapes.txt")
       this.shapetable=items;
+    
+    if (filename==="attributions.txt")
+      this.attribution=items;
+
+    if (filename==="translations.txt")
+      this.translation=items;
 
     if (filename==="calendar.txt")
     {
@@ -61,16 +68,27 @@ export class AllfileService {
     this.shapetable=file;
   }
 
+  public getattribution(){
+    return this.attribution;
+  }
+  public setattribution(file:string[][]){
+    this.attribution=file;
+  }
+  
+  public gettranslation(){
+    return this.translation;
+  }
+  public settranslation(file:string[][]){
+    this.translation=file;
+  }
   
   constructor(
     private calendar:CalendarservService,
   ) {
-    this.agencylist=[["agency_id","agency_name","agency_url","agency_timezone"]
-      ,[]];
-    this.feedinfo=[["feed_publisher_name","feed_publisher_url","feed_lang"],
-      []];
-    this.shapetable=[["shape_id","shape_pt_lat","shape_pt_lon","shape_pt_sequence"],[]];
-    
-    
+    this.agencylist=[["agency_id","agency_name","agency_url","agency_timezone"]];
+    this.feedinfo=[["feed_publisher_name","feed_publisher_url","feed_lang"]];
+    this.shapetable=[["shape_id","shape_pt_lat","shape_pt_lon","shape_pt_sequence"]];
+    this.attribution=[["organization_name"]];
+    this.translation=[["table_name","field_name","language","translation","record_id","record_sub_id","field_value"]];
   }
 }
