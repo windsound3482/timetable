@@ -25,6 +25,9 @@ export class ZipService {
   public   getZipContent (file): Array<string>{ 
     let files:Array<string>=[];
     this.jszip=new JSZip();
+    this.calen.setcalender([["service_id","monday","tuesday","wednesday","thursday",
+    "friday","saturday","sunday","start_date","end_date"]]);
+    this.calen.setexp([["service_id","date","exception_type"]]);
     this.jszip.loadAsync(file).then((zip) => {
        
         zip.forEach((relativePath, defile) => {
@@ -67,9 +70,10 @@ export class ZipService {
       tempstr=tempstr.concat(tempstrr.toString());
       tempstr=tempstr.concat('\n');
     }
+
     this.jszip.file("feed_info.txt",tempstr);
 
-    temp=this.calen.getcalender();
+    temp=this.allfile.getshapeTable();
     tempstr ='';
     temprow=temp.length;
     for (var i=0;i<temprow;i++)
@@ -78,19 +82,34 @@ export class ZipService {
       tempstr=tempstr.concat(tempstrr.toString());
       tempstr=tempstr.concat('\n');
     }
-    this.jszip.file("calendar.txt",tempstr);
+    this.jszip.file("shapes.txt",tempstr);
 
+    if (this.calen.getmode()==true)
+    {
+      temp=this.calen.getcalender();
+      tempstr ='';
+      temprow=temp.length;
+      for (var i=0;i<temprow;i++)
+      {
+        let tempstrr:string[]=temp[i];
+        tempstr=tempstr.concat(tempstrr.toString());
+        tempstr=tempstr.concat('\n');
+      }
+      this.jszip.file("calendar.txt",tempstr);
+    }
     temp=this.calen.getexp();
-    tempstr ='';
-    temprow=temp.length;
-    for (var i=0;i<temprow;i++)
+    if (this.calen.getmode()!=true || temp.length>1)
     {
-      let tempstrr:string[]=temp[i];
-      tempstr=tempstr.concat(tempstrr.toString());
-      tempstr=tempstr.concat('\n');
+      tempstr ='';
+      temprow=temp.length;
+      for (var i=0;i<temprow;i++)
+      {
+        let tempstrr:string[]=temp[i];
+        tempstr=tempstr.concat(tempstrr.toString());
+        tempstr=tempstr.concat('\n');
+      }
+      this.jszip.file("calendar_dates.txt",tempstr);
     }
-    this.jszip.file("calendar_dates.txt",tempstr);
-
     this.jszip.generateAsync({type:"blob"}).then((blob) => {
       FileSaver.saveAs(blob, "hello.zip");
     });

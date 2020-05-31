@@ -9,6 +9,7 @@ export class AllfileService {
   agencylist:string[][]=[];
   feedinfo:string[][]=[];
   calendarList:string[][]=[];
+  shapetable:string[][]=[];
 
   public setFile(file:Blob,filename:string) {
     let items:Array<Array<string>>=[]; 
@@ -26,6 +27,10 @@ export class AllfileService {
       this.agencylist=items;
     if (filename==="feed_info.txt")
       this.feedinfo=items;
+
+    if (filename==="shapes.txt")
+      this.shapetable=items;
+
     if (filename==="calendar.txt")
     {
       this.calendar.setcalender(items);
@@ -49,6 +54,13 @@ export class AllfileService {
     this.feedinfo=file;
   }
 
+  public getshapeTable(){
+    return this.shapetable;
+  }
+  public setshapeTable(file:string[][]){
+    this.shapetable=file;
+  }
+
   
   constructor(
     private calendar:CalendarservService,
@@ -57,6 +69,7 @@ export class AllfileService {
       ,[]];
     this.feedinfo=[["feed_publisher_name","feed_publisher_url","feed_lang"],
       []];
+    this.shapetable=[["shape_id","shape_pt_lat","shape_pt_lon","shape_pt_sequence"],[]];
     
     
   }

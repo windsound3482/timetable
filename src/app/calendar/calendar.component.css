@@ -1,3 +1,8 @@
+.mattabg{
+  position:absolute;
+  width: calc(85vw);
+}
+
 table {
   width: 100%;
 }
@@ -6,6 +11,8 @@ table {
   background-color:purple;
   border-radius: 50%
 }
+
+
 .mat-calendar
 {
   float:right;

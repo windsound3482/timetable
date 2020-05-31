@@ -28,6 +28,7 @@ import { FeedinfoComponent } from './feedinfo/feedinfo.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { TbForCalenComponent } from './tb-for-calen/tb-for-calen.component';
 import { AltercalenComponent } from './altercalen/altercalen.component';
+import { ShapetableComponent } from './shapetable/shapetable.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { AltercalenComponent } from './altercalen/altercalen.component';
     CalendarComponent,
     TbForCalenComponent,
     AltercalenComponent,
+    ShapetableComponent,
   
    
   ],
@@ -54,8 +56,10 @@ import { AltercalenComponent } from './altercalen/altercalen.component';
     BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent  },
-      { path: 'Editor', component:EditorComponent},
-      { path: 'DragDrop',component:FileuploaderComponent}
+      { path: 'CSVEditor', component:MapComponent},
+      { path: 'CalendarEditor', component:CalendarComponent},
+      { path: 'DragDrop',component:FileuploaderComponent},
+
     ]),
     MatSidenavModule,
     MatButtonModule,

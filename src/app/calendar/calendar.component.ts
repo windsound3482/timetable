@@ -39,15 +39,8 @@ export class CalendarComponent implements OnInit {
   }
 
   onReset(calendar: any){
-    this.calendarData=this.file.getcalender();
-    this.calendarexpData=this.file.getexp();
-    this.daysSelected=[];
+    this.ngOnInit();
     calendar.updateTodaysDate();
-    this.value = '';
-    this.dayth=[0,0,0,0,0,0,0,0,0];
-    this.calen_addin=["","","","","","","","","",""];
-    this.addmode=false;
-    this.current=null;
   }
 
   daysSelected: string[] = [];
@@ -61,6 +54,10 @@ export class CalendarComponent implements OnInit {
   };
   
   select(event: any, calendar: any) {
+    if ((!this.addmode) || (!this.mode))
+    {
+      return;
+    }
     const date:string =
       event.getFullYear() +
       ("00" + (event.getMonth()+1)).slice(-2) +
@@ -358,9 +355,10 @@ export class CalendarComponent implements OnInit {
   mode:boolean;
   ngOnInit(): void {
     this.mode=this.file.getmode();
-    this.displayedColumns=[];
     this.calendarData=this.file.getcalender();
     this.calendarexpData=this.file.getexp();
+    this.daysSelected=[];
+    this.displayedColumns=[];
     let name:Array<string>= (this.calendarData)[0];
     if (this.mode)
     {
@@ -380,9 +378,16 @@ export class CalendarComponent implements OnInit {
     for (let i=0;i<name.length;i++){
       this.displayedColumns.push(name[i]);
     }
+
     this.database=this.calendarData.slice(1);
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
+
+    this.value = '';
+    this.dayth=[0,0,0,0,0,0,0,0,0];
+    this.calen_addin=["","","","","","","","","",""];
+    this.addmode=false;
+    this.current=null;
 
   }
 

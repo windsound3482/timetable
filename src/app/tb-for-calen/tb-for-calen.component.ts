@@ -23,6 +23,9 @@ export class TbForCalenComponent implements OnInit {
 
   switchmode(){
     this.cal.setmode(!this.cal.getmode());
+    this.cal.setcalender([["service_id","monday","tuesday","wednesday","thursday",
+    "friday","saturday","sunday","start_date","end_date"]]);
+    this.cal.setexp([["service_id","date","exception_type"]]);
     this.notify.emit();
   }
 

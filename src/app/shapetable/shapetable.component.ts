@@ -5,11 +5,11 @@ import {MatTableDataSource} from '@angular/material/table';
 import {FormControl} from '@angular/forms';
 
 @Component({
-  selector: 'app-agencytable',
-  templateUrl: './agencytable.component.html',
-  styleUrls: ['./agencytable.component.css']
+  selector: 'app-shapetable',
+  templateUrl: './shapetable.component.html',
+  styleUrls: ['./shapetable.component.css']
 })
-export class AgencytableComponent implements OnInit {
+export class ShapetableComponent implements OnInit {
 
   constructor(
     private file:AllfileService,
@@ -36,7 +36,7 @@ export class AgencytableComponent implements OnInit {
     }
     let copydatabase=this.database.slice();
     let tempindex=this.displayedColumns.length;
-    for (var i=this.database.length -1;i>=0;i--)
+    for (var i=this.database.length - 1;i>=0;i--)
     {
       let deleteeable=true;
       for (var j=tempindex-1;j>=0;j--)
@@ -64,14 +64,14 @@ export class AgencytableComponent implements OnInit {
     }
     this.dataSource=this.dataSource.concat(copydatabase);
     
-    this.file.setagencyList(this.dataSource);
-    window.alert('Your File agency.txt has already been saved!');
+    this.file.setshapeTable(this.dataSource);
+    window.alert('Your File shape.txt has already been saved!');
     this.onReset();
   }
 
   onReset(){
     this.displayedColumns=[];
-    this.dataSource=this.file.getagencyList();
+    this.dataSource=this.file.getshapeTable();
     let name:Array<string>= (this.dataSource)[0];
     let tempname:string[]=[];
     for (let i=0;i<name.length;i++){
@@ -89,8 +89,8 @@ export class AgencytableComponent implements OnInit {
   }
   
   
-  names:string[]=["agency_lang","agency_phone","agency_fare_url","agency_email"];
-  defaultnames:string[]=["agency_id","agency_name","agency_url","agency_timezone"];
+  names:string[]=["shape_dist_traveled"];
+  defaultnames:string[]=["shape_id","shape_pt_lat","shape_pt_lon","shape_pt_sequence"];
   addaLine(){
     this.database=this.dataTable.data;
     this.database.push([]);
@@ -134,6 +134,3 @@ export class AgencytableComponent implements OnInit {
   }
   
 }
- 
-
-

@@ -1,5 +1,5 @@
 <app-tb-for-calen (notify)="changemode()"></app-tb-for-calen>
-<mat-tab-group mat-align-tabs="end" (selectedTabChange)="ngOnInit()">
+<mat-tab-group class="mattabg" mat-align-tabs="end" (selectedTabChange)="ngOnInit()">
   <mat-tab label="Recommended" [disabled]="(!mode) ">
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataTable" class="mat-elevation-z8">
