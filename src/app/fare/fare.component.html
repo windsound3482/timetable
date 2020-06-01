@@ -58,7 +58,7 @@
   <mat-toolbar-row class="input">
     payment_method
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <mat-radio-group aria-label="Select an option" [disabled]="!addmode " color="warn"> 
+    <mat-radio-group aria-label="Select an option" [disabled]="!addmode " color="warn" [(ngModel)]="paymethod"> 
       <mat-radio-button value="0">Be paid on board</mat-radio-button>
       <mat-radio-button value="1">Be paid before boarding</mat-radio-button>
     </mat-radio-group>
@@ -68,7 +68,7 @@
   <mat-toolbar-row class="input">
     transfers
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <mat-radio-group  [disabled]="!addmode || !transfer_req " [(ngModel)]="transfer" color="primary"> 
+    <mat-radio-group  [disabled]="!addmode " [(ngModel)]="transfer" color="primary"> 
       <mat-radio-button value="0">No transfers permitted</mat-radio-button>
       <mat-radio-button value="1">Once</mat-radio-button>
       <mat-radio-button value="2">Twice</mat-radio-button>
@@ -94,11 +94,15 @@
    <mat-toolbar-row>
    
     <span class="example-spacer"></span>
-    <button mat-raised-button color="warn" (click)="onSave()" >
+    <button mat-raised-button color="warn" (click)="onSave()" [disabled]="!addmode || !price || !currency_type || (transfer_duration_req && !transfer_duration) || (agencyid_req && !agencyid)">
       Save 
     </button>
     &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
-    <button mat-raised-button  (click)=" onReset()" >
+    <button mat-raised-button  (click)=" onDelete()" [disabled]="!addmode || !deletemode">
+      Delete
+    </button>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
+    <button mat-raised-button  (click)=" onReset()" [disabled]="!addmode ">
       Reset
     </button>
   </mat-toolbar-row>

@@ -25,49 +25,46 @@ export class FareComponent implements OnInit {
   
   
   onSave(){
-    this.dataSource=[];
-    this.dataSource.push(this.displayedColumns);
-    this.database=this.dataTable.data;
-    let mussthing:number[]=[];
-    for (var i=0;i<this.defaultnames.length;i++)
+    let priceindex=this.displayedColumns.indexOf("price");
+    let transferindex=this.displayedColumns.indexOf("transfers");
+    let trans_durindex=this.displayedColumns.indexOf("transfer_duration");
+    let agidindex=this.displayedColumns.indexOf("agency_id");
+    let payindex=this.displayedColumns.indexOf("payment_method");
+    let currindex=this.displayedColumns.indexOf("currency_type");
+    let idindex=this.displayedColumns.indexOf("fare_id");
+    let tempinput:string[]=Array(this.displayedColumns.length).fill("");
+    tempinput[idindex]=this.value;
+    tempinput[priceindex]=this.price;
+    tempinput[currindex]=this.currency_type;
+    tempinput[payindex]=this.paymethod;
+    tempinput[transferindex]=this.transfer;
+    if (this.transfer=="3")
+      tempinput[transferindex]="";
+    if (trans_durindex>-1)
+      tempinput[trans_durindex]=this.transfer_duration;
+    if (agidindex>-1)
+      tempinput[agidindex]=this.agencyid;
+    if (this.current==this.dataSource.length)
     {
-      mussthing.push(this.displayedColumns.indexOf(this.defaultnames[i]));
+      this.dataSource.push(tempinput);
     }
-    let copydatabase=this.database.slice();
-    let tempindex=this.displayedColumns.length;
-    for (var i=this.database.length -1;i>=0;i--)
+    else
     {
-      let deleteeable=true;
-      for (var j=tempindex-1;j>=0;j--)
-      if (this.database[i][j]!="" && this.database[i][j]!=null)
-      {
-        deleteeable=false;
-      }
-      if (deleteeable==true)
-      {
-        copydatabase.splice(i,1);
-      }
-      else
-      {
-        for (var j=0;j<mussthing.length;j++)
-        {
-          if (this.database[i][mussthing[j]]=="" || this.database[i][mussthing[j]]==null)
-          {
-            let message:string="datatable need a value at [";
-            message=message.concat(i.toString(),",",mussthing[j].toString(),"] ,for ",(this.displayedColumns[mussthing[j]]).toString());
-            window.alert(message);
-            return;
-          }
-        }
-      }
+      this.dataSource.splice(this.current,1,tempinput);
     }
-    this.dataSource=this.dataSource.concat(copydatabase);
-    
+    this.dataSource.splice(0,1,this.displayedColumns);
     this.file.setfareAttr(this.dataSource);
-    window.alert('Your File agency.txt has already been saved!');
+    window.alert('Your File fare_attributes.txt has already been saved!');
     this.onReset();
   }
-
+  
+  onDelete(){
+    this.dataSource.splice(this.current,1);
+    this.dataSource.splice(0,1,this.displayedColumns);
+    this.file.setfareAttr(this.dataSource);
+    window.alert('Your File fare_attributes.txt has already been saved!');
+    this.onReset();
+  }
   onReset(){
     this.displayedColumns=[];
     this.dataSource=this.file.getfareAttr();
@@ -80,34 +77,79 @@ export class FareComponent implements OnInit {
         tempname.push(name[i]);
       }
     }
+    console.log(this.nameget);
     this.nameget.setValue(tempname);
+    console.log(this.nameget);
     this.database=this.dataSource.slice(1);
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
-   
+
+    this.value="";
+    this.price="";
+    this.currency_type="";
+    this.paymethod="0";
+
+    this.agencyid="";
+    this.transfer_duration="";
+    
+    this.transfer="3";
+    this.addmode=false;
+    this.deletemode=false;
   }
   
   
-  names:string[]=["transfers","agency_id","transfer_duration"];
-  defaultnames:string[]=["fare_id","price","currency_type","payment_method"];
+  names:string[]=["agency_id","transfer_duration"];
+  defaultnames:string[]=["fare_id","price","currency_type","payment_method","transfers"];
 
   nameget = new FormControl();
+  
+  
+  addmode=false;
+  deletemode=false;
+  
+  edit(){
+    this.addmode=true;
+    let idindex=this.displayedColumns.indexOf("fare_id");
+    this.current=this.dataSource.length;
+    for (var i=1;i<this.dataSource.length;i++)
+    {
+       if (this.dataSource[i][idindex]==this.value)
+       {
+        this.current=i;
+        break;
+       }
+    }
+    if (this.current<this.dataSource.length)
+    {
+      this.deletemode=true;
+      this.price=this.dataSource[this.current][this.displayedColumns.indexOf("price")];
+      this.transfer=this.dataSource[this.current][this.displayedColumns.indexOf("transfers")];
+      if (this.transfer=="")
+      {
+        this.transfer="3";
+      }
+      if (this.displayedColumns.indexOf("transfer_duration")>-1)
+        this.transfer_duration=this.dataSource[this.current][this.displayedColumns.indexOf("transfer_duration")];
+      if (this.displayedColumns.indexOf("agency_id")>-1)
+        this.agencyid=this.dataSource[this.current][this.displayedColumns.indexOf("agency_id")];
+      this.paymethod=this.dataSource[this.current][this.displayedColumns.indexOf("payment_method")];
+      this.currency_type=this.dataSource[this.current][this.displayedColumns.indexOf("currency_type")];
+    }
+  }
+  
+  current:number;
+
   value="";
   price="";
   currency_type="";
-  addmode=false;
-
-  edit(){
-    this.addmode=true;
-  }
-  
+  paymethod="0";
 
   agencyid_req:boolean=false;
   agencyid="";
   transfer_duration_req:boolean=false;
   transfer_duration="";
   
-  transfer_req:boolean=true;
+  
   transfer:string="3";
   changecol(){
     var value=this.nameget.value;
@@ -127,10 +169,7 @@ export class FareComponent implements OnInit {
         {
           this.transfer_duration_req=true;
         }
-        if (value[i]=="transfers")
-        {
-          this.transfer_req=true;
-        }
+        
         break;
       }
       else{
@@ -152,11 +191,7 @@ export class FareComponent implements OnInit {
         {
           this.transfer_duration_req=false;
         }
-        if (tempnames[0]=="transfers")
-        {
-          this.transfer_req=false;
-          this.transfer="3";
-        }
+        
       let tempindex=this.displayedColumns.indexOf(tempnames[0]);
       this.displayedColumns.splice(tempindex,1);
       for (var j=0;j<this.database.length;j++)

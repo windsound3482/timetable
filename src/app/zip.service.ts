@@ -6,6 +6,7 @@ import * as FileSaver from 'file-saver';
 import { zip } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CalendarservService } from './calendarserv.service';
+import { FareservService } from './fareserv.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
@@ -16,7 +17,7 @@ export class ZipService {
   jszip = new JSZip();
   constructor(
     private allfile:AllfileService,
-    
+    private fare:FareservService,
     private calen:CalendarservService,
   ) { 
     
@@ -142,6 +143,21 @@ export class ZipService {
         tempstr=tempstr.concat('\n');
       }
       this.jszip.file("calendar_dates.txt",tempstr);
+    }
+
+
+    temp=this.fare.getfareAttr();
+    if (temp.length>1)
+    {
+      tempstr ='';
+      temprow=temp.length;
+      for (var i=0;i<temprow;i++)
+      {
+        let tempstrr:string[]=temp[i];
+        tempstr=tempstr.concat(tempstrr.toString());
+        tempstr=tempstr.concat('\n');
+      }
+      this.jszip.file("fare_attributes.txt",tempstr);
     }
     this.jszip.generateAsync({type:"blob"}).then((blob) => {
       FileSaver.saveAs(blob, "hello.zip");
