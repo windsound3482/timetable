@@ -32,6 +32,7 @@ import { ShapetableComponent } from './shapetable/shapetable.component';
 import { AttributionsComponent } from './attributions/attributions.component';
 import { TranslationComponent } from './translation/translation.component';
 import {WarningDialog} from './tb-for-calen/tb-for-calen.component';
+import { FareComponent } from './fare/fare.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import {WarningDialog} from './tb-for-calen/tb-for-calen.component';
     ShapetableComponent,
     AttributionsComponent,
     TranslationComponent,
-    WarningDialog
+    WarningDialog,
+    FareComponent
   
    
   ],
@@ -66,6 +68,7 @@ import {WarningDialog} from './tb-for-calen/tb-for-calen.component';
       { path: 'CSVEditor', component:MapComponent},
       { path: 'CalendarEditor', component:CalendarComponent},
       { path: 'DragDrop',component:FileuploaderComponent},
+      { path: 'FareEditor', component:FareComponent},
 
     ]),
     MatSidenavModule,

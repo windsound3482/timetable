@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ZipService } from './zip.service';
 import { CalendarservService } from './calendarserv.service';
+import { FareservService } from './fareserv.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -8,7 +9,6 @@ export class AllfileService {
   
   agencylist:string[][]=[];
   feedinfo:string[][]=[];
-  calendarList:string[][]=[];
   shapetable:string[][]=[];
   attribution:string[][]=[];
   translation:string[][]=[];
@@ -45,6 +45,14 @@ export class AllfileService {
     }
     if (filename==="calendar_dates.txt")
       this.calendar.setexp(items);
+    
+    if (filename==="fare_attributes.txt") 
+      this.fare.setfareAttr(items);
+    
+    if (filename==="fare_rules.txt") 
+      this.fare.setfareRule(items);
+    
+    
   }
   //get and set List to every CSV functions
   public getagencyList(){
@@ -84,6 +92,7 @@ export class AllfileService {
   
   constructor(
     private calendar:CalendarservService,
+    private fare:FareservService,
   ) {
     this.agencylist=[["agency_id","agency_name","agency_url","agency_timezone"]];
     this.feedinfo=[["feed_publisher_name","feed_publisher_url","feed_lang"]];

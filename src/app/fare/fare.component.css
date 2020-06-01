@@ -1,0 +1,34 @@
+.mat-stepper-horizontal {
+    margin-top: 8px;
+  }
+  
+.mat-form-field {
+    margin-top: 16px;
+}
+
+.mattabg{
+  position:absolute;
+  width: calc(85vw);
+}
+
+table {
+  width: 100%;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.id{
+  font-size: medium;
+}
+
+.input{
+  width: 150px;
+  font-size: small;
+  font-weight:normal;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
