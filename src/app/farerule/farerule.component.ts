@@ -3,19 +3,20 @@ import { FareservService } from '../fareserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {FormControl} from '@angular/forms';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
-  selector: 'app-fare',
-  templateUrl: './fare.component.html',
-  styleUrls: ['./fare.component.css']
+  selector: 'app-farerule',
+  templateUrl: './farerule.component.html',
+  styleUrls: ['./farerule.component.css']
 })
-export class FareComponent implements OnInit {
+export class FareruleComponent implements OnInit {
+
   constructor(
     private file:FareservService,
   ) { }
   displayedColumns: string[]=[];
   dataSource :string[][];
+  
   database :string[][]; 
   dataTable : MatTableDataSource<string[]>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -26,25 +27,22 @@ export class FareComponent implements OnInit {
   
   
   onSave(){
-    let priceindex=this.displayedColumns.indexOf("price");
-    let transferindex=this.displayedColumns.indexOf("transfers");
-    let trans_durindex=this.displayedColumns.indexOf("transfer_duration");
-    let agidindex=this.displayedColumns.indexOf("agency_id");
-    let payindex=this.displayedColumns.indexOf("payment_method");
-    let currindex=this.displayedColumns.indexOf("currency_type");
+    let route_idindex=this.displayedColumns.indexOf("route_id");
+    let origin_idindex=this.displayedColumns.indexOf("origin_id");
+    let destination_idindex=this.displayedColumns.indexOf("destination_id");
+    let contains_idindex=this.displayedColumns.indexOf("contains_id");
     let idindex=this.displayedColumns.indexOf("fare_id");
     let tempinput:string[]=Array(this.displayedColumns.length).fill("");
     tempinput[idindex]=this.value;
-    tempinput[priceindex]=this.price;
-    tempinput[currindex]=this.currency_type;
-    tempinput[payindex]=this.paymethod;
-    tempinput[transferindex]=this.transfer;
-    if (this.transfer=="3")
-      tempinput[transferindex]="";
-    if (trans_durindex>-1)
-      tempinput[trans_durindex]=this.transfer_duration;
-    if (agidindex>-1)
-      tempinput[agidindex]=this.agencyid;
+    if (route_idindex>-1)
+      tempinput[route_idindex]=this.route_id;
+    if (origin_idindex>-1)
+      tempinput[origin_idindex]=this.origin_id;
+    if (destination_idindex>-1) 
+      tempinput[destination_idindex]=this.destination_id;
+    if (contains_idindex>-1) 
+      tempinput[contains_idindex]=this.contains_id;
+    console.log(tempinput);
     if (this.current==this.dataSource.length)
     {
       this.dataSource.push(tempinput);
@@ -54,31 +52,20 @@ export class FareComponent implements OnInit {
       this.dataSource.splice(this.current,1,tempinput);
     }
     
-    this.file.setfareAttr(this.dataSource);
+    this.file.setfareRule(this.dataSource);
     window.alert('Your File fare_attributes.txt has already been saved!');
     this.onReset();
   }
   
   onDelete(){
     this.dataSource.splice(this.current,1);
-    let datarule=this.file.getfareRule();
-    let index=datarule[0].indexOf("fare_id");
-    for (var i=1;i<datarule.length;i++)
-    {
-      if (datarule[i][index]==this.value)
-      {
-        datarule.splice(i,1);
-        break;
-      }
-    }
-    this.file.setfareRule(datarule);
     this.file.setfareAttr(this.dataSource);
     window.alert('Your File fare_attributes.txt has already been saved!');
     this.onReset();
   }
   onReset(){
     this.displayedColumns=[];
-    this.dataSource=this.file.getfareAttr();
+    this.dataSource=this.file.getfareRule();
     let name:Array<string>= (this.dataSource)[0];
     let tempname:string[]=[];
     for (let i=0;i<name.length;i++){
@@ -88,27 +75,25 @@ export class FareComponent implements OnInit {
         tempname.push(name[i]);
       }
     }
+    
     this.nameget.setValue(tempname);
+   
     this.database=this.dataSource.slice(1);
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
 
     this.value="";
-    this.price="";
-    this.currency_type="";
-    this.paymethod="0";
-
-    this.agencyid="";
-    this.transfer_duration="";
-    
-    this.transfer="3";
+    this.route_id="";
+    this.origin_id="";
+    this.destination_id="";
+    this.contains_id="";
     this.addmode=false;
     this.deletemode=false;
   }
   
   
-  names:string[]=["agency_id","transfer_duration"];
-  defaultnames:string[]=["fare_id","price","currency_type","payment_method","transfers"];
+  names:string[]=["route_id","origin_id","destination_id","contains_id"];
+  defaultnames:string[]=["fare_id"];
 
   nameget = new FormControl();
   
@@ -117,6 +102,22 @@ export class FareComponent implements OnInit {
   deletemode=false;
   
   edit(){
+    let datarule:string[][]=this.file.getfareAttr();
+    let index=datarule[0].indexOf("fare_id");
+    let flag=true;
+    for (var i=1;i<datarule.length;i++)
+    {
+      if (datarule[i][index]==this.value)
+      {
+        flag=false;
+        break;
+      }
+    }
+    if (flag==true)
+    {
+      window.alert("You want to edit a fare-rule of a fare-id which is not declared in fare_attribute.txt!!!");
+      return;
+    }
     this.addmode=true;
     let idindex=this.displayedColumns.indexOf("fare_id");
     this.current=this.dataSource.length;
@@ -130,36 +131,34 @@ export class FareComponent implements OnInit {
     }
     if (this.current<this.dataSource.length)
     {
+      if (this.displayedColumns.indexOf("route_id")>-1)
+        this.route_id=this.dataSource[this.current][this.displayedColumns.indexOf("route_id")];
+      if (this.displayedColumns.indexOf("origin_id")>-1)
+        this.origin_id=this.dataSource[this.current][this.displayedColumns.indexOf("origin_id")];
+      if (this.displayedColumns.indexOf("destination_id")>-1)
+        this.destination_id=this.dataSource[this.current][this.displayedColumns.indexOf("destination_id")];
+      if (this.displayedColumns.indexOf("contains_id")>-1)
+        this.contains_id=this.dataSource[this.current][this.displayedColumns.indexOf("contains_id")];
       this.deletemode=true;
-      this.price=this.dataSource[this.current][this.displayedColumns.indexOf("price")];
-      this.transfer=this.dataSource[this.current][this.displayedColumns.indexOf("transfers")];
-      if (this.transfer=="")
-      {
-        this.transfer="3";
-      }
-      if (this.displayedColumns.indexOf("transfer_duration")>-1)
-        this.transfer_duration=this.dataSource[this.current][this.displayedColumns.indexOf("transfer_duration")];
-      if (this.displayedColumns.indexOf("agency_id")>-1)
-        this.agencyid=this.dataSource[this.current][this.displayedColumns.indexOf("agency_id")];
-      this.paymethod=this.dataSource[this.current][this.displayedColumns.indexOf("payment_method")];
-      this.currency_type=this.dataSource[this.current][this.displayedColumns.indexOf("currency_type")];
     }
   }
   
   current:number;
 
   value="";
-  price="";
-  currency_type="";
-  paymethod="0";
+  
+  route_id_req:boolean=false;
+  route_id="";
 
-  agencyid_req:boolean=false;
-  agencyid="";
-  transfer_duration_req:boolean=false;
-  transfer_duration="";
+  origin_id_req:boolean=false;
+  origin_id="";
   
   
-  transfer:string="3";
+  destination_id:string="";
+  destination_id_req:boolean=false;
+
+  contains_id:string="";
+  contains_id_req:boolean=false;
   changecol(){
     var value=this.nameget.value;
     let add=false;
@@ -171,13 +170,21 @@ export class FareComponent implements OnInit {
         this.displayedColumns.push(value[i]);
         this.dataSource.splice(0,1,this.displayedColumns);
         add=true;
-        if (value[i]=="agency_id")
+        if (value[i]=="route_id")
         {
-          this.agencyid_req=true;
+          this.route_id_req=true;
         }
-        if (value[i]=="transfer_duration")
+        if (value[i]=="origin_id")
         {
-          this.transfer_duration_req=true;
+          this.origin_id_req=true;
+        }
+        if (value[i]=="destination_id")
+        {
+          this.destination_id_req=true;
+        }
+        if (value[i]=="contains_id")
+        {
+          this.contains_id_req=true;
         }
         
         break;
@@ -193,13 +200,22 @@ export class FareComponent implements OnInit {
       {
         tempnames.splice(tempnames.indexOf(this.defaultnames[i]),1);
       }
-      if (tempnames[0]=="agency_id")
+      
+        if (tempnames[0]=="route_id")
         {
-          this.agencyid_req=false;
+          this.route_id_req=false;
         }
-        if (tempnames[0]=="transfer_duration")
+        if (tempnames[0]=="origin_id")
         {
-          this.transfer_duration_req=false;
+          this.origin_id_req=false;
+        }
+        if (tempnames[0]=="destination_id")
+        {
+          this.destination_id_req=false;
+        }
+        if (tempnames[0]=="contains_id")
+        {
+          this.contains_id_req=false;
         }
         
       let tempindex=this.displayedColumns.indexOf(tempnames[0]);
@@ -214,4 +230,3 @@ export class FareComponent implements OnInit {
   }
   
 }
- 

@@ -1,4 +1,4 @@
-<app-toolbar></app-toolbar>
+<app-faretoolbar></app-faretoolbar>
 <mat-tab-group class="mattabg" mat-align-tabs="end" (selectedTabChange)="ngOnInit()">
   <mat-tab label="Attributes" >
   <div class="mat-elevation-z8">
@@ -21,10 +21,11 @@
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     
 </div>
-<mat-toolbar>
-  <mat-toolbar-row>
-    <mat-form-field class="id">
-      <mat-label>Service_id</mat-label>
+
+<mat-toolbar >
+  <mat-toolbar-row >
+    <mat-form-field class="id" >
+      <mat-label  >Service_id</mat-label>
       <input matInput type="text" [(ngModel)]="value" name="value" [disabled]="addmode " >
     
       <button mat-button *ngIf="value" matSuffix  aria-label="edit" [disabled]="addmode " (click)="edit()">
@@ -50,8 +51,8 @@
       <input matInput type="text" [(ngModel)]="price" [disabled]="!addmode ">
     </mat-form-field>
     &nbsp;&nbsp;&nbsp;&nbsp; 
-    <mat-form-field class="input">
-      <mat-label>currency_type</mat-label>
+    <mat-form-field class="input" color="primary">
+      <mat-label >currency_type</mat-label>
       <input matInput type="text" [(ngModel)]="currency_type" [disabled]="!addmode ">
     </mat-form-field>
   </mat-toolbar-row>
@@ -79,14 +80,14 @@
   
   <mat-toolbar-row *ngIf="agencyid_req">
     <mat-form-field class="input">
-      <mat-label>agency_id</mat-label>
+      <mat-label color="primary">agency_id</mat-label>
       <input matInput type="text" [(ngModel)]="agencyid" [disabled]="!addmode ">
     </mat-form-field>
   </mat-toolbar-row>
 
   <mat-toolbar-row *ngIf="transfer_duration_req">
     <mat-form-field class="input">
-      <mat-label>transfer_duration</mat-label>
+      <mat-label color="primary">transfer_duration</mat-label>
       <input matInput type="text" [(ngModel)]="transfer_duration" [disabled]="!addmode ">
     </mat-form-field>
   </mat-toolbar-row>
@@ -94,11 +95,11 @@
    <mat-toolbar-row>
    
     <span class="example-spacer"></span>
-    <button mat-raised-button color="warn" (click)="onSave()" [disabled]="!addmode || !price || !currency_type || (transfer_duration_req && !transfer_duration) || (agencyid_req && !agencyid)">
+    <button mat-raised-button color="warn" (click)="onSave()" [disabled]="!addmode || !price || !currency_type ">
       Save 
     </button>
     &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
-    <button mat-raised-button  (click)=" onDelete()" [disabled]="!addmode || !deletemode">
+    <button mat-raised-button color="primary"  (click)=" onDelete()" [disabled]="!addmode || !deletemode">
       Delete
     </button>
     &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
@@ -107,9 +108,10 @@
     </button>
   </mat-toolbar-row>
   </mat-toolbar>
+ 
   </mat-tab>
-<mat-tab label="Rules" >
-  
+<mat-tab label="Rules" [disabled]="!(dataSource.length-1)" >
+  <app-farerule></app-farerule>
 </mat-tab>
 
 </mat-tab-group>

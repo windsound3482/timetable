@@ -26,6 +26,6 @@ export class FareservService {
   
   constructor() {
     this.setfareAttr([["fare_id","price","currency_type","payment_method","transfers"]]);
-    this.setfareRule([["fare_id","date","exception_type"]]);
+    this.setfareRule([["fare_id"]]);
    }
 }

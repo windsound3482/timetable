@@ -33,6 +33,8 @@ import { AttributionsComponent } from './attributions/attributions.component';
 import { TranslationComponent } from './translation/translation.component';
 import {WarningDialog} from './tb-for-calen/tb-for-calen.component';
 import { FareComponent } from './fare/fare.component';
+import { FareruleComponent } from './farerule/farerule.component';
+import { FaretoolbarComponent } from './faretoolbar/faretoolbar.component';
 
 
 @NgModule({
@@ -55,7 +57,9 @@ import { FareComponent } from './fare/fare.component';
     AttributionsComponent,
     TranslationComponent,
     WarningDialog,
-    FareComponent
+    FareComponent,
+    FareruleComponent,
+    FaretoolbarComponent
   
    
   ],
