@@ -8,7 +8,7 @@ export class StopservService {
           '"raster-tiles": {'+
           '"type": "raster",'+
           '"tiles": ['+
-          '"http://a.tile.openstreetmap.org/{z}/{x}/{y}.png"],'+
+          '"https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"],'+
           '"tileSize": 256}},'+
         '"layers": [{'+
         '"id": "simple-tiles",'+
@@ -21,5 +21,26 @@ export class StopservService {
   public getstyle(){
     return (JSON.parse(this.style));
   }
-  constructor() { }
+
+  stop:string[][];
+  level:string[][];
+  public setstop(file:string[][])
+  {
+    this.stop=file;
+  }
+  public setlevel(file:string[][])
+  {
+    this.level=file;
+  }
+  public getstop()
+  {
+    return (this.stop);
+  }
+  public getlevel()
+  {
+    return this.level;
+  }
+  constructor() { 
+    this.stop=[["stop_id","stop_name","stop_lat","stop_lon","zone_id","parent_station"]];
+  }
 }

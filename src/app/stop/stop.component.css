@@ -1,20 +1,31 @@
+.mattabg{
+    width: calc(85vw);
+  }
+
+table {
+    width: 100%;
+  }
+  
+.example-spacer {
+    flex: 1 1 auto;
+}
 
 #map 
 { 
-    top:0; bottom:0; width:80%; 
-    height:80%;
+    width:55%; 
+    height:65%;
+    
+    float:right;
+    margin-left:calc(1vw);
+    margin-right:calc(15vw);
 }
 
-#info {
-    display: block;
-    position: relative;
-    margin: 0px auto;
-    width: 50%;
-    padding: 10px;
-    border: none;
-    border-radius: 3px;
-    font-size: 12px;
-    text-align: center;
-    color: #222;
-    background: #fff;
+
+.myoptionclass {
+    float:left;
+    position:relative;
+    left:35px;
+    top:25px;
+    max-width:calc(30vw);
+    font-size: medium;
 }

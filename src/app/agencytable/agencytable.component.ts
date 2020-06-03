@@ -19,6 +19,8 @@ export class AgencytableComponent implements OnInit {
   database :string[][]; 
   dataTable : MatTableDataSource<string[]>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  
+
   ngOnInit(): void {
     this.onReset();
   }

@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Edit Stop</h1>
+<div mat-dialog-content>
+  <p>Please add in the new added stop ID</p>
+  <mat-form-field>
+    <mat-label>stop_id</mat-label>
+    <input matInput [(ngModel)]="id">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="id" cdkFocusInitial>Confirm</button>
+</div>

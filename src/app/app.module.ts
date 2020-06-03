@@ -36,7 +36,7 @@ import { FareComponent } from './fare/fare.component';
 import { FareruleComponent } from './farerule/farerule.component';
 import { FaretoolbarComponent } from './faretoolbar/faretoolbar.component';
 import { StopComponent } from './stop/stop.component';
-
+import { DialogOverviewExampleDialog } from './stop/stop.component';
 
 @NgModule({
   declarations: [
@@ -61,9 +61,8 @@ import { StopComponent } from './stop/stop.component';
     FareComponent,
     FareruleComponent,
     FaretoolbarComponent,
-    StopComponent
-  
-   
+    StopComponent,
+    DialogOverviewExampleDialog,
   ],
   imports: [
     BrowserModule,
@@ -76,7 +75,7 @@ import { StopComponent } from './stop/stop.component';
       { path: 'DragDrop',component:FileuploaderComponent},
       { path: 'FareEditor', component:FareComponent},
       { path: 'StopEditor', component:StopComponent},
-
+      { path: 'TimetableEditor', component:EditorComponent},
     ]),
     MatSidenavModule,
     MatButtonModule,
