@@ -808,6 +808,9 @@ copy of the Program in return for a fee.
                      END OF TERMS AND CONDITIONS
 
 
+mapbox-gl
+SEE LICENSE IN LICENSE.txt
+
 regenerator-runtime
 MIT
 MIT License

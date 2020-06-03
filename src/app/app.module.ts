@@ -35,6 +35,7 @@ import {WarningDialog} from './tb-for-calen/tb-for-calen.component';
 import { FareComponent } from './fare/fare.component';
 import { FareruleComponent } from './farerule/farerule.component';
 import { FaretoolbarComponent } from './faretoolbar/faretoolbar.component';
+import { StopComponent } from './stop/stop.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { FaretoolbarComponent } from './faretoolbar/faretoolbar.component';
     WarningDialog,
     FareComponent,
     FareruleComponent,
-    FaretoolbarComponent
+    FaretoolbarComponent,
+    StopComponent
   
    
   ],
@@ -73,6 +75,7 @@ import { FaretoolbarComponent } from './faretoolbar/faretoolbar.component';
       { path: 'CalendarEditor', component:CalendarComponent},
       { path: 'DragDrop',component:FileuploaderComponent},
       { path: 'FareEditor', component:FareComponent},
+      { path: 'StopEditor', component:StopComponent},
 
     ]),
     MatSidenavModule,

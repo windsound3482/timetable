@@ -3,6 +3,7 @@ import { FareservService } from '../fareserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {FormControl} from '@angular/forms';
+import { FareruleComponent } from '../farerule/farerule.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
@@ -14,6 +15,8 @@ export class FareComponent implements OnInit {
   constructor(
     private file:FareservService,
   ) { }
+
+  @ViewChild(FareruleComponent ) farerule: FareruleComponent;
   displayedColumns: string[]=[];
   dataSource :string[][];
   database :string[][]; 
@@ -21,6 +24,7 @@ export class FareComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   ngOnInit(): void {
     this.onReset();
+    this.farerule.ngOnInit();
   }
  
   
