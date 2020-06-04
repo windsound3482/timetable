@@ -1,14 +1,11 @@
 import { Component, OnInit,ViewChild, Inject} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {MatTableDataSource} from '@angular/material/table';
 import {FormControl} from '@angular/forms';
 import * as mapboxgl from 'mapbox-gl';
 import { StopservService } from '../stopserv.service';
-export interface DialogData {
-  animal: string;
-  name: string;
-}
+
 @Component({
   selector: 'app-stop',
   templateUrl: './stop.component.html',
@@ -28,51 +25,135 @@ export class StopComponent implements OnInit {
     public dialog: MatDialog,
   ) { }
   map: mapboxgl.Map;
-  markers:mapboxgl.Marker[]=[];
-  
-  onReset(){
-    this.displayedColumns=[];
-    this.dataSource=this.stops.getstop();
-    let name:Array<string>= (this.dataSource)[0];
-    let tempname:string[]=[];
-    for (let i=0;i<name.length;i++){
-      this.displayedColumns.push(name[i]);
-      if (this.names.includes(name[i]))
+  current:number;
+  currentvalue:string[];
+  edit(){
+    let idindex=this.displayedColumns.indexOf("stop_id");
+    for (var i=1;i<this.dataSource.length;i++)
+    {
+      if (this.dataSource[i][idindex]==this.value)
       {
-        tempname.push(name[i]);
+        this.current=i;
+        break;
       }
     }
-    this.nameget.setValue(tempname);
+    this.currentvalue=this.dataSource[this.current];
+    this.editmode=true;
+  }
+
+  onSave(){
+    this.stops.setstop(this.dataSource);
+    
+    this.onReset();
+  }
+
+  createElement(i:number,idindex:number,latindex:number,lonindex:number){
+    var ell = document.createElement('div');
+        ell.innerHTML = "<span class=\"material-icons\">place</span>";
+        ell.id = this.dataSource[i][idindex];
+        ell.addEventListener('click', () => 
+          { 
+            if (this.addmode || this.editmode) 
+              return;
+            this.value= ell.id;
+          }); 
+        new mapboxgl.Marker(ell)
+        .setLngLat([parseFloat(this.dataSource[i][lonindex]), parseFloat(this.dataSource[i][latindex])])
+        .addTo(this.map);
+  }
+  onDelete(){
+    this.dataSource.splice(this.current,1);
+
     this.database=this.dataSource.slice(1);
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
+
+    var el=document.getElementById(this.value);
+        el.parentNode.removeChild( el );
+    this.onSave();
+  }
+  onReset(){
+   
+    let tempdata=this.stops.getstop();
+    if (tempdata!=this.dataSource)
+    { 
+      this.displayedColumns=[];
+      this.dataSource=this.stops.getstop();
+      let name:Array<string>= (this.dataSource)[0];
+      let tempname:string[]=[];
+      for (let i=0;i<name.length;i++){
+        this.displayedColumns.push(name[i]);
+        if (this.names.includes(name[i]))
+        {
+          tempname.push(name[i]);
+        }
+      }
+      this.nameget.setValue(tempname);
+      this.database=this.dataSource.slice(1);
+      this.dataTable=new MatTableDataSource<string[]>(this.database);
+      this.dataTable.paginator = this.paginator;
+
+     
+      var tempmap=document.getElementById("map");
+      tempmap.innerHTML=null;
+      
+      this.map=new mapboxgl.Map({
+        container: 'map', // container id
+        style: this.stops.getstyle()
+        ,
+        center: [10, 50], // starting position
+        zoom: 5 // starting zoom
+      });
+      this.map.addControl(new mapboxgl.NavigationControl());
+      let idindex=this.displayedColumns.indexOf("stop_id");
+      let latindex=this.displayedColumns.indexOf("stop_lat");
+      let lonindex=this.displayedColumns.indexOf("stop_lon");
+      
+      for (var i=1;i<this.dataSource.length;i++)
+      {
+        this.createElement(i,idindex,latindex,lonindex)
+      }
+    }
+    this.value="";
+    this.addmode=true;
+    this.editmode=false;
+    this.current=null;
+    
   }
   value:string="";
-  addmode:false;
+  addmode=true;
+  editmode=false;
   ngOnInit(): void {
     this.onReset();
-
-
-    this.map=new mapboxgl.Map({
-      container: 'map', // container id
-      style: this.stops.getstyle()
-      ,
-      center: [10, 50], // starting position
-      zoom: 5 // starting zoom
-    });
-   
-
-    this.map.addControl(new mapboxgl.NavigationControl());
-
-    
+    console.log(this.dataSource);
     this.map.on('click', (e) => {
-      
-      if (!this.addmode) {return;}
-      const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+      if (this.editmode)
+      {
+        var el=document.getElementById(this.value);
+        el.parentNode.removeChild( el );
+        var newel = document.createElement('div');
+        newel.innerHTML = "<span class=\"material-icons\">place</span>";
+        newel.id =this.value;
+        newel.addEventListener('click', (event) => 
+        { 
+          if (this.addmode || this.editmode) 
+               return;
+          this.value=newel.id;
+        }); 
+        new mapboxgl.Marker(newel)
+          .setLngLat([e.lngLat.lng, e.lngLat.lat])
+          .addTo(this.map);
+        this.dataSource[this.current][this.displayedColumns.indexOf("stop_lat")]=e.lngLat.lat.toString();
+        this.dataSource[this.current][this.displayedColumns.indexOf("stop_lon")]=e.lngLat.lng.toString();
+        return;
+        
+      }
+      if (!this.addmode) 
+        {return;}
+      const dialogRef = this.dialog.open(InsertDialog, {
         width: '250px',
-        data: {name: this.name, animal: this.animal}
       });
-  
+      
       dialogRef.afterClosed().subscribe(result => {
         if (!result)
         { window.alert("You need an ID to define the stop!!!");}
@@ -80,49 +161,33 @@ export class StopComponent implements OnInit {
           var el = document.createElement('div');
           el.innerHTML = "<span class=\"material-icons\">place</span>";
           el.id = result;
-          el.addEventListener('click', () => 
+          el.addEventListener('click', (event) => 
             { 
-              if (this.addmode) return;
-             
-              window.alert("Marker Clicked.");
+              if (this.addmode || this.editmode) 
+                return;
               this.value=el.id;
-              
             }
           ); 
           this.value = result;
-          var marker=new mapboxgl.Marker(el,{offset:[-25, -25]})
+          new mapboxgl.Marker(el)
           .setLngLat([e.lngLat.lng, e.lngLat.lat])
           .addTo(this.map);
-          this.markers.push(marker); 
+          let tempinput=new Array(this.displayedColumns.length).fill("");
+          tempinput[this.displayedColumns.indexOf("stop_id")]=this.value;
+          tempinput[this.displayedColumns.indexOf("stop_lat")]=e.lngLat.lat.toString();
+          tempinput[this.displayedColumns.indexOf("stop_lon")]=e.lngLat.lng.toString();
+          this.dataSource.push(tempinput);
+          this.database=this.dataSource.slice(1);
+          this.dataTable=new MatTableDataSource<string[]>(this.database);
+          this.dataTable.paginator = this.paginator;
         }
       });
      
-      document.getElementById('info').innerHTML =
-      // e.point is the x, y coordinates of the mousemove event relative
-      // to the top-left corner of the map
-      JSON.stringify(e.point) +
-      '<br />' +
-      // e.lngLat is the longitude, latitude geographical position of the event
-      JSON.stringify(e.lngLat.wrap());
-      
     }); 
-
-
-
   }
-  animal: string;
+ 
   name: string;
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      width: '250px',
-      data: {name: this.name, animal: this.animal}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.animal = result;
-    });
-  }
+ 
 
   changecol(){
     var value=this.nameget.value;
@@ -133,7 +198,7 @@ export class StopComponent implements OnInit {
       if (this.displayedColumns.includes(value[i])==false)
       {
         this.displayedColumns.push(value[i]);
-        
+        this.dataSource.splice(0,1,this.displayedColumns);
         add=true;
         
       }
@@ -150,6 +215,7 @@ export class StopComponent implements OnInit {
       }
       let tempindex=this.displayedColumns.indexOf(tempnames[0]);
       this.displayedColumns.splice(tempindex,1);
+      this.dataSource.splice(0,1,this.displayedColumns);
       for (var j=0;j<this.database.length;j++)
           this.database[j].splice(tempindex,1);
     }
@@ -161,9 +227,9 @@ export class StopComponent implements OnInit {
 
 @Component({
   selector: 'dialog-overview-example-dialog',
-  templateUrl: 'dialog-overview-example-dialog.html',
+  templateUrl: 'insert-dialog.html',
 })
-export class DialogOverviewExampleDialog {
+export class InsertDialog {
 
   constructor(
     ) {}

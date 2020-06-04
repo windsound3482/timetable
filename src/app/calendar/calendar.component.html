@@ -39,15 +39,15 @@
         <div class="date-select">
           <mat-form-field>
             <mat-label>start_date</mat-label>
-            <input matInput [matDatepicker]="picker1" (dateChange)="addBegin( $event)" [disabled]="!addmode  || !mode">
+            <input #begininput matInput [matDatepicker]="picker1" (dateChange)="addBegin( $event)" [disabled]="!addmode  || !mode" readonly>
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
+            <mat-datepicker #picker1 readwrite></mat-datepicker>
           </mat-form-field>
           <mat-form-field>
             <mat-label>end_date</mat-label>
-            <input matInput [matDatepicker]="picker2" (dateChange)="addEnd( $event)" [disabled]="!addmode  || !mode ">
+            <input #endinput matInput [matDatepicker]="picker2" (dateChange)="addEnd( $event)" [disabled]="!addmode  || !mode " readonly>
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker #picker2></mat-datepicker>
+            <mat-datepicker #picker2 readwrite></mat-datepicker>
           </mat-form-field>
           <p></p>
           <section class="example-section">
@@ -55,21 +55,21 @@
               {{day}} 
            </mat-checkbox>
            <p></p>
-           <button mat-raised-button color="primary" (click)="change(calendar)" [disabled]="(!addmode) || (tempbegin==null) || (tempend==null) || (tempbegin>tempend) || !mode">
+           <button mat-raised-button color="primary" (click)="change(calendar,begininput,endinput)" [disabled]="(!addmode) || (tempbegin==null) || (tempend==null) || (tempbegin>tempend) || !mode">
              Change Date On The Calendar
           </button>
           <p></p>
           <p></p>
           
-          <button mat-raised-button color="accent" (click)="onSave(calendar)" [disabled]="(!addmode || !mode) ">
+          <button mat-raised-button color="accent" (click)="onSave(calendar,begininput,endinput)" [disabled]="(!addmode || !mode) ">
              Save 
           </button>
           &nbsp;&nbsp;&nbsp;&nbsp;                    
-          <button mat-raised-button color="warn" (click)=" onDelete(calendar)" [disabled]="(!addmode || !mode) ">
+          <button mat-raised-button color="warn" (click)=" onDelete(calendar,begininput,endinput)" [disabled]="(!addmode || !mode) ">
               Delete
            </button>
           &nbsp;&nbsp;&nbsp;&nbsp;                    
-          <button mat-raised-button  (click)=" onReset(calendar)" [disabled]="(!addmode || !mode) ">
+          <button mat-raised-button  (click)=" onReset(calendar,begininput,endinput)" [disabled]="(!addmode || !mode) ">
               Reset
            </button>
           

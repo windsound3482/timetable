@@ -23,8 +23,7 @@ table {
 
 .myoptionclass {
     float:left;
-    position:relative;
-    left:35px;
+    margin-left:18px;
     top:25px;
     max-width:calc(30vw);
     font-size: medium;

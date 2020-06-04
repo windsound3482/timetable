@@ -4,9 +4,9 @@ import * as JSZip from 'jszip';
 import * as fs from 'fs'
 import * as FileSaver from 'file-saver';
 import { zip } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CalendarservService } from './calendarserv.service';
 import { FareservService } from './fareserv.service';
+import { StopservService } from './stopserv.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
@@ -19,6 +19,7 @@ export class ZipService {
     private allfile:AllfileService,
     private fare:FareservService,
     private calen:CalendarservService,
+    private stop:StopservService,
   ) { 
     
   }
@@ -172,6 +173,20 @@ export class ZipService {
         tempstr=tempstr.concat('\n');
       }
       this.jszip.file("fare_rules.txt",tempstr);
+    }
+
+    temp=this.stop.getstop();
+    if (temp.length>1)
+    {
+      tempstr ='';
+      temprow=temp.length;
+      for (var i=0;i<temprow;i++)
+      {
+        let tempstrr:string[]=temp[i];
+        tempstr=tempstr.concat(tempstrr.toString());
+        tempstr=tempstr.concat('\n');
+      }
+      this.jszip.file("stops.txt",tempstr);
     }
     
     this.jszip.generateAsync({type:"blob"}).then((blob) => {

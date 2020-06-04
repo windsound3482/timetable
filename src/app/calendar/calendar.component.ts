@@ -21,7 +21,7 @@ export class CalendarComponent implements OnInit {
   @ViewChild(AltercalenComponent ) altercalen: AltercalenComponent ;
   //select date on the calendar
   
-  onSave(calendar: any){
+  onSave(calendar: any,begininput,endinput){
     this.file.setcalender(this.calendarData);
     this.file.setexp(this.calendarexpData);
     this.database=this.calendarData.slice(1);
@@ -35,12 +35,16 @@ export class CalendarComponent implements OnInit {
     this.calen_addin=["","","","","","","","","",""];
     this.addmode=false;
     this.current=null;
+    begininput.value="";
+    endinput.value="";
     window.alert('Your Files have already been saved!');
   }
 
-  onReset(calendar: any){
+  onReset(calendar: any,begininput,endinput){
     this.ngOnInit();
     calendar.updateTodaysDate();
+    begininput.value="";
+    endinput.value="";
   }
 
   daysSelected: string[] = [];
@@ -174,8 +178,10 @@ export class CalendarComponent implements OnInit {
       event.value;
   }
 
-  change(calendar){
+  change(calendar,begininput,endinput){
     this.daysSelected=[];
+    begininput.value="";
+    endinput.value="";
     this.calen_addin[this.c_start_date]=this.tempbegin.getFullYear() +
     ("00" + (this.tempbegin.getMonth()+1)).slice(-2) +
     ("00" + this.tempbegin.getDate()).slice(-2);
@@ -226,7 +232,7 @@ export class CalendarComponent implements OnInit {
     this.calendarexpData=expatde;
   }
   
-  onDelete(calendar){
+  onDelete(calendar,begininput,endinput){
     if (this.current==this.calendarData.length)
     {
       window.alert("You wnt to add a new service, you can not delete it at once!!!");
@@ -244,7 +250,7 @@ export class CalendarComponent implements OnInit {
       } 
     }
     this.calendarexpData=expatde;
-    this.onSave(calendar);
+    this.onSave(calendar,begininput,endinput);
   }
 
   paintwithexp(calendar: any){
