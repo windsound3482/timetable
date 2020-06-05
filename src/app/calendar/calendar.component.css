@@ -7,24 +7,35 @@ table {
 }
 .mat-calendar-body-cell.selected
 {
-  background-color:purple;
+  background-color:lightblue;
+  border-radius: 50%
+}
+
+.mat-calendar-body-cell.exp1
+{
+  background-color:lightgreen;
+  border-radius: 50%
+}
+
+.mat-calendar-body-cell.exp2
+{
+  background-color:red;
   border-radius: 50%
 }
 
 
 .mat-calendar
 {
-  float:right;
+  float:left;
   margin-left:calc(1vw);
-  width:calc(35vw);
+  width:calc(15vw);
 }
 
 .myoptionclass {
-    float:left;
     position:relative;
     left:35px;
     top:25px;
-    max-width:calc(30vw);
+   
     font-size: medium;
 }
     

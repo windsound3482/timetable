@@ -29,16 +29,42 @@ export class StopComponent implements OnInit {
   currentvalue:string[];
   edit(){
     let idindex=this.displayedColumns.indexOf("stop_id");
+    let flag=true;
     for (var i=1;i<this.dataSource.length;i++)
     {
       if (this.dataSource[i][idindex]==this.value)
       {
         this.current=i;
+        flag=false;
         break;
       }
     }
+    if (flag)
+    {
+      window.alert("The Stop you want to edit must be add at first!!!");
+      return;
+    }
+    let lonindex=this.displayedColumns.indexOf("stop_lon");
+    let latindex=this.displayedColumns.indexOf("stop_lat");
+    if (lonindex>=0 && latindex>=0)
+    {
+      this.map.flyTo({
+        center: [
+          parseFloat(this.dataSource[1][lonindex]),
+          parseFloat(this.dataSource[1][latindex])
+        ],
+        essential: true // this animation is considered essential with respect to prefers-reduced-motion
+      });
+    }
     this.currentvalue=this.dataSource[this.current];
     this.editmode=true;
+  }
+
+  editparent(){
+
+    let temp=this.dataSource[this.current][this.displayedColumns.indexOf("parent_station")];
+    this.onSave();
+    this.value=temp;
   }
 
   onSave(){
@@ -112,6 +138,16 @@ export class StopComponent implements OnInit {
       for (var i=1;i<this.dataSource.length;i++)
       {
         this.createElement(i,idindex,latindex,lonindex)
+      }
+      if (this.dataSource.length>1)
+      {
+        this.map.flyTo({
+          center: [
+            parseFloat(this.dataSource[1][lonindex]),
+            parseFloat(this.dataSource[1][latindex])
+          ],
+          essential: true // this animation is considered essential with respect to prefers-reduced-motion
+        });
       }
     }
     this.value="";

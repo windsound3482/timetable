@@ -50,13 +50,47 @@ export class CalendarComponent implements OnInit {
   daysSelected: string[] = [];
   event: any;
   isSelected = (event: any) => {
+    if (this.value=="") return null;
     const date:string =
       event.getFullYear() +
       ("00" + (event.getMonth()+1)).slice(-2) +
       ("00" + event.getDate()).slice(-2);
-    return this.daysSelected.find(x => x == date) ? "selected" : null;
+    let flag=false;
+    let databegin=this.getDatabeginend()[0];
+      let dataend=this.getDatabeginend()[1];
+    if ((this.daya[event.getDay()]==1)&& (databegin<=event) && (dataend>=event))
+      flag=true;
+    if (this.daysSelected.find(x => x == date))
+    {
+      if (flag==true)
+        return "selected";
+      else
+        return "exp1";
+    }
+    else
+    {
+      if (flag==true && (databegin<=event) && (dataend>=event))
+        return "exp2";
+    }
+    return null;
   };
-  
+
+  getDatabeginend(){
+    if (!this.current)
+    { return [null,null];}
+    let x:string=this.calendarData[this.current][this.c_start_date];
+    let y:string=this.calendarData[this.current][this.c_end_date];
+    let start_year=parseInt(x.slice(0,4));
+    let start_month=parseInt(x.slice(4,6));
+    let start_day=parseInt(x.slice(6));
+    let end_year=parseInt(y.slice(0,4));
+    let end_month=parseInt(y.slice(4,6));
+    let end_day=parseInt(y.slice(6));
+    let datebegin:Date = new Date(start_year,start_month-1,start_day);
+    let dateend:Date = new Date(end_year,end_month-1,end_day);
+    return [datebegin,dateend];
+  }
+
   select(event: any, calendar: any) {
     if ((!this.addmode) || (!this.mode))
     {
@@ -67,17 +101,9 @@ export class CalendarComponent implements OnInit {
       ("00" + (event.getMonth()+1)).slice(-2) +
       ("00" + event.getDate()).slice(-2);
       const index = this.daysSelected.findIndex(x => x == date);
-      let x:string=this.calendarData[this.current][this.c_start_date];
-      let y:string=this.calendarData[this.current][this.c_end_date];
-      let start_year=parseInt(x.slice(0,4));
-      let start_month=parseInt(x.slice(4,6));
-      let start_day=parseInt(x.slice(6));
-      let end_year=parseInt(y.slice(0,4));
-      let end_month=parseInt(y.slice(4,6));
-      let end_day=parseInt(y.slice(6));
-      let datebegin:Date = new Date(start_year,start_month-1,start_day);
-      let dateend:Date = new Date(end_year,end_month-1,end_day);
       
+      let datebegin=this.getDatabeginend()[0];
+      let dateend=this.getDatabeginend()[1];
       
       let expidindex=this.calendarexpData[0].indexOf("service_id");
       let exptypeindex=this.calendarexpData[0].indexOf("exception_type");
@@ -167,6 +193,7 @@ export class CalendarComponent implements OnInit {
   days:string[]=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   dayth:any[]=[0,0,0,0,0,0,0,0,0];
   calen_addin:string[]=["","","","","","","","","",""];
+  currentmonth:Date=new Date();
 
   addBegin(event: MatDatepickerInputEvent<Date>){
     this.tempbegin =
@@ -178,10 +205,20 @@ export class CalendarComponent implements OnInit {
       event.value;
   }
 
-  change(calendar,begininput,endinput){
+  
+  getdaya(){
+    let dayava:number[]=[];
+      dayava.push(parseInt(this.calendarData[this.current][this.c_Sun]));
+      dayava.push(parseInt(this.calendarData[this.current][this.c_Mon]));
+      dayava.push(parseInt(this.calendarData[this.current][this.c_Tue]));
+      dayava.push(parseInt(this.calendarData[this.current][this.c_Wed]));
+      dayava.push(parseInt(this.calendarData[this.current][this.c_Thu]));
+      dayava.push(parseInt(this.calendarData[this.current][this.c_Fri]));
+      dayava.push(parseInt(this.calendarData[this.current][this.c_Sat]));
+    return dayava;
+  }
+  change(calendar){
     this.daysSelected=[];
-    begininput.value="";
-    endinput.value="";
     this.calen_addin[this.c_start_date]=this.tempbegin.getFullYear() +
     ("00" + (this.tempbegin.getMonth()+1)).slice(-2) +
     ("00" + this.tempbegin.getDate()).slice(-2);
@@ -198,7 +235,7 @@ export class CalendarComponent implements OnInit {
     this.calen_addin[this.c_Fri]=Number(this.dayth[5]).toString();
     this.calen_addin[this.c_Sat]=Number(this.dayth[6]).toString();
     this.calen_addin[this.c_ID]=this.value;
-    this.paintOnCalend(this.tempbegin,this.tempend,this.dayth,calendar);
+    
     if (this.current==this.calendarData.length)
     {
       this.calendarData.push(this.calen_addin);
@@ -207,17 +244,11 @@ export class CalendarComponent implements OnInit {
     {
       this.calendarData.splice(this.current,1,this.calen_addin);
     }
-
-    let dayava:number[]=[];
-      dayava.push(parseInt(this.calendarData[this.current][this.c_Sun]));
-      dayava.push(parseInt(this.calendarData[this.current][this.c_Mon]));
-      dayava.push(parseInt(this.calendarData[this.current][this.c_Tue]));
-      dayava.push(parseInt(this.calendarData[this.current][this.c_Wed]));
-      dayava.push(parseInt(this.calendarData[this.current][this.c_Thu]));
-      dayava.push(parseInt(this.calendarData[this.current][this.c_Fri]));
-      dayava.push(parseInt(this.calendarData[this.current][this.c_Sat]));
-      
-    this.daya=dayava;
+    this.daya=this.getdaya();
+    let tempb=new Date(this.tempbegin);
+    let tempe=new Date(this.tempend);
+    this.paintOnCalend(tempb,tempe,this.dayth,calendar);
+    console.log(this.daya);
 
     let expidindex=this.calendarexpData[0].indexOf("service_id");
     let expatde:string[][]=this.calendarexpData.slice();
@@ -249,6 +280,7 @@ export class CalendarComponent implements OnInit {
          expatde.splice(i,1);
       } 
     }
+    this.value="";
     this.calendarexpData=expatde;
     this.onSave(calendar,begininput,endinput);
   }
@@ -274,8 +306,10 @@ export class CalendarComponent implements OnInit {
     calendar.updateTodaysDate();
   }
 
-  paintOnCalend(datenow:Data,dateend:Data,dayava:number[],calendar: any)
+  paintOnCalend(datenow:Date,dateend:Date,dayava:number[],calendar: any)
   {
+   
+    calendar._goToDateInView(new Date(datenow),'month');
     while (datenow<=dateend)
       {
         if (dayava[datenow.getDay()]==1)
@@ -291,7 +325,7 @@ export class CalendarComponent implements OnInit {
       calendar.updateTodaysDate();
   }
 
-  daya:number[];
+  daya:number[]=new Array(7).fill(0);
   edit(calendar: any){
     this.daysSelected=[];
     calendar.updateTodaysDate();
@@ -309,26 +343,10 @@ export class CalendarComponent implements OnInit {
     this.addmode=true;
     if (editable==true)
     {
-      let dayava:number[]=[];
-      dayava.push(parseInt(this.calendarData[this.current][this.c_Sun]));
-      dayava.push(parseInt(this.calendarData[this.current][this.c_Mon]));
-      dayava.push(parseInt(this.calendarData[this.current][this.c_Tue]));
-      dayava.push(parseInt(this.calendarData[this.current][this.c_Wed]));
-      dayava.push(parseInt(this.calendarData[this.current][this.c_Thu]));
-      dayava.push(parseInt(this.calendarData[this.current][this.c_Fri]));
-      dayava.push(parseInt(this.calendarData[this.current][this.c_Sat]));
-      this.daya=dayava;
-      let x:string=this.calendarData[this.current][this.c_start_date];
-      let y:string=this.calendarData[this.current][this.c_end_date];
-      let start_year=parseInt(x.slice(0,4));
-      let start_month=parseInt(x.slice(4,6));
-      let start_day=parseInt(x.slice(6));
-      let end_year=parseInt(y.slice(0,4));
-      let end_month=parseInt(y.slice(4,6));
-      let end_day=parseInt(y.slice(6));
-      let datenow:Date = new Date(start_year,start_month-1,start_day);
-      let dateend:Date = new Date(end_year,end_month-1,end_day);
-      this.paintOnCalend(datenow,dateend,dayava,calendar);
+      this.daya=this.getdaya();
+      let datenow:Date = this.getDatabeginend()[0];
+      let dateend:Date = this.getDatabeginend()[1];
+      this.paintOnCalend(datenow,dateend,this.daya,calendar);
       this.paintwithexp(calendar);
     }
     else

@@ -7,6 +7,7 @@ import { zip } from 'rxjs';
 import { CalendarservService } from './calendarserv.service';
 import { FareservService } from './fareserv.service';
 import { StopservService } from './stopserv.service';
+import { TimetableservService } from './timetableserv.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
@@ -20,6 +21,7 @@ export class ZipService {
     private fare:FareservService,
     private calen:CalendarservService,
     private stop:StopservService,
+    private timetable:TimetableservService ,
   ) { 
     
   }
@@ -176,18 +178,26 @@ export class ZipService {
     }
 
     temp=this.stop.getstop();
-    if (temp.length>1)
+    tempstr ='';
+    temprow=temp.length;
+    for (var i=0;i<temprow;i++)
     {
-      tempstr ='';
-      temprow=temp.length;
-      for (var i=0;i<temprow;i++)
-      {
-        let tempstrr:string[]=temp[i];
-        tempstr=tempstr.concat(tempstrr.toString());
-        tempstr=tempstr.concat('\n');
-      }
-      this.jszip.file("stops.txt",tempstr);
+      let tempstrr:string[]=temp[i];
+      tempstr=tempstr.concat(tempstrr.toString());
+      tempstr=tempstr.concat('\n');
     }
+    this.jszip.file("stops.txt",tempstr);
+    
+    temp=this.timetable.gettrip();
+    tempstr ='';
+    temprow=temp.length;
+    for (var i=0;i<temprow;i++)
+    {
+      let tempstrr:string[]=temp[i];
+      tempstr=tempstr.concat(tempstrr.toString());
+      tempstr=tempstr.concat('\n');
+    }
+    this.jszip.file("trips.txt",tempstr);
     
     this.jszip.generateAsync({type:"blob"}).then((blob) => {
       FileSaver.saveAs(blob, "hello.zip");

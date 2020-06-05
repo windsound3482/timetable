@@ -3,6 +3,7 @@ import { ZipService } from './zip.service';
 import { CalendarservService } from './calendarserv.service';
 import { FareservService } from './fareserv.service';
 import { StopservService } from './stopserv.service';
+import { TimetableservService } from './timetableserv.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -58,6 +59,9 @@ export class AllfileService {
 
     if (filename==="stops.txt")
       this.stop.setstop(items);
+
+    if (filename==="trips.txt")
+      this.timetable.settrip(items);
     
   }
   //get and set List to every CSV functions
@@ -100,6 +104,7 @@ export class AllfileService {
     private calendar:CalendarservService,
     private fare:FareservService,
     private stop:StopservService ,
+    private timetable: TimetableservService,
   ) {
     this.agencylist=[["agency_id","agency_name","agency_url","agency_timezone"]];
     this.feedinfo=[["feed_publisher_name","feed_publisher_url","feed_lang"]];

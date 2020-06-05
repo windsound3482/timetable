@@ -1,8 +1,7 @@
 .example-card {
-    position:fixed;
     float:right;
-    margin-left:calc(85vw);
-    max-width: calc(12vw);
+    margin-left:calc(1vw);
+    max-width: calc(10vw);
     
   }
   
