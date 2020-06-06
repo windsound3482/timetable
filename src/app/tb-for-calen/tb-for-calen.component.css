@@ -1,12 +1,3 @@
 .example-card {
-    float:right;
-    margin-left:calc(1vw);
-    max-width: calc(10vw);
-    
-  }
-  
-  
-.example-header-image {
-    background-image: url('./../../assets/logo.png');
-    background-size: cover;
+    width: 95%;
 }

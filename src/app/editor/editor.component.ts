@@ -22,22 +22,7 @@ export class EditorComponent implements OnInit {
   
 
   ngOnInit(): void {
-    this.onReset();
-  }
-  
-  onSave(){
-    this.dataSource=[];
-    this.dataSource.push(this.displayedColumns);
-    this.database=this.dataTable.data;
     
-    this.dataSource=this.dataSource.concat(this.database);
-    
-    this.file.settrip(this.dataSource);
-    window.alert('Your File agency.txt has already been saved!');
-    this.onReset();
-  }
-
-  onReset(){
     this.displayedColumns=["trip_id","route_id","service_id"];
     this.dataSource=this.file.gettrip();
     
@@ -57,6 +42,23 @@ export class EditorComponent implements OnInit {
     }
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
+  }
+  
+  onSave(stepper:any){
+    this.dataSource=[];
+    this.dataSource.push(this.displayedColumns);
+    this.database=this.dataTable.data;
+    
+    this.dataSource=this.dataSource.concat(this.database);
+    
+    this.file.settrip(this.dataSource);
+    window.alert('Your Files have already been saved!');
+    this.onReset(stepper);
+  }
+
+  onReset(stepper:any){
+    stepper.reset();
+    this.ngOnInit();
   }
   
   add_trip_input(name:string){

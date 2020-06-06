@@ -1,47 +1,59 @@
-<div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataTable" >
-      <div *ngFor="let pos of displayedColumns;let i= index">
-      <ng-container [matColumnDef]= "pos">
-        <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
-            <mat-cell *matCellDef="let element"> 
-               
-              {{element[i]}} 
-              <button mat-button *ngIf="i==0" matSuffix  aria-label="edit" (click)="add_trip_input(element[i])">
-                <mat-icon>create</mat-icon>
-              </button>
-          </mat-cell>
-      </ng-container>
-      </div>
-
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> 
-    </table> 
+<mat-vertical-stepper linear #stepper class="mat-elevation-z8">
+    <ng-template matStepperIcon="number">
+      <mat-icon>explore</mat-icon>
+    </ng-template>
+  <mat-step [completed]="value!='' " [editable]="false">
+    <ng-template matStepLabel >Trip-Selector</ng-template>
     
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-    <mat-toolbar>
-  <span class="example-spacer"></span>
-  <button mat-raised-button color="warn" (click)="onSave()" >
-    Save 
-  </button>
-  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
-  <button mat-raised-button  (click)=" onReset()" >
-    Reset
-  </button>
-  </mat-toolbar>
-</div>
+    <div >
+      <table mat-table [dataSource]="dataTable" >
+        <div *ngFor="let pos of displayedColumns;let i= index">
+        <ng-container [matColumnDef]= "pos">
+          <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
+              <mat-cell *matCellDef="let element"> 
+                
+                {{element[i]}} 
+                <button mat-button *ngIf="i==0" matSuffix  aria-label="edit" (click)="add_trip_input(element[i])">
+                  <mat-icon>create</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+        </div>
 
-<p>
-    <mat-form-field class="example-form-field">
-        <mat-label>Service_id</mat-label>
-        <input matInput type="text" [(ngModel)]="value" name="value"  >
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> 
+      </table> 
       
-        <button mat-button *ngIf="value" matSuffix  aria-label="edit" >
-          <mat-icon>create</mat-icon>
-        </button>
-        
-    </mat-form-field>
-    
-</p>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+     
+  </div>
 
+  <p>
+      <mat-form-field class="example-form-field">
+          <mat-label>Trip_id</mat-label>
+          <input matInput type="text" [(ngModel)]="value" name="value"  >
+        
+          <button mat-button *ngIf="value"  matSuffix  matStepperNext>
+            <mat-icon>create</mat-icon>
+          </button>
+          
+      </mat-form-field>
+      
+  </p>
+  </mat-step >
+  <mat-step [editable]="false">
+    <ng-template matStepLabel>Timetable-Editor(Edit Trip id:{{value}}) </ng-template>
+    <app-calendar></app-calendar>
+    <div>
+      <button mat-raised-button color="warn" (click)="onSave(stepper)" >
+        Save 
+      </button>
+      &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
+      <button mat-raised-button  (click)=" onReset(stepper)" >
+        Reset
+      </button>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>
 
 

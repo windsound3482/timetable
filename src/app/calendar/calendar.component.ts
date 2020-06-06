@@ -3,9 +3,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import { AltercalenComponent } from '../altercalen/altercalen.component';
-
 import { CalendarservService } from '../calendarserv.service';
-import { Data } from '@angular/router';
 
 @Component({
   selector: 'app-calendar',
@@ -27,30 +25,30 @@ export class CalendarComponent implements OnInit {
     this.database=this.calendarData.slice(1);
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
-    
     this.daysSelected=[];
-    calendar.updateTodaysDate();
-    this.value = '';
+    
+    this.value_cal = '';
     this.dayth=[0,0,0,0,0,0,0,0,0];
     this.calen_addin=["","","","","","","","","",""];
     this.addmode=false;
     this.current=null;
-    begininput.value="";
-    endinput.value="";
+    begininput.value_cal="";
+    endinput.value_cal="";
+    calendar.updateTodaysDate();
     window.alert('Your Files have already been saved!');
   }
 
   onReset(calendar: any,begininput,endinput){
     this.ngOnInit();
     calendar.updateTodaysDate();
-    begininput.value="";
-    endinput.value="";
+    begininput.value_cal="";
+    endinput.value_cal="";
   }
 
   daysSelected: string[] = [];
   event: any;
   isSelected = (event: any) => {
-    if (this.value=="") return null;
+    if (this.value_cal=="") return null;
     const date:string =
       event.getFullYear() +
       ("00" + (event.getMonth()+1)).slice(-2) +
@@ -114,7 +112,7 @@ export class CalendarComponent implements OnInit {
       if ((event>dateend) || (event<datebegin))
       {
         let temp:string[]=["","",""];
-        temp[expidindex]=this.value;
+        temp[expidindex]=this.value_cal;
         temp[exptypeindex]="1";
         temp[expdateindex]=date;
         this.calendarexpData.push(temp);
@@ -126,7 +124,7 @@ export class CalendarComponent implements OnInit {
           
           for (var i=1;i<this.calendarexpData.length;i++)
           {
-            if ((this.calendarexpData[i][expidindex]==this.value) && 
+            if ((this.calendarexpData[i][expidindex]==this.value_cal) && 
             (this.calendarexpData[i][expdateindex]==date))
             {
               this.calendarexpData.splice(i,1);
@@ -137,7 +135,7 @@ export class CalendarComponent implements OnInit {
         else
         {
           let temp:string[]=["","",""];
-          temp[expidindex]=this.value;
+          temp[expidindex]=this.value_cal;
           temp[exptypeindex]="1";
           temp[expdateindex]=date;
           this.calendarexpData.push(temp);
@@ -150,7 +148,7 @@ export class CalendarComponent implements OnInit {
       {
         for (var i=1;i<this.calendarexpData.length;i++)
           {
-            if ((this.calendarexpData[i][expidindex]==this.value) && 
+            if ((this.calendarexpData[i][expidindex]==this.value_cal) && 
             (this.calendarexpData[i][expdateindex]==date))
             {
               this.calendarexpData.splice(i,1);
@@ -163,7 +161,7 @@ export class CalendarComponent implements OnInit {
         {
 
           let temp:string[]=["","",""];
-          temp[expidindex]=this.value;
+          temp[expidindex]=this.value_cal;
           temp[exptypeindex]="2";
           temp[expdateindex]=date;
           this.calendarexpData.push(temp);
@@ -173,7 +171,7 @@ export class CalendarComponent implements OnInit {
         {
           for (var i=1;i<this.calendarexpData.length;i++)
           {
-            if ((this.calendarexpData[i][expidindex]==this.value) && 
+            if ((this.calendarexpData[i][expidindex]==this.value_cal) && 
             (this.calendarexpData[i][expdateindex]==date))
             {
               this.calendarexpData.splice(i,1);
@@ -234,7 +232,7 @@ export class CalendarComponent implements OnInit {
     this.calen_addin[this.c_Thu]=Number(this.dayth[4]).toString();
     this.calen_addin[this.c_Fri]=Number(this.dayth[5]).toString();
     this.calen_addin[this.c_Sat]=Number(this.dayth[6]).toString();
-    this.calen_addin[this.c_ID]=this.value;
+    this.calen_addin[this.c_ID]=this.value_cal;
     
     if (this.current==this.calendarData.length)
     {
@@ -254,7 +252,7 @@ export class CalendarComponent implements OnInit {
     let expatde:string[][]=this.calendarexpData.slice();
     for (var i=this.calendarexpData.length - 1 ;i>=1;i--)
     {
-      if (this.calendarexpData[i][expidindex]==this.value) 
+      if (this.calendarexpData[i][expidindex]==this.value_cal) 
           
       {
          expatde.splice(i,1);
@@ -264,23 +262,17 @@ export class CalendarComponent implements OnInit {
   }
   
   onDelete(calendar,begininput,endinput){
-    if (this.current==this.calendarData.length)
-    {
-      window.alert("You wnt to add a new service, you can not delete it at once!!!");
-      return;
-    }
     this.calendarData.splice(this.current,1);
     let expidindex=this.calendarexpData[0].indexOf("service_id");
     let expatde:string[][]=this.calendarexpData.slice();
     for (var i=this.calendarexpData.length - 1 ;i>=1;i--)
     {
-      if (this.calendarexpData[i][expidindex]==this.value) 
-          
+      if (this.calendarexpData[i][expidindex]==this.value_cal) 
       {
          expatde.splice(i,1);
       } 
     }
-    this.value="";
+    this.value_cal="";
     this.calendarexpData=expatde;
     this.onSave(calendar,begininput,endinput);
   }
@@ -289,7 +281,7 @@ export class CalendarComponent implements OnInit {
     let expidindex=this.calendarexpData[0].indexOf("service_id");
     let exptypeindex=this.calendarexpData[0].indexOf("exception_type");
     let expdateindex=this.calendarexpData[0].indexOf("date");
-    let editid=this.value;
+    let editid=this.value_cal;
     for (var i=1;i<this.calendarexpData.length;i++)
     {
       if (this.calendarexpData[i][expidindex]==editid)
@@ -333,7 +325,7 @@ export class CalendarComponent implements OnInit {
     let editable:boolean=false;
     for (var i=1;i<this.calendarData.length;i++)
     {
-      if (this.value==this.calendarData[i][index])
+      if (this.value_cal==this.calendarData[i][index])
       {
          editable=true;
          this.current=i;
@@ -358,7 +350,7 @@ export class CalendarComponent implements OnInit {
   displayedColumns: string[]=[];
   calendarData:string[][];
   calendarexpData:string[][];
-  value = '';
+  value_cal = '';
   
   addmode:boolean=false;
   current:number=null;
@@ -407,12 +399,16 @@ export class CalendarComponent implements OnInit {
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
 
-    this.value = '';
+    this.value_cal = '';
     this.dayth=[0,0,0,0,0,0,0,0,0];
     this.calen_addin=["","","","","","","","","",""];
     this.addmode=false;
     this.current=null;
 
+  }
+
+  add_service_input(name:string){
+    this.value_cal=name;
   }
 
   changemode(){
