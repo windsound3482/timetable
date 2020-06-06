@@ -1,9 +1,12 @@
-<mat-vertical-stepper linear #stepper class="mat-elevation-z8">
+<mat-vertical-stepper linear #stepper class="mat-elevation-z8" >
     <ng-template matStepperIcon="number">
       <mat-icon>explore</mat-icon>
     </ng-template>
-  <mat-step [completed]="value!='' " [editable]="false">
-    <ng-template matStepLabel >Trip-Selector</ng-template>
+    <ng-template matStepperIcon="edit">
+      <mat-icon>edit_location</mat-icon>
+    </ng-template>
+  <mat-step [completed]="editable" [editable]="false">
+    <ng-template matStepLabel >Trip id:{{value}}</ng-template>
     
     <div >
       <table mat-table [dataSource]="dataTable" >
@@ -31,9 +34,9 @@
   <p>
       <mat-form-field class="example-form-field">
           <mat-label>Trip_id</mat-label>
-          <input matInput type="text" [(ngModel)]="value" name="value"  >
+          <input matInput type="text" [(ngModel)]="value" name="value"  [disabled]="editable">
         
-          <button mat-button *ngIf="value"  matSuffix  matStepperNext>
+          <button mat-button *ngIf="value"  matSuffix  matStepperNext (click)="edittrip()">
             <mat-icon>create</mat-icon>
           </button>
           
@@ -41,17 +44,23 @@
       
   </p>
   </mat-step >
-  <mat-step [editable]="false">
-    <ng-template matStepLabel>Timetable-Editor(Edit Trip id:{{value}}) </ng-template>
-    <app-calendar></app-calendar>
+  <mat-step [completed]="value_cal!='' " [editable]="true">
+    <ng-template matStepLabel>Service id:{{value_cal}} </ng-template>
+    <app-calendar (notify)="oncal_Notify($event)"></app-calendar>
+  </mat-step>
+  <mat-step [completed]="value_cal!='' " [editable]="true">
+    <ng-template matStepLabel>Save or Cancel  <button mat-icon-button  (click)=" download()" >
+      <mat-icon>cloud_download</mat-icon>
+    </button> </ng-template>
     <div>
-      <button mat-raised-button color="warn" (click)="onSave(stepper)" >
+      <button mat-raised-button color="warn" (click)="onSave(stepper)">
         Save 
       </button>
       &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
       <button mat-raised-button  (click)=" onReset(stepper)" >
         Reset
-      </button>
+      </button>                   
+      
     </div>
   </mat-step>
 </mat-vertical-stepper>

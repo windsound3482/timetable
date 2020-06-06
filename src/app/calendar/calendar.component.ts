@@ -4,6 +4,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import { AltercalenComponent } from '../altercalen/altercalen.component';
 import { CalendarservService } from '../calendarserv.service';
+import {Output,EventEmitter} from '@angular/core'
 
 @Component({
   selector: 'app-calendar',
@@ -17,6 +18,7 @@ export class CalendarComponent implements OnInit {
   }
 
   @ViewChild(AltercalenComponent ) altercalen: AltercalenComponent ;
+  @Output() notify= new EventEmitter();
   //select date on the calendar
   
   onSave(calendar: any,begininput,endinput){
@@ -26,7 +28,7 @@ export class CalendarComponent implements OnInit {
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
     this.daysSelected=[];
-    
+    this.notify.emit(this.value_cal);
     this.value_cal = '';
     this.dayth=[0,0,0,0,0,0,0,0,0];
     this.calen_addin=["","","","","","","","","",""];
@@ -39,6 +41,8 @@ export class CalendarComponent implements OnInit {
   }
 
   onReset(calendar: any,begininput,endinput){
+    if (this.current<this.calendarData.length)
+      this.notify.emit(this.value_cal);
     this.ngOnInit();
     calendar.updateTodaysDate();
     begininput.value_cal="";
@@ -106,7 +110,6 @@ export class CalendarComponent implements OnInit {
       let expidindex=this.calendarexpData[0].indexOf("service_id");
       let exptypeindex=this.calendarexpData[0].indexOf("exception_type");
       let expdateindex=this.calendarexpData[0].indexOf("date");
-      console.log(this.dayth);
     if (index < 0) {
       
       if ((event>dateend) || (event<datebegin))
@@ -319,6 +322,7 @@ export class CalendarComponent implements OnInit {
 
   daya:number[]=new Array(7).fill(0);
   edit(calendar: any){
+    this.notify.emit("");
     this.daysSelected=[];
     calendar.updateTodaysDate();
     let index=this.c_ID;
