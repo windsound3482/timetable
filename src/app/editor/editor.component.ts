@@ -26,6 +26,7 @@ export class EditorComponent implements OnInit {
   value="";
   editable=false;
   value_cal="";
+  value_rou="";
   current:Number=null;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   

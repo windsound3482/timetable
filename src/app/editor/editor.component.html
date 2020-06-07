@@ -43,11 +43,16 @@
       </mat-form-field>
       
   </p>
-  </mat-step >
+  </mat-step> 
+  <mat-step [completed]="value_rou!='' " [editable]="true">
+    <ng-template matStepLabel>Route id:{{value_rou}} </ng-template>
+    <app-route></app-route>
+  </mat-step>
   <mat-step [completed]="value_cal!='' " [editable]="true">
     <ng-template matStepLabel>Service id:{{value_cal}} </ng-template>
     <app-calendar (notify)="oncal_Notify($event)"></app-calendar>
   </mat-step>
+ 
   <mat-step [editable]="true">
     <ng-template matStepLabel> Frequency </ng-template>
     <app-freq></app-freq>
@@ -64,7 +69,6 @@
       <button mat-raised-button  (click)=" onReset(stepper)" >
         Reset
       </button>                   
-      
     </div>
   </mat-step>
 </mat-vertical-stepper>

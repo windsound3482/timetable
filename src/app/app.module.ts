@@ -38,6 +38,7 @@ import { FaretoolbarComponent } from './faretoolbar/faretoolbar.component';
 import { StopComponent } from './stop/stop.component';
 import { InsertDialog } from './stop/stop.component';
 import { FreqComponent } from './freq/freq.component';
+import { RouteComponent } from './route/route.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { FreqComponent } from './freq/freq.component';
     StopComponent,
     InsertDialog,
     FreqComponent,
+    RouteComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,6 +76,7 @@ import { FreqComponent } from './freq/freq.component';
       { path: '', component: HomeComponent  },
       { path: 'CSVEditor', component:MapComponent},
       { path: 'CalendarEditor', component:CalendarComponent},
+      { path: 'RouteEditor', component:RouteComponent},
       { path: 'DragDrop',component:FileuploaderComponent},
       { path: 'FareEditor', component:FareComponent},
       { path: 'StopEditor', component:StopComponent},

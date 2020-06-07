@@ -18,7 +18,7 @@ export class FreqComponent implements OnInit {
   dataSource :string[][];
   database :string[][]; 
   displayedColumns:string[];
-  idindex=0;
+  
   value_trp="";
   dataTable : MatTableDataSource<string[]>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -26,7 +26,6 @@ export class FreqComponent implements OnInit {
     this.dataSource=this.time.getfreq();
     this.displayedColumns=this.dataSource[0];
     this.database=this.dataSource.slice(1);
-    this.idindex=this.displayedColumns.indexOf("trip_id");
     let exindex=this.displayedColumns.indexOf("exact_times");
     if (exindex==-1)
     {
@@ -68,4 +67,20 @@ export class FreqComponent implements OnInit {
     this.dataTable.paginator = this.paginator;
     this.dataTable.filter=this.value_trp; 
   }
+
+  addaLine(){
+    let tempadd=Array(this.displayedColumns.length).fill("");
+    let idindex=this.displayedColumns.indexOf("trip_id");
+    let exindex=this.displayedColumns.indexOf("exact_times");
+    tempadd[idindex]=this.value_trp;
+    tempadd[exindex]="0";
+    this.database=this.dataTable.data;
+    this.database.push(tempadd);
+    this.dataTable=new MatTableDataSource<string[]>(this.database);
+    this.dataTable.paginator = this.paginator;
+    this.dataTable.filter=this.value_trp; 
+  }
+
+  pattern_error=false;
+  require_error=false;
 }

@@ -5,16 +5,18 @@
         <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
             <mat-cell *matCellDef="let element"> 
                 <div *ngIf="pos=='start_time' || pos=='end_time'">
-                    <input matInput type="text"  [(ngModel)]="element[i]" pattern="^[0-9]?[0-9][:]([0-5]?[0-9]|60)[:]([0-5]?[0-9]|60)$" #uname="ngModel">
+                    <input matInput type="text"  [(ngModel)]="element[i]"  required pattern="^[0-9]?[0-9][:]([0-5]?[0-9]|60)[:]([0-5]?[0-9]|60)$" #uname="ngModel">
                     <mat-error *ngIf="uname.errors?.pattern"> 
                         Time not valid.
                     </mat-error> 
+                    <mat-error *ngIf="uname.errors?.required">
+                        Time is required.
+                    </mat-error>
                 </div>
                 <div *ngIf="pos=='headway_secs'" >
                     <input matInput type="number" min="0" [(ngModel)]="element[i]" >
                 </div>
                 <div *ngIf="pos=='trip_id'" >
-                    {{element[i]}}
                     <button mat-raised-button color="primary" (click)="deleteline(element)">Delete</button>
                 </div>
                 <div *ngIf="pos=='exact_times'">
@@ -35,5 +37,7 @@
     </table> 
     
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-   
+    <button mat-icon-button (click)="addaLine()" >
+        <mat-icon>add_circle_outline</mat-icon>
+    </button>
 </div>
