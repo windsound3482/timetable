@@ -8,7 +8,7 @@
   <mat-step [completed]="editable" [editable]="false">
     <ng-template matStepLabel >Trip id:{{value}}</ng-template>
     
-    <div >
+    <div>
       <table mat-table [dataSource]="dataTable" >
         <div *ngFor="let pos of displayedColumns;let i= index">
         <ng-container [matColumnDef]= "pos">
@@ -48,7 +48,11 @@
     <ng-template matStepLabel>Service id:{{value_cal}} </ng-template>
     <app-calendar (notify)="oncal_Notify($event)"></app-calendar>
   </mat-step>
-  <mat-step [completed]="value_cal!='' " [editable]="true">
+  <mat-step [editable]="true">
+    <ng-template matStepLabel> Frequency </ng-template>
+    <app-freq></app-freq>
+  </mat-step>
+  <mat-step [editable]="true">
     <ng-template matStepLabel>Save or Cancel  <button mat-icon-button  (click)=" download()" >
       <mat-icon>cloud_download</mat-icon>
     </button> </ng-template>

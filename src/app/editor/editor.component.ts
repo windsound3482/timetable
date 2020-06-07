@@ -3,6 +3,8 @@ import { TimetableservService } from '../timetableserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { ZipService } from '../zip.service';
+import { CalendarComponent } from '../calendar/calendar.component';
+import { FreqComponent } from '../freq/freq.component';
 
 @Component({
   selector: 'app-editor',
@@ -10,7 +12,9 @@ import { ZipService } from '../zip.service';
   styleUrls: ['./editor.component.css']
 })
 export class EditorComponent implements OnInit {
-
+  @ViewChild(CalendarComponent) calencom:CalendarComponent ;
+  @ViewChild(FreqComponent) freqcom:FreqComponent;
+  
   constructor(
     private file:TimetableservService,
     private zip: ZipService,
@@ -44,6 +48,9 @@ export class EditorComponent implements OnInit {
       let tempint=Array(this.dataSource[0].length).fill("");
       this.dataSource.push(tempint);
     }
+    this.calencom.value_cal=this.value_cal;
+    console.log(this.value);
+    this.freqcom.setfilter(this.value);
   }
 
   ngOnInit(): void {
@@ -75,9 +82,10 @@ export class EditorComponent implements OnInit {
   
   onSave(stepper:any){
     this.file.settrip(this.dataSource);
+    this.freqcom.onSave();
     window.alert('Your Files have already been saved!');
     this.onReset(stepper);
-    this.zip.downloadFile();
+    
   }
 
   onReset(stepper:any){

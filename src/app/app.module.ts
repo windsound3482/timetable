@@ -37,6 +37,7 @@ import { FareruleComponent } from './farerule/farerule.component';
 import { FaretoolbarComponent } from './faretoolbar/faretoolbar.component';
 import { StopComponent } from './stop/stop.component';
 import { InsertDialog } from './stop/stop.component';
+import { FreqComponent } from './freq/freq.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { InsertDialog } from './stop/stop.component';
     FaretoolbarComponent,
     StopComponent,
     InsertDialog,
+    FreqComponent,
   ],
   imports: [
     BrowserModule,

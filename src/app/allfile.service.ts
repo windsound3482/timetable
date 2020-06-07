@@ -62,6 +62,9 @@ export class AllfileService {
 
     if (filename==="trips.txt")
       this.timetable.settrip(items);
+
+    if (filename==="frequencies.txt")
+      this.timetable.setfreq(items);
     
   }
   //get and set List to every CSV functions

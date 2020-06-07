@@ -198,7 +198,20 @@ export class ZipService {
       tempstr=tempstr.concat('\n');
     }
     this.jszip.file("trips.txt",tempstr);
-    
+
+    temp=this.timetable.getfreq();
+    if (temp.length>1)
+    {
+      tempstr ='';
+      temprow=temp.length;
+      for (var i=0;i<temprow;i++)
+      {
+        let tempstrr:string[]=temp[i];
+        tempstr=tempstr.concat(tempstrr.toString());
+        tempstr=tempstr.concat('\n');
+      }
+      this.jszip.file("frequencies.txt",tempstr);
+    }
     this.jszip.generateAsync({type:"blob"}).then((blob) => {
       FileSaver.saveAs(blob, "hello.zip");
     });
