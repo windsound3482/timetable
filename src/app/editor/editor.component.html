@@ -46,7 +46,7 @@
   </mat-step> 
   <mat-step [completed]="value_rou!='' " [editable]="true">
     <ng-template matStepLabel>Route id:{{value_rou}} </ng-template>
-    <app-route></app-route>
+    <app-route (notify)="onrou_Notify($event)"></app-route>
   </mat-step>
   <mat-step [completed]="value_cal!='' " [editable]="true">
     <ng-template matStepLabel>Service id:{{value_cal}} </ng-template>

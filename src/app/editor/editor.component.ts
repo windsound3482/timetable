@@ -5,6 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { ZipService } from '../zip.service';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { FreqComponent } from '../freq/freq.component';
+import { RouteComponent } from '../route/route.component';
 
 @Component({
   selector: 'app-editor',
@@ -14,7 +15,7 @@ import { FreqComponent } from '../freq/freq.component';
 export class EditorComponent implements OnInit {
   @ViewChild(CalendarComponent) calencom:CalendarComponent ;
   @ViewChild(FreqComponent) freqcom:FreqComponent;
-  
+  @ViewChild(RouteComponent) routecom:RouteComponent;
   constructor(
     private file:TimetableservService,
     private zip: ZipService,
@@ -40,6 +41,7 @@ export class EditorComponent implements OnInit {
           //set install value for the other tables.
           //database does not have displaycol
           this.value_cal=this.database[i][2];
+          this.value_rou=this.database[i][1];
           this.current=i+1;
           break;
         }
@@ -50,6 +52,7 @@ export class EditorComponent implements OnInit {
       this.dataSource.push(tempint);
     }
     this.calencom.value_cal=this.value_cal;
+    this.routecom.value_rou=this.value_rou;
     console.log(this.value);
     this.freqcom.setfilter(this.value);
   }
@@ -101,6 +104,11 @@ export class EditorComponent implements OnInit {
   oncal_Notify(event){
     this.value_cal=event;
     this.dataSource[this.current.valueOf()][this.dataSource[0].indexOf("service_id")]=this.value_cal;
+  }
+
+  onrou_Notify(event){
+    this.value_rou=event;
+    this.dataSource[this.current.valueOf()][this.dataSource[0].indexOf("route_id")]=this.value_rou;
   }
 
   download(){

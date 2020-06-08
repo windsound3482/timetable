@@ -3,6 +3,7 @@ import { TimetableservService } from '../timetableserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {FormControl} from '@angular/forms';
+import {Output,EventEmitter} from '@angular/core'
 
 @Component({
   selector: 'app-route',
@@ -10,7 +11,7 @@ import {FormControl} from '@angular/forms';
   styleUrls: ['./route.component.css']
 })
 export class RouteComponent implements OnInit {
-
+  @Output() notify= new EventEmitter();
   constructor(
     private file: TimetableservService,
   ) { }
@@ -28,9 +29,8 @@ export class RouteComponent implements OnInit {
   
   
   onSave(){
-  
     this.file.setroute(this.dataSource);
-    window.alert('Your File agency.txt has already been saved!');
+    window.alert('Your File routes.txt has already been saved!');
     this.onReset();
   }
 
@@ -118,6 +118,7 @@ export class RouteComponent implements OnInit {
 
   edit(){
     this.addmode=true;
+    this.notify.emit("");
 
   }
   

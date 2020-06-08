@@ -26,6 +26,22 @@ export class ZipService {
     
   }
 
+
+  private getfile(temp:string[][],filename:string)
+  {
+    let tempstr:string ='';
+    let temprow=temp.length;
+    
+
+    for (var i=0;i<temprow;i++)
+    {
+      let tempstrr:string[]=temp[i];
+      tempstr=tempstr.concat(tempstrr.toString());
+      tempstr=tempstr.concat('\n');
+    }
+    this.jszip.file(filename,tempstr);
+
+  }
   public   getZipContent (file): Array<string>{ 
     let files:Array<string>=[];
     this.jszip=new JSZip();
@@ -53,165 +69,70 @@ export class ZipService {
   {
     this.jszip=new JSZip();
     let temp:string[][]=this.allfile.getagencyList();
-    let tempstr:string ='';
-    let temprow=temp.length;
-    
-
-    for (var i=0;i<temprow;i++)
-    {
-      let tempstrr:string[]=temp[i];
-      tempstr=tempstr.concat(tempstrr.toString());
-      tempstr=tempstr.concat('\n');
-    }
-    this.jszip.file("agency.txt",tempstr);
+    this.getfile(temp,"agency.txt")
     
     temp=this.allfile.gettranslation();
     if (temp.length>1)
     {
-      tempstr ='';
-      temprow=temp.length;
-      for (var i=0;i<temprow;i++)
-      {
-        let tempstrr:string[]=temp[i];
-        tempstr=tempstr.concat(tempstrr.toString());
-        tempstr=tempstr.concat('\n');
-      }
-      this.jszip.file("translations.txt",tempstr);
+      this.getfile(temp,"translations.txt");
     }
 
     let temp1=this.allfile.getfeedinfo();
     if ((temp.length>1) || (temp1.length>1))
     {
-      tempstr ='';
-      temprow=temp.length;
-      for (var i=0;i<temprow;i++)
-      {
-        let tempstrr:string[]=temp[i];
-        tempstr=tempstr.concat(tempstrr.toString());
-        tempstr=tempstr.concat('\n');
-      }
-
-      this.jszip.file("feed_info.txt",tempstr);
+      this.getfile(temp1,"feed_info.txt");
     }
     temp=this.allfile.getshapeTable();
     if (temp.length>1)
     {
-      tempstr ='';
-      temprow=temp.length;
-      for (var i=0;i<temprow;i++)
-      {
-        let tempstrr:string[]=temp[i];
-        tempstr=tempstr.concat(tempstrr.toString());
-        tempstr=tempstr.concat('\n');
-      }
-      this.jszip.file("shapes.txt",tempstr);
+      this.getfile(temp1,"shapes.txt");
     }
 
     temp=this.allfile.getattribution();
     if (temp.length>1)
     {
-      tempstr ='';
-      temprow=temp.length;
-      for (var i=0;i<temprow;i++)
-      {
-        let tempstrr:string[]=temp[i];
-        tempstr=tempstr.concat(tempstrr.toString());
-        tempstr=tempstr.concat('\n');
-      }
-      this.jszip.file("attributions.txt",tempstr);
+      this.getfile(temp1,"attributions.txt");
     }
 
     if (this.calen.getmode()==true)
     {
       temp=this.calen.getcalender();
-      tempstr ='';
-      temprow=temp.length;
-      for (var i=0;i<temprow;i++)
-      {
-        let tempstrr:string[]=temp[i];
-        tempstr=tempstr.concat(tempstrr.toString());
-        tempstr=tempstr.concat('\n');
-      }
-      this.jszip.file("calendar.txt",tempstr);
+      this.getfile(temp1,"calendar.txt");
     }
     temp=this.calen.getexp();
     if (this.calen.getmode()!=true || temp.length>1)
     {
-      tempstr ='';
-      temprow=temp.length;
-      for (var i=0;i<temprow;i++)
-      {
-        let tempstrr:string[]=temp[i];
-        tempstr=tempstr.concat(tempstrr.toString());
-        tempstr=tempstr.concat('\n');
-      }
-      this.jszip.file("calendar_dates.txt",tempstr);
+      this.getfile(temp1,"calendar_dates.txt");
     }
-
 
     temp=this.fare.getfareAttr();
     if (temp.length>1)
     {
-      tempstr ='';
-      temprow=temp.length;
-      for (var i=0;i<temprow;i++)
-      {
-        let tempstrr:string[]=temp[i];
-        tempstr=tempstr.concat(tempstrr.toString());
-        tempstr=tempstr.concat('\n');
-      }
-      this.jszip.file("fare_attributes.txt",tempstr);
+      this.getfile(temp1,"fare_attributes.txt");
     }
 
     temp=this.fare.getfareRule();
     if (temp.length>1)
     {
-      tempstr ='';
-      temprow=temp.length;
-      for (var i=0;i<temprow;i++)
-      {
-        let tempstrr:string[]=temp[i];
-        tempstr=tempstr.concat(tempstrr.toString());
-        tempstr=tempstr.concat('\n');
-      }
-      this.jszip.file("fare_rules.txt",tempstr);
+      this.getfile(temp1,"fare_rules.txt");
     }
 
     temp=this.stop.getstop();
-    tempstr ='';
-    temprow=temp.length;
-    for (var i=0;i<temprow;i++)
-    {
-      let tempstrr:string[]=temp[i];
-      tempstr=tempstr.concat(tempstrr.toString());
-      tempstr=tempstr.concat('\n');
-    }
-    this.jszip.file("stops.txt",tempstr);
+    this.getfile(temp1,"stops.txt");
     
     temp=this.timetable.gettrip();
-    tempstr ='';
-    temprow=temp.length;
-    for (var i=0;i<temprow;i++)
-    {
-      let tempstrr:string[]=temp[i];
-      tempstr=tempstr.concat(tempstrr.toString());
-      tempstr=tempstr.concat('\n');
-    }
-    this.jszip.file("trips.txt",tempstr);
+    this.getfile(temp1,"trips.txt");
+
 
     temp=this.timetable.getfreq();
     if (temp.length>1)
     {
-      tempstr ='';
-      temprow=temp.length;
-      for (var i=0;i<temprow;i++)
-      {
-        let tempstrr:string[]=temp[i];
-        tempstr=tempstr.concat(tempstrr.toString());
-        tempstr=tempstr.concat('\n');
-      }
-      this.jszip.file("frequencies.txt",tempstr);
+      this.getfile(temp1,"frequencies.txt");
     }
+
+    temp=this.timetable.getroute();
+    this.getfile(temp1,"routes.txt");
+
     this.jszip.generateAsync({type:"blob"}).then((blob) => {
       FileSaver.saveAs(blob, "hello.zip");
     });
