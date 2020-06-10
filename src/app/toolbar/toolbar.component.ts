@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ZipService } from '../zip.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -10,13 +9,10 @@ import { ZipService } from '../zip.service';
 export class ToolbarComponent implements OnInit {
   
   constructor(
-    private zip:ZipService,
   ) { }
 
   ngOnInit(): void {
   }
-  download(){
-    this.zip.downloadFile();
-  }
+ 
 
 }

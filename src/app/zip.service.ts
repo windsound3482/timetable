@@ -85,53 +85,53 @@ export class ZipService {
     temp=this.allfile.getshapeTable();
     if (temp.length>1)
     {
-      this.getfile(temp1,"shapes.txt");
+      this.getfile(temp,"shapes.txt");
     }
 
     temp=this.allfile.getattribution();
     if (temp.length>1)
     {
-      this.getfile(temp1,"attributions.txt");
+      this.getfile(temp,"attributions.txt");
     }
 
     if (this.calen.getmode()==true)
     {
       temp=this.calen.getcalender();
-      this.getfile(temp1,"calendar.txt");
+      this.getfile(temp,"calendar.txt");
     }
     temp=this.calen.getexp();
     if (this.calen.getmode()!=true || temp.length>1)
     {
-      this.getfile(temp1,"calendar_dates.txt");
+      this.getfile(temp,"calendar_dates.txt");
     }
 
     temp=this.fare.getfareAttr();
     if (temp.length>1)
     {
-      this.getfile(temp1,"fare_attributes.txt");
+      this.getfile(temp,"fare_attributes.txt");
     }
 
     temp=this.fare.getfareRule();
     if (temp.length>1)
     {
-      this.getfile(temp1,"fare_rules.txt");
+      this.getfile(temp,"fare_rules.txt");
     }
 
     temp=this.stop.getstop();
-    this.getfile(temp1,"stops.txt");
+    this.getfile(temp,"stops.txt");
     
     temp=this.timetable.gettrip();
-    this.getfile(temp1,"trips.txt");
+    this.getfile(temp,"trips.txt");
 
 
     temp=this.timetable.getfreq();
     if (temp.length>1)
     {
-      this.getfile(temp1,"frequencies.txt");
+      this.getfile(temp,"frequencies.txt");
     }
 
     temp=this.timetable.getroute();
-    this.getfile(temp1,"routes.txt");
+    this.getfile(temp,"routes.txt");
 
     this.jszip.generateAsync({type:"blob"}).then((blob) => {
       FileSaver.saveAs(blob, "hello.zip");

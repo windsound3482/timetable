@@ -4,4 +4,32 @@ table {
   
 .example-spacer {
     flex: 1 1 auto;
-  }
+}
+
+.options{
+  clear:both;
+}
+.mat-form-field{
+  float:left;
+  margin-left: 40px;
+}
+
+.left_grid{
+  float:left;
+  width: 50%;
+  font-size: medium;
+}
+
+.right_grid{
+  float:left;
+  margin-left: 10px;
+  font-size:medium;
+}
+
+input:invalid {
+  background-color:tomato;
+}
+
+
+
+

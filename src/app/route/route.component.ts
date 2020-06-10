@@ -31,6 +31,7 @@ export class RouteComponent implements OnInit {
   onSave(){
     this.file.setroute(this.dataSource);
     window.alert('Your File routes.txt has already been saved!');
+    this.notify.emit(this.value_rou)
     this.onReset();
   }
 
@@ -46,9 +47,22 @@ export class RouteComponent implements OnInit {
       }
     }
     this.nameget.setValue(tempname);
+    if (!tempname.includes("route_short_name"))
+    {
+      tempname.push("route_short_name");
+      this.nameget.setValue(tempname);
+      this.changecol();
+    }
+    if (!tempname.includes("route_long_name"))
+    {
+      tempname.push("route_long_name");
+      this.nameget.setValue(tempname);
+      this.changecol();
+    }
     this.changeontable();
     this.addmode=false;
     this.value_rou="";
+    this.current=null;
    
   }
 
@@ -116,10 +130,26 @@ export class RouteComponent implements OnInit {
     this.value_rou=input;
   }
 
+  current=null;
   edit(){
     this.addmode=true;
     this.notify.emit("");
-
+    let idindex=this.dataSource[0].indexOf("route_id");
+    this.current=this.dataSource.length;
+    for (var i=1;i<this.dataSource.length;i++)
+    {
+      if (this.dataSource[i][idindex]==this.value_rou)
+      {
+        this.current=i;
+        break;
+      }
+    }
+    if (this.current==this.dataSource.length)
+    {
+      let tempinput:string[]=new Array(this.dataSource[0].length).fill("");
+      tempinput[idindex]=this.value_rou;
+      this.dataSource.push(tempinput);
+    }
   }
   
 }

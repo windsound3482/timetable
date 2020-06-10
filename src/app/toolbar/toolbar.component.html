@@ -1,26 +1,9 @@
 <mat-card class="example-card">
     <mat-card-header>
       
-      <mat-card-title>TOOLBAR</mat-card-title>
-      <mat-card-subtitle>important</mat-card-subtitle>
-      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>CSV Editor</mat-card-title>
+      <mat-card-subtitle>edit some Files with simple but special CSV editor</mat-card-subtitle>
+      <div mat-card-avatar ><mat-icon> insert_chart_outlined</mat-icon></div>
     </mat-card-header>
     
-    <mat-card-content>
-      <p>
-        Please remeber, each File without SAVE will not save automatically!!!
-      </p>
-      <p>
-        Save is to save the files in to Web(temporary storage). It will lost, when you leave this application. 
-        Download is to save the edited files to your local storage.
-      </p>
-      <p>
-         If you want to delete a line, just delete every data of that line.
-         That line will be automatically deleted after you press Save.
-         The file which not be required will not be downloaded, if it is empty.  
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button (click)="download()">DOWNLOAD</button>
-    </mat-card-actions>
   </mat-card>

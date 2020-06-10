@@ -1,5 +1,5 @@
 .mattabg{
-    width: calc(85vw);
+    width: 100%;
   }
 
 table {
@@ -17,7 +17,7 @@ table {
     
     float:right;
     margin-left:calc(1vw);
-    margin-right:calc(15vw);
+    margin-right:0%;
 }
 
 

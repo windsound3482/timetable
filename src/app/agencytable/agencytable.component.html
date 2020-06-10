@@ -1,13 +1,36 @@
-<app-toolbar></app-toolbar>
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataTable" class="mat-elevation-z8">
       <div *ngFor="let pos of displayedColumns;let i= index">
       <ng-container [matColumnDef]= "pos">
         <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
             <mat-cell *matCellDef="let element"> 
-               
-              <input matInput type="text" style="border:0;outline:0;" [(ngModel)]="element[i]" > 
-              
+              <div *ngIf="pos == 'agency_url'">
+                <input matinput type="url" style="border:0;outline:0;" required [(ngModel)]="element[i]" #uname1="ngModel"> 
+                <mat-error *ngIf="uname1.errors?.required">
+                    URL is required.
+                </mat-error>
+              </div>
+              <div *ngIf="pos == 'agency_phone'">
+                <input matInput type="tel" style="border:0;outline:0;" [(ngModel)]="element[i]" #uname2="ngModel"> 
+                <mat-error *ngIf="uname2.errors?.required">
+                  Phone Number is required.
+                </mat-error>
+              </div>
+              <div *ngIf="pos == 'agency_fare_url'">
+                <input matInput type="url" style="border:0;outline:0;" [(ngModel)]="element[i]" #uname3="ngModel">
+                <mat-error *ngIf="uname3.errors?.required">
+                  URL is required.
+                </mat-error> 
+              </div>
+              <div *ngIf="pos == 'agency_email'">
+                <input type="email" required [(ngModel)]="element[i]"  #uname4="ngModel"> 
+                <mat-error *ngIf="uname4.errors?.required">
+                  E-mail is required.
+                </mat-error>
+              </div>
+              <div *ngIf="pos != 'agency_email'  && pos != 'agency_url' && pos != 'agency_phone'  && pos != 'agency_fare_url'">
+                <input matInput type="text" style="border:0;outline:0;" [(ngModel)]="element[i]" > 
+              </div>
           </mat-cell>
       </ng-container>
       </div>

@@ -82,6 +82,7 @@ export class EditorComponent implements OnInit {
     this.editable=false;
     this.value="";
     this.value_cal="";
+    this.value_rou="";
   }
   
   onSave(stepper:any){
@@ -94,6 +95,9 @@ export class EditorComponent implements OnInit {
 
   onReset(stepper:any){
     stepper.reset();
+    this.calencom.ngOnInit();
+    this.routecom.ngOnInit();
+    this.freqcom.ngOnInit();
     this.ngOnInit();
   }
   
