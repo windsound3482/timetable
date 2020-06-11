@@ -36,7 +36,7 @@
           <mat-label>Trip_id</mat-label>
           <input matInput type="text" [(ngModel)]="value" name="value"  [disabled]="editable">
         
-          <button mat-button *ngIf="value"  matSuffix  matStepperNext (click)="edittrip()">
+          <button mat-button *ngIf="value"  matSuffix  matStepperNext   [disabled]="editable" (click)="edittrip()">
             <mat-icon>create</mat-icon>
           </button>
           
@@ -58,14 +58,16 @@
     <app-freq></app-freq>
   </mat-step>
   <mat-step [editable]="true">
-    <ng-template matStepLabel>Save or Cancel  <button mat-icon-button  (click)=" download()" >
-      <mat-icon>cloud_download</mat-icon>
-    </button> </ng-template>
+    <ng-template matStepLabel>Save or Cancel </ng-template>
     <div>
       <button mat-raised-button color="warn" (click)="onSave(stepper)">
         Save 
       </button>
-      &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
+      &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;  
+      <button mat-raised-button color="primary" (click)="onDelete(stepper)">
+        Delete 
+      </button>
+      &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                    
       <button mat-raised-button  (click)=" onReset(stepper)" >
         Reset
       </button>                   

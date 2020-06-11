@@ -30,7 +30,7 @@ export class TimetableservService {
     return this.route;
   }
   constructor() {
-    this.trip=[["trip_id","route_id","route_id"]];
+    this.trip=[["trip_id","route_id","service_id"]];
     this.freq=[["trip_id","start_time","end_time","headway_secs","exact_times"]];
     this.route=[["route_id","route_type","route_short_name"]];
    }

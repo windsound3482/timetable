@@ -55,6 +55,19 @@ export class FreqComponent implements OnInit {
     this.time.setfreq(this.dataSource);
     this.value_trp="";
   }
+
+  onDelete(){
+    let tripidindex=this.displayedColumns.indexOf("trip_id");
+    for (var i=this.database.length-1;i>=0;i--)
+    {
+      if (this.database[i][tripidindex]==this.value_trp)
+      {
+        this.database.splice(i,1);
+      }
+    }
+    this.onSave();
+  }
+
   setfilter(value:string) {
     this.value_trp=value;
     this.dataTable.filter=value; 

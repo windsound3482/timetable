@@ -39,6 +39,7 @@ import { StopComponent } from './stop/stop.component';
 import { InsertDialog } from './stop/stop.component';
 import { FreqComponent } from './freq/freq.component';
 import { RouteComponent } from './route/route.component';
+import { ToolbarStopComponent } from './toolbar-stop/toolbar-stop.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { RouteComponent } from './route/route.component';
     InsertDialog,
     FreqComponent,
     RouteComponent,
+    ToolbarStopComponent,
   ],
   imports: [
     BrowserModule,

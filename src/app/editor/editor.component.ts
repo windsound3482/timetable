@@ -28,7 +28,7 @@ export class EditorComponent implements OnInit {
   editable=false;
   value_cal="";
   value_rou="";
-  current:Number=null;
+  current=null;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   
   
@@ -49,11 +49,11 @@ export class EditorComponent implements OnInit {
     if (this.current==(this.database.length+1))
     {
       let tempint=Array(this.dataSource[0].length).fill("");
+      tempint[this.dataSource[0].indexOf("trip_id")]=this.value;
       this.dataSource.push(tempint);
     }
     this.calencom.value_cal=this.value_cal;
     this.routecom.value_rou=this.value_rou;
-    console.log(this.value);
     this.freqcom.setfilter(this.value);
   }
 
@@ -92,6 +92,15 @@ export class EditorComponent implements OnInit {
     this.onReset(stepper);
     
   }
+  
+  onDelete(stepper:any){
+    this.dataSource.splice(this.current,1);
+    this.file.settrip(this.dataSource);
+    this.freqcom.onDelete();
+    this.onReset(stepper);
+    
+  }
+  
 
   onReset(stepper:any){
     stepper.reset();
@@ -107,12 +116,12 @@ export class EditorComponent implements OnInit {
   
   oncal_Notify(event){
     this.value_cal=event;
-    this.dataSource[this.current.valueOf()][this.dataSource[0].indexOf("service_id")]=this.value_cal;
+    this.dataSource[this.current][this.dataSource[0].indexOf("service_id")]=this.value_cal;
   }
 
   onrou_Notify(event){
     this.value_rou=event;
-    this.dataSource[this.current.valueOf()][this.dataSource[0].indexOf("route_id")]=this.value_rou;
+    this.dataSource[this.current][this.dataSource[0].indexOf("route_id")]=this.value_rou;
   }
 
   download(){

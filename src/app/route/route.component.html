@@ -5,9 +5,21 @@
       <ng-container [matColumnDef]= "pos">
         <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
             <mat-cell *matCellDef="let element"> 
-               
-              <input matInput type="text" style="border:0;outline:0;" [(ngModel)]="element[i]" > 
-              <button mat-button *ngIf="pos=='route_id'" matSuffix  aria-label="edit" [disabled]="addmode" (click)="add_route_input(element[i])">
+               <div *ngIf="pos=='route_type'">
+                <div *ngIf="element[i]=='0'">Tram<mat-icon> tram</mat-icon></div>
+                <div *ngIf="element[i]=='1'">Subway<mat-icon> subway</mat-icon></div>
+                <div *ngIf="element[i]=='2'">Rail<mat-icon>  train</mat-icon></div>
+                <div *ngIf="element[i]=='3'">Bus<mat-icon>directions_bus</mat-icon></div>
+                <div *ngIf="element[i]=='4'">Ferry<mat-icon> directions_boat</mat-icon></div>
+                <div *ngIf="element[i]=='5'">Cable tram<mat-icon> tram</mat-icon></div>
+                <div *ngIf="element[i]=='6'">Aerial lift</div>
+                <div *ngIf="element[i]=='7'">Funicular<mat-icon>terrain</mat-icon></div>
+                <div *ngIf="element[i]=='11'">Trolleybus</div>
+                <div *ngIf="element[i]=='12'">Monorail<mat-icon>tram</mat-icon></div>
+              </div>
+              <input matInput *ngIf="pos!='route_type'" type="text" style="border:0;outline:0;" [(ngModel)]="element[i]" > 
+              
+              <button mat-button *ngIf="pos=='route_id'" matSuffix color="primary"  aria-label="edit" [disabled]="addmode" (click)="add_route_input(element[i])">
                 <mat-icon>create</mat-icon>
               </button>
           </mat-cell>

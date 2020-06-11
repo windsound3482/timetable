@@ -6,6 +6,8 @@ import {FormControl} from '@angular/forms';
 import * as mapboxgl from 'mapbox-gl';
 import { StopservService } from '../stopserv.service';
 
+
+
 @Component({
   selector: 'app-stop',
   templateUrl: './stop.component.html',
@@ -16,8 +18,8 @@ export class StopComponent implements OnInit {
   dataSource :string[][];
   database :string[][]; 
   dataTable : MatTableDataSource<string[]>;
-  names:string[]=["stop_code","stop_desc","stop_url","location_type","stop_timezone","wheelchair_boarding","level_id","platform_code"];
-  defaultnames:string[]=["stop_id","stop_name","stop_lat","stop_lon","zone_id","parent_station"];
+  names:string[]=["location_type","parent_station","stop_code","stop_desc","stop_url","stop_timezone","wheelchair_boarding","level_id","platform_code"];
+  defaultnames:string[]=["stop_id","stop_name","stop_lat","stop_lon","zone_id"];
   nameget = new FormControl();
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor(
@@ -28,7 +30,7 @@ export class StopComponent implements OnInit {
   current:number;
   currentvalue:string[];
   edit(){
-    let idindex=this.displayedColumns.indexOf("stop_id");
+    let idindex=this.dataSource[0].indexOf("stop_id");
     let flag=true;
     for (var i=1;i<this.dataSource.length;i++)
     {
@@ -73,10 +75,10 @@ export class StopComponent implements OnInit {
     this.onReset();
   }
 
-  createElement(i:number,idindex:number,latindex:number,lonindex:number){
+  createElement(id,lat,lon){
     var ell = document.createElement('div');
         ell.innerHTML = "<span class=\"material-icons\">place</span>";
-        ell.id = this.dataSource[i][idindex];
+        ell.id = id;
         ell.addEventListener('click', () => 
           { 
             if (this.addmode || this.editmode) 
@@ -84,7 +86,7 @@ export class StopComponent implements OnInit {
             this.value= ell.id;
           }); 
         new mapboxgl.Marker(ell)
-        .setLngLat([parseFloat(this.dataSource[i][lonindex]), parseFloat(this.dataSource[i][latindex])])
+        .setLngLat([lon, lat])
         .addTo(this.map);
   }
   onDelete(){
@@ -98,31 +100,10 @@ export class StopComponent implements OnInit {
         el.parentNode.removeChild( el );
     this.onSave();
   }
-  onReset(){
-   
-    let tempdata=this.stops.getstop();
-    if (tempdata!=this.dataSource)
-    { 
-      this.displayedColumns=[];
-      this.dataSource=this.stops.getstop();
-      let name:Array<string>= (this.dataSource)[0];
-      let tempname:string[]=[];
-      for (let i=0;i<name.length;i++){
-        this.displayedColumns.push(name[i]);
-        if (this.names.includes(name[i]))
-        {
-          tempname.push(name[i]);
-        }
-      }
-      this.nameget.setValue(tempname);
-      this.database=this.dataSource.slice(1);
-      this.dataTable=new MatTableDataSource<string[]>(this.database);
-      this.dataTable.paginator = this.paginator;
 
-     
-      var tempmap=document.getElementById("map");
+  getstation(type,parentstation){
+    var tempmap=document.getElementById("map");
       tempmap.innerHTML=null;
-      
       this.map=new mapboxgl.Map({
         container: 'map', // container id
         style: this.stops.getstyle()
@@ -131,15 +112,38 @@ export class StopComponent implements OnInit {
         zoom: 5 // starting zoom
       });
       this.map.addControl(new mapboxgl.NavigationControl());
-      let idindex=this.displayedColumns.indexOf("stop_id");
-      let latindex=this.displayedColumns.indexOf("stop_lat");
-      let lonindex=this.displayedColumns.indexOf("stop_lon");
-      
+     
+      let latindex=this.dataSource[0].indexOf("stop_lat");
+      let lonindex=this.dataSource[0].indexOf("stop_lon");
+     
+    let index=[];
+    for (var i=0;i<4;i++)
+    {
+      index.push(this.dataSource[0].indexOf(this.displayedColumns[i]));
+    }
+    console.log(index);
+    this.database=[];
+    let typeindex=this.dataSource[0].indexOf("location_type");
+    let parentindex=this.dataSource[0].indexOf("parent_station");
+   
       for (var i=1;i<this.dataSource.length;i++)
       {
-        this.createElement(i,idindex,latindex,lonindex)
+        if (((type==1) && !this.dataSource[i][parentindex]) || ((type!=1) && (this.dataSource[i][parentindex]==parentstation)))
+        {
+          let tempinput=new Array(4).fill("");
+          for (var j=0;j<4;j++)
+            if (index[j]>-1){
+                tempinput[j]=this.dataSource[i][index[j]];
+            }
+          this.database.push(tempinput);
+          if (this.dataSource[i][latindex] && this.dataSource[i][lonindex])
+           this.createElement(tempinput[0],this.dataSource[i][latindex].valueOf(),this.dataSource[i][lonindex].valueOf())
+        }
       }
-      if (this.dataSource.length>1)
+      this.dataTable=new MatTableDataSource<string[]>(this.database);
+      this.dataTable.paginator = this.paginator;
+
+      if ((type==1) && (this.dataSource.length>1)) 
       {
         this.map.flyTo({
           center: [
@@ -149,6 +153,36 @@ export class StopComponent implements OnInit {
           essential: true // this animation is considered essential with respect to prefers-reduced-motion
         });
       }
+  }
+
+
+  onReset(){
+    let tempdata=this.stops.getstop();
+    if (tempdata!=this.dataSource)
+    { 
+      this.displayedColumns=["stop_id","stop_name","location_type","parent_station"];
+      this.dataSource=this.stops.getstop();
+      let name:Array<string>= (this.dataSource)[0];
+      let tempname:string[]=[];
+      for (let i=0;i<name.length;i++){
+        if (this.names.includes(name[i]))
+        {
+          tempname.push(name[i]);
+        }
+      }
+      this.nameget.setValue(tempname);
+      if (!tempname.includes("parent_station"))
+      {
+        tempname.push("parent_station");
+        this.changecol();
+      }
+      if (!tempname.includes("location_type"))
+      {
+        tempname.push("location_type");
+        this.changecol();
+      }
+
+      this.getstation(1,"");
     }
     this.value="";
     this.addmode=true;
@@ -161,26 +195,14 @@ export class StopComponent implements OnInit {
   editmode=false;
   ngOnInit(): void {
     this.onReset();
-    console.log(this.dataSource);
     this.map.on('click', (e) => {
       if (this.editmode)
       {
         var el=document.getElementById(this.value);
         el.parentNode.removeChild( el );
-        var newel = document.createElement('div');
-        newel.innerHTML = "<span class=\"material-icons\">place</span>";
-        newel.id =this.value;
-        newel.addEventListener('click', (event) => 
-        { 
-          if (this.addmode || this.editmode) 
-               return;
-          this.value=newel.id;
-        }); 
-        new mapboxgl.Marker(newel)
-          .setLngLat([e.lngLat.lng, e.lngLat.lat])
-          .addTo(this.map);
-        this.dataSource[this.current][this.displayedColumns.indexOf("stop_lat")]=e.lngLat.lat.toString();
-        this.dataSource[this.current][this.displayedColumns.indexOf("stop_lon")]=e.lngLat.lng.toString();
+        this.createElement(this.value, e.lngLat.lat,e.lngLat.lng);
+        this.dataSource[this.current][this.dataSource[0].indexOf("stop_lat")]=e.lngLat.lat.toString();
+        this.dataSource[this.current][this.dataSource[0].indexOf("stop_lon")]=e.lngLat.lng.toString();
         return;
         
       }
@@ -194,26 +216,14 @@ export class StopComponent implements OnInit {
         if (!result)
         { window.alert("You need an ID to define the stop!!!");}
         else{
-          var el = document.createElement('div');
-          el.innerHTML = "<span class=\"material-icons\">place</span>";
-          el.id = result;
-          el.addEventListener('click', (event) => 
-            { 
-              if (this.addmode || this.editmode) 
-                return;
-              this.value=el.id;
-            }
-          ); 
-          this.value = result;
-          new mapboxgl.Marker(el)
-          .setLngLat([e.lngLat.lng, e.lngLat.lat])
-          .addTo(this.map);
-          let tempinput=new Array(this.displayedColumns.length).fill("");
-          tempinput[this.displayedColumns.indexOf("stop_id")]=this.value;
-          tempinput[this.displayedColumns.indexOf("stop_lat")]=e.lngLat.lat.toString();
-          tempinput[this.displayedColumns.indexOf("stop_lon")]=e.lngLat.lng.toString();
+          this.createElement(result, e.lngLat.lat,e.lngLat.lng);
+          this.value=result;
+          let tempinput=new Array(this.dataSource[0].length).fill("");
+          tempinput[this.dataSource[0].indexOf("stop_id")]=this.value;
+          tempinput[this.dataSource[0].indexOf("stop_lat")]=e.lngLat.lat.toString();
+          tempinput[this.dataSource[0].indexOf("stop_lon")]=e.lngLat.lng.toString();
           this.dataSource.push(tempinput);
-          this.database=this.dataSource.slice(1);
+          this.database.push([this.value,"","",""]);
           this.dataTable=new MatTableDataSource<string[]>(this.database);
           this.dataTable.paginator = this.paginator;
         }
@@ -228,15 +238,14 @@ export class StopComponent implements OnInit {
   changecol(){
     var value=this.nameget.value;
     let add=false;
-    var tempnames:string[]=this.displayedColumns.slice();
+    var tempnames:string[]=this.dataSource[0].slice();
     for (var i=0;i<value.length;i++)
     {
-      if (this.displayedColumns.includes(value[i])==false)
+      if (this.dataSource[0].includes(value[i])==false)
       {
-        this.displayedColumns.push(value[i]);
-        this.dataSource.splice(0,1,this.displayedColumns);
+        this.dataSource[0].push(value[i]);
         add=true;
-        
+        break;
       }
       else{
         let tempin=tempnames.indexOf(value[i]);
@@ -244,21 +253,15 @@ export class StopComponent implements OnInit {
       }
     } 
     if (add==false){
-     
       for (var i=0;i<this.defaultnames.length;i++)
       {
         tempnames.splice(tempnames.indexOf(this.defaultnames[i]),1);
       }
-      let tempindex=this.displayedColumns.indexOf(tempnames[0]);
-      this.displayedColumns.splice(tempindex,1);
-      this.dataSource.splice(0,1,this.displayedColumns);
-      for (var j=0;j<this.database.length;j++)
-          this.database[j].splice(tempindex,1);
+      let tempindex=this.dataSource[0].indexOf(tempnames[0]);
+      for (var j=0;j<this.dataSource.length;j++)
+          this.dataSource[j].splice(tempindex,1);
     }
-    this.dataTable=new MatTableDataSource<string[]>(this.database);
-    this.dataTable.paginator = this.paginator;
   }
-  
 }
 
 @Component({
