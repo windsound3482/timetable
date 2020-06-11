@@ -43,22 +43,26 @@ export class StopComponent implements OnInit {
     }
     if (flag)
     {
-      window.alert("The Stop you want to edit must be add at first!!!");
-      return;
+      this.current=this.dataSource.length;
+      let tempint=Array(this.dataSource.length).fill("");
+      tempint[idindex]=this.value;
+      tempint[this.dataSource[0].indexOf("location_type")]=this.addtype;
+      this.dataSource.push(tempint);
     }
     let lonindex=this.displayedColumns.indexOf("stop_lon");
     let latindex=this.displayedColumns.indexOf("stop_lat");
-    if (lonindex>=0 && latindex>=0)
+    if (this.dataSource[this.current][lonindex])
     {
       this.map.flyTo({
         center: [
-          parseFloat(this.dataSource[1][lonindex]),
-          parseFloat(this.dataSource[1][latindex])
+          parseFloat(this.dataSource[this.current][lonindex]),
+          parseFloat(this.dataSource[this.current][latindex])
         ],
         essential: true // this animation is considered essential with respect to prefers-reduced-motion
       });
     }
     this.currentvalue=this.dataSource[this.current];
+    this.addtype=this.currentvalue[this.dataSource[0].indexOf("location_type")]
     this.editmode=true;
   }
 
@@ -121,7 +125,6 @@ export class StopComponent implements OnInit {
     {
       index.push(this.dataSource[0].indexOf(this.displayedColumns[i]));
     }
-    console.log(index);
     this.database=[];
     let typeindex=this.dataSource[0].indexOf("location_type");
     let parentindex=this.dataSource[0].indexOf("parent_station");
@@ -183,6 +186,8 @@ export class StopComponent implements OnInit {
       }
 
       this.getstation(1,"");
+      this.currenttype=["0","1"];
+      this.addtype="0";
     }
     this.value="";
     this.addmode=true;
@@ -193,13 +198,16 @@ export class StopComponent implements OnInit {
   value:string="";
   addmode=true;
   editmode=false;
+  addtype="0";
   ngOnInit(): void {
     this.onReset();
     this.map.on('click', (e) => {
+      
       if (this.editmode)
       {
         var el=document.getElementById(this.value);
-        el.parentNode.removeChild( el );
+        if (el)
+          el.parentNode.removeChild( el );
         this.createElement(this.value, e.lngLat.lat,e.lngLat.lng);
         this.dataSource[this.current][this.dataSource[0].indexOf("stop_lat")]=e.lngLat.lat.toString();
         this.dataSource[this.current][this.dataSource[0].indexOf("stop_lon")]=e.lngLat.lng.toString();
@@ -222,8 +230,9 @@ export class StopComponent implements OnInit {
           tempinput[this.dataSource[0].indexOf("stop_id")]=this.value;
           tempinput[this.dataSource[0].indexOf("stop_lat")]=e.lngLat.lat.toString();
           tempinput[this.dataSource[0].indexOf("stop_lon")]=e.lngLat.lng.toString();
+          tempinput[this.dataSource[0].indexOf("location_type")]=this.addtype;
           this.dataSource.push(tempinput);
-          this.database.push([this.value,"","",""]);
+          this.database.push([this.value,"",this.addtype,""]);
           this.dataTable=new MatTableDataSource<string[]>(this.database);
           this.dataTable.paginator = this.paginator;
         }
@@ -234,7 +243,7 @@ export class StopComponent implements OnInit {
  
   name: string;
  
-
+  currenttype:string[]=[];
   changecol(){
     var value=this.nameget.value;
     let add=false;

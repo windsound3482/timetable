@@ -5,9 +5,18 @@
           <ng-container [matColumnDef]= "pos">
             <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
                 <mat-cell *matCellDef="let element"> 
-                
-                  {{element[i]}} 
-              
+                  <div *ngIf="pos=='location_type'">
+                    <div *ngIf="element[i]=='0'">Stop (or Platform)<mat-icon>commute</mat-icon></div>
+                    <div *ngIf="!element[i]">Stop (or Platform)<mat-icon>commute</mat-icon></div>
+                    <div *ngIf="element[i]=='1'">Station<mat-icon> subway</mat-icon></div>
+                    <div *ngIf="element[i]=='2'">Entrance/Exit<mat-icon>exit_to_app</mat-icon></div>
+                    <div *ngIf="element[i]=='3'">Generic Node<mat-icon>airline_seat_recline_normal</mat-icon></div>
+                    <div *ngIf="element[i]=='4'">Boarding Area<mat-icon> rowing</mat-icon></div>
+                  </div>
+                  <div *ngIf="pos!='location_type'">
+                    {{element[i]}} 
+                  </div>
+                  
               </mat-cell>
           </ng-container>
           </div>
@@ -20,7 +29,7 @@
     </div>
     <mat-toolbar class="mattabg">
       
-      <mat-form-field>
+      
         <mat-select [formControl]="nameget" (selectionChange)="changecol()" multiple>
           <mat-select-trigger>
             {{nameget.value ? nameget.value[0] : ''}}
@@ -32,9 +41,23 @@
             {{name}}
           </mat-option>
         </mat-select>
-      </mat-form-field>
+     
+      &nbsp;&nbsp;&nbsp;
+      
+      <mat-select [value]="addtype" [disabled]="editmode">
+        <mat-option *ngFor="let x of currenttype" [value]="x" >
+          <div *ngIf="!x">Stop (or Platform)</div>
+          <div *ngIf="x=='0'">Stop (or Platform)</div>
+          <div *ngIf="x=='1'">Station</div>
+          <div *ngIf="x=='2'">Entrance/Exit</div>
+          <div *ngIf="x=='3'">Generic Node</div>
+          <div *ngIf="x=='4'">Boarding Area</div>
+        </mat-option>
+      </mat-select>
       &nbsp;&nbsp;&nbsp;
       <mat-checkbox [(ngModel)]="addmode" name="addmode" [disabled]="editmode ">Addmode</mat-checkbox>
+     
+    
       <span class="example-spacer"></span>
       <button mat-raised-button color="warn" (click)="onSave()" [disabled]="!editmode ">
         Save 
@@ -53,13 +76,19 @@
           <input matInput type="text" [(ngModel)]="value" name="value" >
         
           <button mat-button *ngIf="value" matSuffix  aria-label="edit" (click)="edit()">
-            <mat-icon>create</mat-icon>
+            <mat-icon>edit_location</mat-icon>
+          </button>
+          <button mat-button *ngIf="value" matSuffix  >
+            <mat-icon>zoom_in</mat-icon>
+          </button>
+          <button mat-button *ngIf="value" matSuffix  >
+            <mat-icon>zoom_out</mat-icon>
           </button>
           
       </mat-form-field>
       </p>
       <div *ngIf="editmode">
-        <div *ngFor="let attrs of displayedColumns;let i=index">
+        <div *ngFor="let attrs of dataSource[0];let i=index">
           <div *ngIf='attrs=="stop_lat" || attrs=="stop_lon"'>
             <mat-form-field >
                 <mat-label>{{attrs}}</mat-label>

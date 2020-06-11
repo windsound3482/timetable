@@ -15,59 +15,87 @@ export class AllfileService {
   attribution:string[][]=[];
   translation:string[][]=[];
   public setFile(file:Blob,filename:string) {
-    let items:Array<Array<string>>=[]; 
+    let items:string[][]=[]; 
     var reader:FileReader = new FileReader();
     reader.onload = (progressEvent) => {
   
       // By lines
-      var lines = (reader.result as string).replace(/"/g,"").replace(/\r\n/g, "\n").split("\n");
+      var lines = (reader.result as string).replace(/\r\n/g, "\n").split("\n");
       for(var line = 0; line < lines.length; line++){
-        items[line]=(lines[line] as string).split(',');
+        let tempstring:string[]=[];
+        let flag=false;
+        let templine:string=lines[line] as string;
+        let tempitem:string="";
+        for (var i=0;i<templine.length;i++)
+        {
+          if (templine[i]=='"')
+          {
+            flag=!flag;
+          }
+          else
+          if (templine[i]==',')
+          {
+            if (!flag)
+            {
+              tempstring.push(tempitem);
+              tempitem="";
+            }
+            else
+              tempitem=tempitem.concat(templine[i]);
+          }
+          else
+          tempitem=tempitem.concat(templine[i]);
+        }
+        tempstring.push(tempitem);
+        items.push(tempstring);
       }
     };
     reader.readAsText(file);
-    if (filename==="agency.txt")
-      this.agencylist=items;
-    if (filename==="feed_info.txt")
-      this.feedinfo=items;
-
-    if (filename==="shapes.txt")
-      this.shapetable=items;
-    
-    if (filename==="attributions.txt")
-      this.attribution=items;
-
-    if (filename==="translations.txt")
-      this.translation=items;
-
-    if (filename==="calendar.txt")
+    //set file to each special container
     {
-      this.calendar.setcalender(items);
-      this.calendar.setmode(true);
+      if (filename==="agency.txt")
+        this.agencylist=items;
+      if (filename==="feed_info.txt")
+        this.feedinfo=items;
+
+      if (filename==="shapes.txt")
+        this.shapetable=items;
+      
+      if (filename==="attributions.txt")
+        this.attribution=items;
+
+      if (filename==="translations.txt")
+        this.translation=items;
+
+      if (filename==="calendar.txt")
+      {
+        this.calendar.setcalender(items);
+        this.calendar.setmode(true);
+      }
+      if (filename==="calendar_dates.txt")
+        this.calendar.setexp(items);
+      
+      if (filename==="fare_attributes.txt") 
+        this.fare.setfareAttr(items);
+      
+      if (filename==="fare_rules.txt") 
+        this.fare.setfareRule(items);
+      
+      if (filename==="levels.txt")
+        this.stop.setlevel(items);
+
+      if (filename==="stops.txt")
+        this.stop.setstop(items);
+
+      if (filename==="trips.txt")
+        this.timetable.settrip(items);
+
+      if (filename==="frequencies.txt")
+        this.timetable.setfreq(items);
+
+      if (filename==="routes.txt")
+        this.timetable.setroute(items);
     }
-    if (filename==="calendar_dates.txt")
-      this.calendar.setexp(items);
-    
-    if (filename==="fare_attributes.txt") 
-      this.fare.setfareAttr(items);
-    
-    if (filename==="fare_rules.txt") 
-      this.fare.setfareRule(items);
-    
-    if (filename==="levels.txt")
-      this.stop.setlevel(items);
-
-    if (filename==="stops.txt")
-      this.stop.setstop(items);
-
-    if (filename==="trips.txt")
-      this.timetable.settrip(items);
-
-    if (filename==="frequencies.txt")
-      this.timetable.setfreq(items);
-
-    if (filename==="routes.txt")
-      this.timetable.setroute(items);
     
   }
   //get and set List to every CSV functions

@@ -28,3 +28,7 @@ table {
     max-width:calc(40vw);
     font-size: medium;
 }
+
+.mat-select{
+  width:20%;
+}

@@ -36,6 +36,7 @@ export class ZipService {
     for (var i=0;i<temprow;i++)
     {
       let tempstrr:string[]=temp[i];
+      tempstrr=tempstrr.map(x => x='"'.concat(x,'"'));
       tempstr=tempstr.concat(tempstrr.toString());
       tempstr=tempstr.concat('\n');
     }
