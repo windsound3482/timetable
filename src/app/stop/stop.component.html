@@ -16,7 +16,9 @@
                   <div *ngIf="pos!='location_type'">
                     {{element[i]}} 
                   </div>
-                  
+                  <button mat-button *ngIf="pos=='stop_id'" matSuffix color="primary"  aria-label="edit" [disabled]="editmode" (click)="add_stop_input(element[i])">
+                    <mat-icon>create</mat-icon>
+                  </button>
               </mat-cell>
           </ng-container>
           </div>
@@ -44,7 +46,7 @@
      
       &nbsp;&nbsp;&nbsp;
       
-      <mat-select [value]="addtype" [disabled]="editmode">
+      <mat-select [(ngModel)]="addtype" [disabled]="editmode">
         <mat-option *ngFor="let x of currenttype" [value]="x" >
           <div *ngIf="!x">Stop (or Platform)</div>
           <div *ngIf="x=='0'">Stop (or Platform)</div>
@@ -73,15 +75,15 @@
       <p>
       <mat-form-field class="example-form-field">
           <mat-label>stop_id</mat-label>
-          <input matInput type="text" [(ngModel)]="value" name="value" >
+          <input matInput type="text" [(ngModel)]="value" name="value" [disabled]="editmode" >
         
-          <button mat-button *ngIf="value" matSuffix  aria-label="edit" (click)="edit()">
+          <button mat-button *ngIf="value" matSuffix  aria-label="edit" (click)="edit()" [disabled]="editmode" >
             <mat-icon>edit_location</mat-icon>
           </button>
-          <button mat-button *ngIf="value" matSuffix  >
+          <button mat-button *ngIf="value" matSuffix  [disabled]="editmode" (click)="editchild()">
             <mat-icon>zoom_in</mat-icon>
           </button>
-          <button mat-button *ngIf="value" matSuffix  >
+          <button mat-button matSuffix [disabled]="editmode || !this.currentparent" (click)="editparent()">
             <mat-icon>zoom_out</mat-icon>
           </button>
           
@@ -89,22 +91,17 @@
       </p>
       <div *ngIf="editmode">
         <div *ngFor="let attrs of dataSource[0];let i=index">
-          <div *ngIf='attrs=="stop_lat" || attrs=="stop_lon"'>
+          <div *ngIf='attrs=="stop_lat" || attrs=="stop_lon" || attrs=="stop_lon" || attrs=="location_type" || attrs=="parent_station"' >
             <mat-form-field >
                 <mat-label>{{attrs}}</mat-label>
                 <input matInput type="text" [(ngModel)]="currentvalue[i]" [ngModelOptions]="{standalone: true}" readonly>
               
             </mat-form-field>
           </div>
-          <div *ngIf='attrs!="stop_id" && attrs!="stop_lat" && attrs!="stop_lon"'>
+          <div *ngIf='attrs!="stop_id" && attrs!="stop_lat" && attrs!="stop_lon" && attrs!="location_type" && attrs!="parent_station"'>
             <mat-form-field >
                 <mat-label>{{attrs}}</mat-label>
                 <input matInput type="text" [(ngModel)]="currentvalue[i]" [ngModelOptions]="{standalone: true}">
-                
-                <button mat-button *ngIf='attrs=="parent_station" && currentvalue[i]' matSuffix  aria-label="editparent" (click)="editparent()">
-                  <mat-icon>create</mat-icon>
-                </button>
-                
             </mat-form-field>
           </div>
         </div>
