@@ -17,6 +17,20 @@ export class LevelPickerComponent implements OnInit {
   ) { }
 
   onsave(){
+    
+    for (var i=this.dataSource.length-1;i>0;i--){
+      let flag=false;
+      for (var j=0;j<this.dataSource[0].length;j++)
+      {
+        if (this.dataSource[i][j])
+        {
+          flag=true;
+          break;
+        }
+      }
+      if (!flag)
+        this.dataSource.splice(i,1);
+    }
     this.file.setlevel(this.dataSource);
     this.ngOnInit();
   }

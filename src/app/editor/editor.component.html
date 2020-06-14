@@ -16,7 +16,7 @@
               <mat-cell *matCellDef="let element"> 
                 
                 {{element[i]}} 
-                <button mat-button *ngIf="i==0" matSuffix  aria-label="edit" (click)="add_trip_input(element[i])">
+                <button mat-button *ngIf="i==0" matSuffix  aria-label="edit" (click)="add_trip_input(element[i])" [disabled]="editable"> 
                   <mat-icon>create</mat-icon>
                 </button>
             </mat-cell>
@@ -44,6 +44,51 @@
       
   </p>
   </mat-step> 
+  <mat-step [editable]="true">
+    <ng-template matStepLabel>Trip Edit </ng-template>
+    <mat-form-field >
+      <mat-select [formControl]="nameget" (selectionChange)="changecol()" multiple>
+        <mat-select-trigger>
+          {{nameget.value ? nameget.value[0] : ''}}
+          <span *ngIf="nameget.value?.length > 1" class="example-additional-selection">
+            (+{{nameget.value.length - 1}} {{nameget.value?.length === 2 ? 'other' : 'others'}})
+          </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let name of names" [value]="name">{{name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="options"> </div>
+    <div *ngIf="editable">
+      <div *ngFor="let attrs of dataSource[0];let i=index">
+        <div *ngIf='attrs=="trip_headsign" || attrs=="trip_short_name" || attrs=="block_id" || attrs=="shape_id"'>
+          <mat-form-field >
+              <mat-label>{{attrs}}</mat-label>
+              <input matInput type="text" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+        <div *ngIf='attrs=="direction_id"'>
+          <mat-form-field>
+            <mat-label>{{attrs}}</mat-label>
+            <mat-select [(ngModel)]="dataSource[current][i]" name="available">
+              <mat-option value="0">in one direction</mat-option>
+              <mat-option value="1">in opposite direction</mat-option>
+              <mat-option value="2">Not possible</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf='attrs=="wheelchair_accessible" || attrs=="bikes_allowed"'>
+          <mat-form-field>
+            <mat-label>{{attrs}}</mat-label>
+            <mat-select [(ngModel)]="dataSource[current][i]" name="available">
+              <mat-option value="0">No information</mat-option>
+              <mat-option value="1">Can Be</mat-option>
+              <mat-option value="2">Not Allowed</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </mat-step>
   <mat-step [completed]="value_rou!='' " [editable]="true">
     <ng-template matStepLabel>Route id:{{value_rou}} </ng-template>
     <app-route (notify)="onrou_Notify($event)"></app-route>

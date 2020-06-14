@@ -43,6 +43,7 @@ import { ToolbarStopComponent } from './toolbar-stop/toolbar-stop.component';
 import { TimeZoneSelectComponent } from './time-zone-select/time-zone-select.component';
 import { LevelPickerComponent } from './level-picker/level-picker.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

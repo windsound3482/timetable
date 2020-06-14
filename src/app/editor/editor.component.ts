@@ -6,6 +6,7 @@ import { ZipService } from '../zip.service';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { FreqComponent } from '../freq/freq.component';
 import { RouteComponent } from '../route/route.component';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-editor',
@@ -62,18 +63,50 @@ export class EditorComponent implements OnInit {
     this.displayedColumns=["trip_id","route_id","service_id"];
     this.dataSource=this.file.gettrip();
     
-    
+    let name:Array<string>= (this.dataSource)[0];
+    let tempname:string[]=[];
+    for (let i=0;i<name.length;i++){
+      if (this.names.includes(name[i]))
+      {
+        tempname.push(name[i]);
+      }
+    }
+    this.nameget.setValue(tempname);
+
     let trip_index=this.dataSource[0].indexOf("trip_id");
     let route_index=this.dataSource[0].indexOf("route_id");
     let service_index=this.dataSource[0].indexOf("service_id");
     this.database=[];
+    let chairindex=this.dataSource[0].indexOf("wheelchair_accessible");
+    let bikeindex=this.dataSource[0].indexOf("bikes_allowed");
+
+    if (chairindex>-1)
+    {
+      for (var i=1;i<this.dataSource.length;i++)
+      {
+        if (this.dataSource[i][chairindex]=="")
+        {
+          this.dataSource[i][chairindex]="0";
+        }
+      }
+    }
+
+    if (bikeindex>-1)
+    {
+      for (var i=1;i<this.dataSource.length;i++)
+      {
+        if (this.dataSource[i][bikeindex]=="")
+        {
+          this.dataSource[i][bikeindex]="0";
+        }
+      }
+    }
     for (var i=1;i<this.dataSource.length;i++)
     {
       let tempinput=[];
       tempinput.push(this.dataSource[i][trip_index]);
       tempinput.push(this.dataSource[i][route_index]);
       tempinput.push(this.dataSource[i][service_index]);
-      
       this.database.push(tempinput);
     }
     this.dataTable=new MatTableDataSource<string[]>(this.database);
@@ -84,7 +117,11 @@ export class EditorComponent implements OnInit {
     this.value_cal="";
     this.value_rou="";
   }
-  
+
+
+  names:string[]=["trip_headsign","trip_short_name","direction_id","block_id","shape_id","wheelchair_accessible","bikes_allowed"];
+  defaultnames:string[]=["route_id","service_id","trip_id"];
+  nameget = new FormControl();
   onSave(stepper:any){
     this.file.settrip(this.dataSource);
     this.freqcom.onSave();
@@ -127,5 +164,38 @@ export class EditorComponent implements OnInit {
   download(){
     this.zip.downloadFile();
   }
- 
+  
+  changecol(){
+    var value=this.nameget.value;
+    let add=false;
+    var tempnames:string[]=this.dataSource[0].slice();
+    for (var i=0;i<value.length;i++)
+    {
+      if (this.dataSource[0].includes(value[i])==false)
+      {
+        this.dataSource[0].push(value[i]);
+        if (value[i]=="direction_id" || value[i]=="wheelchair_accessible" || value[i]=="bikes_allowed")
+          for (var j=1;j<this.dataSource.length;j++)
+            this.dataSource[j].push("0");
+        else
+          for (var j=1;j<this.dataSource.length;j++)
+            this.dataSource[j].push("");
+        add=true;
+        break;
+      }
+      else{
+        let tempin=tempnames.indexOf(value[i]);
+        tempnames.splice(tempin,1);
+      }
+    } 
+    if (add==false){
+      for (var i=0;i<this.defaultnames.length;i++)
+      {
+        tempnames.splice(tempnames.indexOf(this.defaultnames[i]),1);
+      }
+      let tempindex=this.dataSource[0].indexOf(tempnames[0]);
+      for (var j=0;j<this.dataSource.length;j++)
+          this.dataSource[j].splice(tempindex,1);
+    }
+  }
 }
