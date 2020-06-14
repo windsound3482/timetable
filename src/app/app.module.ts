@@ -40,6 +40,8 @@ import { InsertDialog } from './stop/stop.component';
 import { FreqComponent } from './freq/freq.component';
 import { RouteComponent } from './route/route.component';
 import { ToolbarStopComponent } from './toolbar-stop/toolbar-stop.component';
+import { TimeZoneSelectComponent } from './time-zone-select/time-zone-select.component';
+import { LevelPickerComponent } from './level-picker/level-picker.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +71,8 @@ import { ToolbarStopComponent } from './toolbar-stop/toolbar-stop.component';
     FreqComponent,
     RouteComponent,
     ToolbarStopComponent,
+    TimeZoneSelectComponent,
+    LevelPickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -83,6 +87,7 @@ import { ToolbarStopComponent } from './toolbar-stop/toolbar-stop.component';
       { path: 'FareEditor', component:FareComponent},
       { path: 'StopEditor', component:StopComponent},
       { path: 'TimetableEditor', component:EditorComponent},
+      { path: 'LevelEditor', component:LevelPickerComponent},
     ]),
     MatSidenavModule,
     MatButtonModule,

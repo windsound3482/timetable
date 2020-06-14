@@ -5,8 +5,8 @@ import {MatTableDataSource} from '@angular/material/table';
 import {FormControl} from '@angular/forms';
 import * as mapboxgl from 'mapbox-gl';
 import { StopservService } from '../stopserv.service';
-
-
+import { LevelPickerComponent } from '../level-picker/level-picker.component';
+import { TimeZoneSelectComponent } from '../time-zone-select/time-zone-select.component';
 
 @Component({
   selector: 'app-stop',
@@ -22,6 +22,9 @@ export class StopComponent implements OnInit {
   defaultnames:string[]=["stop_id","stop_name","stop_lat","stop_lon","zone_id"];
   nameget = new FormControl();
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  
+  @ViewChild(LevelPickerComponent) levelcom:LevelPickerComponent;
+  @ViewChild(TimeZoneSelectComponent) tzcom:TimeZoneSelectComponent;
   constructor(
     private stops:StopservService, 
     public dialog: MatDialog,
@@ -30,6 +33,7 @@ export class StopComponent implements OnInit {
   current:number;
   currentvalue:string[];
   edit(){
+    this.editmode=true;
     let idindex=this.dataSource[0].indexOf("stop_id");
     let flag=true;
     for (var i=1;i<this.dataSource.length;i++)
@@ -58,9 +62,10 @@ export class StopComponent implements OnInit {
         essential: true // this animation is considered essential with respect to prefers-reduced-motion
       });
     }
+    
     this.currentvalue=this.dataSource[this.current];
-    this.addtype=this.currentvalue[this.dataSource[0].indexOf("location_type")]
-    this.editmode=true;
+    this.addtype=this.currentvalue[this.dataSource[0].indexOf("location_type")];
+    
   }
 
   editparent(){
@@ -286,6 +291,24 @@ export class StopComponent implements OnInit {
         tempname.push("location_type");
         this.changecol();
       }
+      else
+      {
+        let index=tempname.indexOf("location_type");
+        for (var i=1;i<this.dataSource.length;i++)
+          if (this.dataSource[i][index]="")
+          {
+            this.dataSource[i][index]="0";
+          }
+      }
+      if (tempname.includes("wheelchair_boarding"))
+      {
+        let index=tempname.indexOf("wheelchair_boarding");
+        for (var i=1;i<this.dataSource.length;i++)
+          if (this.dataSource[i][index]="")
+          {
+            this.dataSource[i][index]="0";
+          }
+      }
 
       this.getstation("");
       let latindex=this.dataSource[0].indexOf("stop_lat");
@@ -348,7 +371,7 @@ export class StopComponent implements OnInit {
       if (this.dataSource[0].includes(value[i])==false)
       {
         this.dataSource[0].push(value[i]);
-        if (value[i]=="location_type")
+        if (value[i]=="location_type" || value[i]=="wheelchair_boarding")
           for (var j=1;j<this.dataSource.length;j++)
             this.dataSource[j].push("0");
         else
@@ -375,6 +398,14 @@ export class StopComponent implements OnInit {
 
   add_stop_input(input:string){
     this.value=input;
+  }
+
+  changetimezone(timezone){
+  
+    this.currentvalue[this.dataSource[0].indexOf("stop_timezone")]=timezone;
+  }
+  changelevel(level){
+    this.currentvalue[this.dataSource[0].indexOf("level_id")]=level;
   }
 }
 

@@ -1,0 +1,11 @@
+table {
+    width: 100%;
+}
+
+.mat-elevation-z8{
+    width:50rem,
+}
+
+::ng-deep.mat-menu-panel {
+    max-width: none !important;
+}

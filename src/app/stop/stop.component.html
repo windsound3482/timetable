@@ -70,9 +70,9 @@
       </button>
     </mat-toolbar>
     <p></p>
-    <form class="myoptionclass" >
-      
-      <p>
+
+<div id='map' ></div> 
+<div class="myoptionclass">    
       <mat-form-field class="example-form-field">
           <mat-label>stop_id</mat-label>
           <input matInput type="text" [(ngModel)]="value" name="value" [disabled]="editmode" >
@@ -88,7 +88,7 @@
           </button>
           
       </mat-form-field>
-      </p>
+      <div class="options"> </div>
       <div *ngIf="editmode">
         <div *ngFor="let attrs of dataSource[0];let i=index">
           <div *ngIf='attrs=="stop_lat" || attrs=="stop_lon" || attrs=="stop_lon" || attrs=="location_type" || attrs=="parent_station"' >
@@ -98,16 +98,38 @@
               
             </mat-form-field>
           </div>
-          <div *ngIf='attrs!="stop_id" && attrs!="stop_lat" && attrs!="stop_lon" && attrs!="location_type" && attrs!="parent_station"'>
+          <div *ngIf='attrs=="stop_code" || attrs=="stop_name" || attrs=="stop_desc" || attrs=="zone_id" || attrs=="platform_code"'>
             <mat-form-field >
                 <mat-label>{{attrs}}</mat-label>
                 <input matInput type="text" [(ngModel)]="currentvalue[i]" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
           </div>
+          <div *ngIf='attrs=="stop_url"'>
+            <mat-form-field >
+                <mat-label>{{attrs}}</mat-label>
+                <input matInput type="url" [(ngModel)]="currentvalue[i]" [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
+          </div>
+          <div *ngIf='attrs=="wheelchair_boarding"'>
+            <mat-form-field>
+              <mat-label>{{attrs}}</mat-label>
+              <mat-select [(ngModel)]="currentvalue[i]" name="available">
+                <mat-option value="0">No information </mat-option>
+                <mat-option value="1">Some vehicles can</mat-option>
+                <mat-option value="2">Not possible</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div *ngIf='attrs=="stop_timezone"'>
+            <app-time-zone-select  (notify)="changetimezone($event)" [tznow]="currentvalue[i]"></app-time-zone-select>
+          </div>
+          <div *ngIf='attrs=="level_id"'>
+            <app-level-picker  (notify)="changelevel($event)" [levelnow]="currentvalue[i]"></app-level-picker>
+          </div>
         </div>
       </div>
-    </form>  
-  <div id='map' ></div>
+</div>
+
    
   
 

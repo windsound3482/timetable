@@ -42,5 +42,6 @@ export class StopservService {
   }
   constructor() { 
     this.stop=[["stop_id","stop_name","stop_lat","stop_lon","zone_id","parent_station"]];
+    this.level=[["level_id","level_index","level_name"]];
   }
 }

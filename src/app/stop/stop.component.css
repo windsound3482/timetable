@@ -12,7 +12,7 @@ table {
 
 #map 
 { 
-    width:55%; 
+    width:calc(48vw); 
     height:65%;
     
     float:right;
@@ -22,13 +22,36 @@ table {
 
 
 .myoptionclass {
+    position:relative;
     float:left;
-    margin-left:18px;
     top:25px;
-    max-width:calc(40vw);
+    width:calc(44vw);
     font-size: medium;
 }
 
 .mat-select{
-  width:20%;
+  width:calc(15vw);
+}
+
+input:invalid {
+  background-color:tomato;
+}
+
+.options{
+  clear:both;
+}
+
+.mat-form-field{
+  float:left;
+  margin-left: 30px;
+}
+
+app-time-zone-select{
+  float:left;
+  margin-left: 30px;
+}
+
+app-level-picker{
+  float:left;
+  margin-left: 30px;
 }

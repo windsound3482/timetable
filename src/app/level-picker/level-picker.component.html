@@ -1,0 +1,35 @@
+<mat-form-field class="example-form-field">
+    <mat-label>level</mat-label>
+    <input matInput type="text" [(ngModel)]="level" readonly>
+     <button mat-button [matMenuTriggerFor]="menu" matSuffix mat-icon-button> <mat-icon>swap_vert</mat-icon> </button>
+</mat-form-field>
+   
+    <mat-menu #menu="matMenu" (closed)="onsave()">
+        <div  (click)="$event.stopPropagation()" class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataTable" >
+              <div *ngFor="let pos of dataSource[0];let i= index">
+              <ng-container [matColumnDef]= "pos">
+                <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="setlevel(element[dataSource[0].indexOf('level_id')])"  > 
+                        <input matinput type="text" style="border:0;outline:0;" required [(ngModel)]="element[i]" #uname1="ngModel" (ngModelChange)="setlevel(element[dataSource[0].indexOf('level_id')])"> 
+                        <mat-error *ngIf="uname1.errors?.required && pos!='level_name'">
+                            required.
+                        </mat-error>
+                     
+                  </mat-cell>
+              </ng-container>
+              </div>
+        
+              <mat-header-row *matHeaderRowDef="dataSource[0]"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: dataSource[0];"></mat-row> 
+            </table> 
+            
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+             <mat-toolbar>
+            <button mat-stroked-button (click)="addaLine()">Add a Line</button>
+        </mat-toolbar>
+        </div>
+       
+   
+    </mat-menu>
+
