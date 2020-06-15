@@ -7,7 +7,9 @@ import {Output,EventEmitter} from '@angular/core';
 @Component({
   selector: 'app-stop-picker',
   templateUrl: './stop-picker.component.html',
-  styleUrls: ['./stop-picker.component.css']
+  styleUrls: ['./stop-picker.component.css'],
+  providers: []
+
 })
 export class StopPickerComponent implements OnInit {
   @Input() stopnow:string;
@@ -87,21 +89,23 @@ export class StopPickerComponent implements OnInit {
 
     if (!this.dataSource[0].includes("location_type"))
     {
+      console.log('ja');
       this.dataSource[0].push("location_type");
       for (var j=1;j<this.dataSource.length;j++)
         this.dataSource[j].push("0");
     }
     else
     {
+      console.log("nein");
       let index=this.dataSource[0].indexOf("location_type");
+      console.log(index);
       for (var j=1;j<this.dataSource.length;j++)
-        if (this.dataSource[j][index]="")
+        if (this.dataSource[j][index]=="")
         {
+          console.log("now");
           this.dataSource[j][index]="0";
         }
     }
-    console.log(this.dataSource);
-    this.stops.setstop(this.dataSource);
 
     this.getstation("");
     this.currentparent="";

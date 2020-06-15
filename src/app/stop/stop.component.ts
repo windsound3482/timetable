@@ -11,10 +11,11 @@ import { TimeZoneSelectComponent } from '../time-zone-select/time-zone-select.co
 @Component({
   selector: 'app-stop',
   templateUrl: './stop.component.html',
-  styleUrls: ['./stop.component.css']
+  styleUrls: ['./stop.component.css'],
+  providers:[]
 })
 export class StopComponent implements OnInit {
-  displayedColumns: string[]=[];
+  displayedColumns: string[];
   dataSource :string[][];
   database :string[][]; 
   dataTable : MatTableDataSource<string[]>;
@@ -26,7 +27,7 @@ export class StopComponent implements OnInit {
   @ViewChild(LevelPickerComponent) levelcom:LevelPickerComponent;
   @ViewChild(TimeZoneSelectComponent) tzcom:TimeZoneSelectComponent;
   constructor(
-    private stops:StopservService, 
+    public stops:StopservService, 
     public dialog: MatDialog,
   ) { }
   map: mapboxgl.Map;
@@ -267,11 +268,10 @@ export class StopComponent implements OnInit {
 
 
   onReset(){
-    let tempdata:string[][]=this.stops.getstop();
-    if (tempdata!=this.dataSource)
-    { 
+    if (this.dataSource!=this.stops.getstop())
+    {
       this.displayedColumns=["stop_id","stop_name","location_type","parent_station","platform_code"];
-      this.dataSource=tempdata;
+      this.dataSource=this.stops.getstop();
       let name:Array<string>= (this.dataSource)[0];
       let tempname:string[]=[];
       for (let i=0;i<name.length;i++){
@@ -301,9 +301,9 @@ export class StopComponent implements OnInit {
       }
       else
       {
-        let index=tempname.indexOf("location_type");
+        let index=this.dataSource[0].indexOf("location_type");
         for (var i=1;i<this.dataSource.length;i++)
-          if (this.dataSource[i][index]="")
+          if (!this.dataSource[i][index])
           {
             this.dataSource[i][index]="0";
           }
@@ -311,16 +311,15 @@ export class StopComponent implements OnInit {
 
       if (tempname.includes("wheelchair_boarding"))
       {
-        let index=tempname.indexOf("wheelchair_boarding");
+        let index=this.dataSource[0].indexOf("wheelchair_boarding");
         for (var i=1;i<this.dataSource.length;i++)
-          if (this.dataSource[i][index]="")
+          if (this.dataSource[i][index]=="")
           {
             this.dataSource[i][index]="0";
           }
       }
       //change to new format
-      this.stops.setstop(this.dataSource);
-      console.log(this.dataSource);
+      
 
       this.getstation("");
       let latindex=this.dataSource[0].indexOf("stop_lat");
@@ -342,8 +341,8 @@ export class StopComponent implements OnInit {
       this.currenttype=["0","1"];
       this.addtype="0";
       this.currentparent="";
-    } 
     
+    }
     this.value="";
     this.addmode=true;
     this.editmode=false;
@@ -375,6 +374,7 @@ export class StopComponent implements OnInit {
  
   currenttype:string[]=[];
   changecol(){
+    console.log("now");
     var value=this.nameget.value;
     let add=false;
     var tempnames:string[]=this.dataSource[0].slice();

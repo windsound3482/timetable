@@ -11,6 +11,7 @@ import {DemoMaterialModule} from './material-module';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+;
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,6 +22,11 @@ import { DragDropDirective } from './drag-drop.directive';
 import { TableComponent } from './table/table.component';
 import { HomeComponent } from './home/home.component';
 import { AllfileService } from './allfile.service';
+import { StopservService } from './stopserv.service';
+import { TimetableservService } from './timetableserv.service';
+import { FareservService } from './fareserv.service';
+import { CalendarservService } from './calendarserv.service';
+
 import { AgencytableComponent } from './agencytable/agencytable.component';
 import { EditorComponent } from './editor/editor.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
@@ -78,6 +84,8 @@ import { StopPickerComponent } from './stop-picker/stop-picker.component';
     LevelPickerComponent,
     RouterPickerComponent,
     StopPickerComponent,
+   
+
   ],
   imports: [
     BrowserModule,
@@ -106,7 +114,7 @@ import { StopPickerComponent } from './stop-picker/stop-picker.component';
    
     
   ],
-  providers: [AllfileService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -24,19 +24,18 @@ export class StopservService {
 
   stop:string[][];
   level:string[][];
-  public setstop(file:string[][])
+  public setstop(stopfile:string[][])
   {
-    this.stop=file;
-    console.log(file);
+    this.stop=stopfile;
   }
-  public setlevel(file:string[][])
+  public setlevel(level:string[][])
   {
-    this.level=file;
+    this.level=level;
   }
   public getstop()
   {
-    console.log(this.stop);
-    return (this.stop);
+   
+    return this.stop;
   }
   public getlevel()
   {
