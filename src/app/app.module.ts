@@ -42,6 +42,8 @@ import { RouteComponent } from './route/route.component';
 import { ToolbarStopComponent } from './toolbar-stop/toolbar-stop.component';
 import { TimeZoneSelectComponent } from './time-zone-select/time-zone-select.component';
 import { LevelPickerComponent } from './level-picker/level-picker.component';
+import { RouterPickerComponent } from './router-picker/router-picker.component';
+import { StopPickerComponent } from './stop-picker/stop-picker.component';
 
 
 @NgModule({
@@ -74,6 +76,8 @@ import { LevelPickerComponent } from './level-picker/level-picker.component';
     ToolbarStopComponent,
     TimeZoneSelectComponent,
     LevelPickerComponent,
+    RouterPickerComponent,
+    StopPickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -88,7 +92,7 @@ import { LevelPickerComponent } from './level-picker/level-picker.component';
       { path: 'FareEditor', component:FareComponent},
       { path: 'StopEditor', component:StopComponent},
       { path: 'TimetableEditor', component:EditorComponent},
-      { path: 'LevelEditor', component:LevelPickerComponent},
+     
     ]),
     MatSidenavModule,
     MatButtonModule,

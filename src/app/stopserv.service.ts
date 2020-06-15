@@ -27,6 +27,7 @@ export class StopservService {
   public setstop(file:string[][])
   {
     this.stop=file;
+    console.log(file);
   }
   public setlevel(file:string[][])
   {
@@ -34,6 +35,7 @@ export class StopservService {
   }
   public getstop()
   {
+    console.log(this.stop);
     return (this.stop);
   }
   public getlevel()

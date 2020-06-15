@@ -1,0 +1,12 @@
+
+::ng-deep.mat-menu-panel {
+    max-width: none !important;
+    width: 1000px;
+}
+
+
+
+
+table {
+    width: 100%;
+}

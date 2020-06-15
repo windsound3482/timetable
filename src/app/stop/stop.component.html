@@ -39,7 +39,7 @@
               (+{{nameget.value.length - 1}} {{nameget.value?.length === 2 ? 'other' : 'others'}})
             </span>
           </mat-select-trigger>
-          <mat-option *ngFor="let name of names" [value]="name" [disabled]="name=='parent_station' || name=='location_type' " >
+          <mat-option *ngFor="let name of names" [value]="name" [disabled]="name=='parent_station' || name=='location_type' || name=='platform_code'  " >
             {{name}}
           </mat-option>
         </mat-select>
@@ -129,6 +129,9 @@
         </div>
       </div>
 </div>
+
+
+
 
    
   

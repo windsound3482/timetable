@@ -205,7 +205,7 @@ export class StopComponent implements OnInit {
     let lonindex=this.dataSource[0].indexOf("stop_lon");
      
     let index=[];
-    for (var i=0;i<4;i++)
+    for (var i=0;i<5;i++)
     {
       index.push(this.dataSource[0].indexOf(this.displayedColumns[i]));
     }
@@ -217,8 +217,8 @@ export class StopComponent implements OnInit {
       {
         if (this.dataSource[i][parentindex]==parentstation)
         {
-          let tempinput=new Array(4).fill("");
-          for (var j=0;j<4;j++)
+          let tempinput=new Array(5).fill("");
+          for (var j=0;j<5;j++)
             if (index[j]>-1){
                 tempinput[j]=this.dataSource[i][index[j]];
             }
@@ -267,11 +267,11 @@ export class StopComponent implements OnInit {
 
 
   onReset(){
-    let tempdata=this.stops.getstop();
+    let tempdata:string[][]=this.stops.getstop();
     if (tempdata!=this.dataSource)
     { 
-      this.displayedColumns=["stop_id","stop_name","location_type","parent_station"];
-      this.dataSource=this.stops.getstop();
+      this.displayedColumns=["stop_id","stop_name","location_type","parent_station","platform_code"];
+      this.dataSource=tempdata;
       let name:Array<string>= (this.dataSource)[0];
       let tempname:string[]=[];
       for (let i=0;i<name.length;i++){
@@ -281,11 +281,19 @@ export class StopComponent implements OnInit {
         }
       }
       this.nameget.setValue(tempname);
+      
       if (!tempname.includes("parent_station"))
       {
         tempname.push("parent_station");
         this.changecol();
       }
+
+      if (!tempname.includes("platform_code"))
+      {
+        tempname.push("platform_code");
+        this.changecol();
+      }
+
       if (!tempname.includes("location_type"))
       {
         tempname.push("location_type");
@@ -300,6 +308,7 @@ export class StopComponent implements OnInit {
             this.dataSource[i][index]="0";
           }
       }
+
       if (tempname.includes("wheelchair_boarding"))
       {
         let index=tempname.indexOf("wheelchair_boarding");
@@ -309,6 +318,9 @@ export class StopComponent implements OnInit {
             this.dataSource[i][index]="0";
           }
       }
+      //change to new format
+      this.stops.setstop(this.dataSource);
+      console.log(this.dataSource);
 
       this.getstation("");
       let latindex=this.dataSource[0].indexOf("stop_lat");
@@ -355,7 +367,7 @@ export class StopComponent implements OnInit {
     tempinput[this.dataSource[0].indexOf("location_type")]=this.addtype;
     tempinput[this.dataSource[0].indexOf("parent_station")]=this.currentparent;
     this.dataSource.push(tempinput);
-    this.database.push([this.value,"",this.addtype,this.currentparent]);
+    this.database.push([this.value,"",this.addtype,this.currentparent,""]);
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
   }
@@ -390,6 +402,7 @@ export class StopComponent implements OnInit {
       {
         tempnames.splice(tempnames.indexOf(this.defaultnames[i]),1);
       }
+      console.log(tempnames[0]);
       let tempindex=this.dataSource[0].indexOf(tempnames[0]);
       for (var j=0;j<this.dataSource.length;j++)
           this.dataSource[j].splice(tempindex,1);

@@ -1,0 +1,49 @@
+<mat-form-field class="example-form-field" style="width:400px !important">
+    <mat-label>router_id</mat-label>
+    <input matInput type="text" [(ngModel)]="currentstop" readonly>
+     <button mat-button [matMenuTriggerFor]="menu" matSuffix mat-icon-button> <mat-icon>swap_calls</mat-icon> </button>
+</mat-form-field>
+   
+    <mat-menu #menu="matMenu">
+        <div  (click)="$event.stopPropagation()" class="mat-elevation-z8"> 
+                <table mat-table [dataSource]="dataTable" >
+                  <div *ngFor="let pos of displayedColumns;let i= index">
+                  <ng-container [matColumnDef]= "pos">
+                    <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> 
+                          <div *ngIf="pos=='location_type'">
+                            <div *ngIf="element[i]=='0'">Stop (or Platform)<mat-icon>commute</mat-icon></div>
+                            <div *ngIf="element[i]=='1'">Station<mat-icon> subway</mat-icon></div>
+                            <div *ngIf="element[i]=='2'">Entrance/Exit<mat-icon>exit_to_app</mat-icon></div>
+                            <div *ngIf="element[i]=='3'">Generic Node<mat-icon>airline_seat_recline_normal</mat-icon></div>
+                            <div *ngIf="element[i]=='4'">Boarding Area<mat-icon> rowing</mat-icon></div>
+                          </div>
+                          <div *ngIf="pos!='location_type'">
+                            {{element[i]}} 
+                          </div>
+                          <button mat-button *ngIf="pos=='stop_id'" matSuffix color="primary"  aria-label="edit" (click)="add_stop_input(element[i])">
+                            <mat-icon>create</mat-icon>
+                          </button>
+                          <button mat-button *ngIf="pos=='location_type' && ((element[i]=='0') || (element[i]=='1')) " matSuffix color="primary"  aria-label="edit" (click)="editchild(element[0])">
+                            <mat-icon>zoom_in</mat-icon>
+                          </button>
+
+                      </mat-cell>
+                  </ng-container>
+                  </div>
+        
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> 
+                  
+                </table> 
+                <button mat-button *ngIf="currentparent" matSuffix color="primary"  aria-label="edit" (click)="editparent()">
+                    <mat-icon>zoom_out</mat-icon>
+                </button>
+                <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+            </div>
+       
+   
+    </mat-menu>
+
+
+

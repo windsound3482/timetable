@@ -24,7 +24,6 @@ export class FareComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   ngOnInit(): void {
     this.onReset();
-    this.farerule.ngOnInit();
   }
  
   
@@ -215,6 +214,11 @@ export class FareComponent implements OnInit {
     this.database=this.dataSource.slice(1);
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
+  }
+
+  change(){
+    this.onReset();
+    this.farerule.ngOnInit();
   }
   
 }

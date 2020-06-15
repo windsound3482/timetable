@@ -1,5 +1,5 @@
 <app-faretoolbar></app-faretoolbar>
-<mat-tab-group class="mattabg" mat-align-tabs="end" (selectedTabChange)="ngOnInit()">
+<mat-tab-group class="mattabg" mat-align-tabs="end" (selectedTabChange)="change()">
   <mat-tab label="Attributes" >
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataTable" class="mat-elevation-z8">
@@ -115,3 +115,5 @@
 </mat-tab>
 
 </mat-tab-group>
+
+
