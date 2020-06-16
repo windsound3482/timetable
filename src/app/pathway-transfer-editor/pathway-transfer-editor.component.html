@@ -1,0 +1,23 @@
+<mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Pathway & Transfer Editor</mat-card-title>
+      <mat-card-subtitle>use Stop-picker to generate event between stops and stations</mat-card-subtitle>
+      <div mat-card-avatar><mat-icon> device_hub</mat-icon></div>
+    </mat-card-header>
+</mat-card>
+<mat-tab-group class="mattabg">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="example-tab-icon">directions_walk</mat-icon>
+        Transfer
+      </ng-template>
+      <app-transfer></app-transfer>
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon">linear_scale</mat-icon>
+          Pathway
+        </ng-template>
+        <app-pathway></app-pathway>
+    </mat-tab>
+</mat-tab-group>

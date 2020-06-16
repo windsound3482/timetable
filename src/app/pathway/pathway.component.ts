@@ -1,19 +1,20 @@
 import { Component, OnInit,ViewChild} from '@angular/core';
-import { TimetableservService } from '../timetableserv.service';
+import { StopservService } from '../stopserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {FormControl} from '@angular/forms';
 import {Output,EventEmitter} from '@angular/core'
 
 @Component({
-  selector: 'app-route',
-  templateUrl: './route.component.html',
-  styleUrls: ['./route.component.css']
+  selector: 'app-pathway',
+  templateUrl: './pathway.component.html',
+  styleUrls: ['./pathway.component.css']
 })
-export class RouteComponent implements OnInit {
+export class PathwayComponent implements OnInit {
+
   @Output() notify= new EventEmitter();
   constructor(
-    private file: TimetableservService,
+    private file: StopservService,
   ) { }
   displayedColumns: string[]=[];
   dataSource :string[][];
@@ -29,23 +30,15 @@ export class RouteComponent implements OnInit {
   
   
   onSave(){
-    this.dataSource[this.current][this.dataSource[0].indexOf("route_color")]=this.router_color_now.slice(1);
-    this.dataSource[this.current][this.dataSource[0].indexOf("route_text_color")]=this.route_text_color_now.slice(1);
-    this.file.setroute(this.dataSource);
-    window.alert('Your File routes.txt has already been saved!');
-    this.notify.emit(this.value_rou);
-    this.onReset();
-  }
-
-  onDelete(){
-    this.dataSource.splice(this.current,1);
-    this.file.setroute(this.dataSource);
+    this.file.setpathway(this.dataSource);
+    window.alert('Your File pathways.txt has already been saved!');
+    this.notify.emit(this.value_rou)
     this.onReset();
   }
 
   onReset(){
-    this.displayedColumns=["route_id","route_type","route_short_name","route_long_name"];
-    this.dataSource=this.file.getroute();
+    this.displayedColumns=["pathway_id","from_stop","to_stop","pathway_mode","is_bidirectional"];
+    this.dataSource=this.file.getpathway();
     let name:Array<string>= (this.dataSource)[0];
     let tempname:string[]=[];
     for (let i=0;i<name.length;i++){
@@ -55,18 +48,7 @@ export class RouteComponent implements OnInit {
       }
     }
     this.nameget.setValue(tempname);
-    if (!tempname.includes("route_short_name"))
-    {
-      tempname.push("route_short_name");
-      this.nameget.setValue(tempname);
-      this.changecol();
-    }
-    if (!tempname.includes("route_long_name"))
-    {
-      tempname.push("route_long_name");
-      this.nameget.setValue(tempname);
-      this.changecol();
-    }
+    
     this.changeontable();
     this.addmode=false;
     this.value_rou="";
@@ -95,8 +77,8 @@ export class RouteComponent implements OnInit {
   }
   
   
-  names:string[]=["route_long_name","route_short_name","route_desc","route_url","route_color","route_text_color","route_sort_order","continuous_pickup","continuous_drop_off"];
-  defaultnames:string[]=["route_id","route_type"];
+  names:string[]=["length","traversal_time","stair_count","max_slope","min_width","rsignposted_as","reversed_signposted_as"];
+  defaultnames:string[]=["pathway_id","from_stop_id","to_stop_id","pathway_mode","is_bidirectional"];
 
   nameget = new FormControl();
   value_rou="";
@@ -111,9 +93,7 @@ export class RouteComponent implements OnInit {
       if (this.dataSource[0].includes(value[i])==false)
       {
         this.dataSource[0].push(value[i]);
-        
         add=true;
-        
       }
       else{
         let tempin=tempnames.indexOf(value[i]);
@@ -158,10 +138,7 @@ export class RouteComponent implements OnInit {
       tempinput[idindex]=this.value_rou;
       this.dataSource.push(tempinput);
     }
-    this.router_color_now="#".concat(this.dataSource[this.current][this.dataSource[0].indexOf("route_color")]);
-    this.route_text_color_now="#".concat(this.dataSource[this.current][this.dataSource[0].indexOf("route_text_color")]);
   }
-  router_color_now:string="";
-  route_text_color_now:string="";
+  
 }
  

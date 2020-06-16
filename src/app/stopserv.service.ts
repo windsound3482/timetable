@@ -25,6 +25,8 @@ export class StopservService {
   stop:string[][];
   level:string[][];
   transfer:string[][];
+  pathway:string[][];
+
   public setstop(stopfile:string[][])
   {
     this.stop=stopfile;
@@ -36,6 +38,10 @@ export class StopservService {
   public settransfer(transfer:string[][])
   {
     this.transfer=transfer;
+  }
+  public setpathway(pathway:string[][])
+  {
+    this.pathway=pathway;
   }
   public getstop()
   {
@@ -50,9 +56,14 @@ export class StopservService {
   {
     return this.transfer;
   }
+  public getpathway()
+  {
+    return this.pathway;
+  }
   constructor() { 
     this.stop=[["stop_id","stop_name","stop_lat","stop_lon","zone_id","parent_station"]];
     this.level=[["level_id","level_index","level_name"]];
     this.transfer=[["from_stop_id","to_stop_id","transfer_type","min_transfer_time"]];
+    this.pathway=[["pathway_id","from_stop_id","to_stop_id","pathway_mode","is_bidirectional","length","stair_count"]];
   }
 }

@@ -29,7 +29,6 @@ import { CalendarservService } from './calendarserv.service';
 
 import { AgencytableComponent } from './agencytable/agencytable.component';
 import { EditorComponent } from './editor/editor.component';
-import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FeedinfoComponent } from './feedinfo/feedinfo.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { TbForCalenComponent } from './tb-for-calen/tb-for-calen.component';
@@ -51,6 +50,8 @@ import { LevelPickerComponent } from './level-picker/level-picker.component';
 import { RouterPickerComponent } from './router-picker/router-picker.component';
 import { StopPickerComponent } from './stop-picker/stop-picker.component';
 import { TransferComponent } from './transfer/transfer.component';
+import { PathwayTransferEditorComponent } from './pathway-transfer-editor/pathway-transfer-editor.component';
+import { PathwayComponent } from './pathway/pathway.component';
 
 
 @NgModule({
@@ -64,7 +65,6 @@ import { TransferComponent } from './transfer/transfer.component';
     HomeComponent,
     AgencytableComponent,
     EditorComponent,
-    ToolbarComponent,
     FeedinfoComponent,
     CalendarComponent,
     TbForCalenComponent,
@@ -86,6 +86,8 @@ import { TransferComponent } from './transfer/transfer.component';
     RouterPickerComponent,
     StopPickerComponent,
     TransferComponent,
+    PathwayTransferEditorComponent,
+    PathwayComponent,
    
 
   ],
@@ -102,7 +104,7 @@ import { TransferComponent } from './transfer/transfer.component';
       { path: 'FareEditor', component:FareComponent},
       { path: 'StopEditor', component:StopComponent},
       { path: 'TimetableEditor', component:EditorComponent},
-      { path: 'Path_Tansfer_Editor', component:TransferComponent},
+      { path: 'Path_Tansfer_Editor', component:PathwayTransferEditorComponent},
      
     ]),
     MatSidenavModule,

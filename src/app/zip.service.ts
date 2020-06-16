@@ -143,6 +143,12 @@ export class ZipService {
       this.getfile(temp,"transfers.txt");
     }
 
+    temp=this.stop.getpathway();
+    if (temp.length>1)
+    {
+      this.getfile(temp,"pathways.txt");
+    }
+
     temp=this.timetable.getroute();
     this.getfile(temp,"routes.txt");
 

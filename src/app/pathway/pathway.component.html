@@ -5,25 +5,30 @@
       <ng-container [matColumnDef]= "pos">
         <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
             <mat-cell *matCellDef="let element"> 
-               <div *ngIf="pos=='route_type'">
-                <div *ngIf="element[i]=='0'">Tram<mat-icon> tram</mat-icon></div>
-                <div *ngIf="element[i]=='1'">Subway<mat-icon> subway</mat-icon></div>
-                <div *ngIf="element[i]=='2'">Rail<mat-icon>  train</mat-icon></div>
-                <div *ngIf="element[i]=='3'">Bus<mat-icon>directions_bus</mat-icon></div>
-                <div *ngIf="element[i]=='4'">Ferry<mat-icon> directions_boat</mat-icon></div>
-                <div *ngIf="element[i]=='5'">Cable tram<mat-icon> tram</mat-icon></div>
-                <div *ngIf="element[i]=='6'">Aerial lift</div>
-                <div *ngIf="element[i]=='7'">Funicular<mat-icon>terrain</mat-icon></div>
-                <div *ngIf="element[i]=='11'">Trolleybus</div>
-                <div *ngIf="element[i]=='12'">Monorail<mat-icon>tram</mat-icon></div>
+               <div *ngIf="pos=='pathway_mode'">
+                <div *ngIf="element[i]=='1'">walkway</div>
+                <div *ngIf="element[i]=='2'">stairs</div>
+                <div *ngIf="element[i]=='3'">moving sidewalk</div>
+                <div *ngIf="element[i]=='4'">escalator</div>
+                <div *ngIf="element[i]=='5'">elevator</div>
+                <div *ngIf="element[i]=='6'">fare gate</div>
+                <div *ngIf="element[i]=='7'">exit gate</div>
               </div>
-              <div *ngIf="pos!='route_type'">
+              <div *ngIf="pos=='is_bidirectional'">
+                <div *ngIf="element[i]=='0'">Unidirectional</div>
+                <div *ngIf="element[i]=='1'">Bidirectional</div>
+              </div>
+              <input matInput *ngIf="pos!='route_type'" type="text" style="border:0;outline:0;" [(ngModel)]="element[i]" > 
+              <div *ngIf="pos=='pathway_id'">
                 {{element[i]}}
+                <button mat-button matSuffix color="primary"  aria-label="edit" [disabled]="addmode" (click)="add_route_input(element[i])">
+                  <mat-icon>create</mat-icon>
+                </button>
+              </div>
+              <div *ngIf="pos=='from_stop_id' || pos=='to_stop_id'">
+                <app-stop-picker [Detailmode]="true" [stopnow]="element[i]" [disabled]="true"> </app-stop-picker>
               </div>
               
-              <button mat-button *ngIf="pos=='route_id'" matSuffix color="primary"  aria-label="edit" [disabled]="addmode" (click)="add_route_input(element[i])">
-                <mat-icon>create</mat-icon>
-              </button>
           </mat-cell>
       </ng-container>
       </div>
@@ -39,7 +44,7 @@
 <br />
 <div>
   <mat-form-field class="example-form-field">
-      <mat-label>Route_id</mat-label>
+      <mat-label>Pathway_id</mat-label>
       <input matInput type="text" [(ngModel)]="value_rou" name="value_rou" [disabled]="addmode" [ngModelOptions]="{standalone: true}">
       <button mat-button *ngIf="value_rou" matSuffix  aria-label="edit" [disabled]="addmode" (click)="edit()">
         <mat-icon>create</mat-icon>
@@ -95,13 +100,9 @@
             <mat-label>{{item}}</mat-label>
             <input matInput type="url" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}" >
           </mat-form-field>
-          <mat-form-field *ngIf="item=='route_color'" >
+          <mat-form-field *ngIf="item=='route_color' || item=='route_text_color'" >
             <mat-label>{{item}}</mat-label>
-            <input matInput type="color" [(ngModel)]="router_color_now" >
-          </mat-form-field>
-          <mat-form-field *ngIf="item=='route_text_color'" >
-            <mat-label>{{item}}</mat-label>
-            <input matInput type="color" [(ngModel)]="route_text_color_now" >
+            <input matInput type="color" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}">
           </mat-form-field>
       </div>
 
@@ -146,15 +147,11 @@
   <button mat-raised-button color="warn" (click)="onSave()" [disabled]="!addmode">
       Save 
     </button>
-  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;     
-  <button mat-raised-button color="warn" (click)="onDelete()" [disabled]="!addmode">
-    Delete
-  </button>
-   &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                  
+  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
   <button mat-raised-button  (click)=" onReset()" [disabled]="!addmode">
     Reset
   </button>
 </div>
   <p></p>
   
-  <br><br>
+<br><br>

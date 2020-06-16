@@ -12,8 +12,9 @@ import {Output,EventEmitter} from '@angular/core';
 
 })
 export class StopPickerComponent implements OnInit {
-  @Input() Detailmode:boolean;
-  @Input() stopnow:string;
+  @Input() Detailmode:boolean=true;
+  @Input() stopnow:string="";
+  @Input() disabled:boolean=false;
   @Output() notify= new EventEmitter();
   displayedColumns: string[]=[];
   dataSource :string[][];
