@@ -137,6 +137,12 @@ export class ZipService {
       this.getfile(temp,"levels.txt");
     }
 
+    temp=this.stop.gettransfer();
+    if (temp.length>1)
+    {
+      this.getfile(temp,"transfers.txt");
+    }
+
     temp=this.timetable.getroute();
     this.getfile(temp,"routes.txt");
 

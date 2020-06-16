@@ -50,6 +50,7 @@ import { TimeZoneSelectComponent } from './time-zone-select/time-zone-select.com
 import { LevelPickerComponent } from './level-picker/level-picker.component';
 import { RouterPickerComponent } from './router-picker/router-picker.component';
 import { StopPickerComponent } from './stop-picker/stop-picker.component';
+import { TransferComponent } from './transfer/transfer.component';
 
 
 @NgModule({
@@ -84,6 +85,7 @@ import { StopPickerComponent } from './stop-picker/stop-picker.component';
     LevelPickerComponent,
     RouterPickerComponent,
     StopPickerComponent,
+    TransferComponent,
    
 
   ],
@@ -100,6 +102,7 @@ import { StopPickerComponent } from './stop-picker/stop-picker.component';
       { path: 'FareEditor', component:FareComponent},
       { path: 'StopEditor', component:StopComponent},
       { path: 'TimetableEditor', component:EditorComponent},
+      { path: 'Path_Tansfer_Editor', component:TransferComponent},
      
     ]),
     MatSidenavModule,

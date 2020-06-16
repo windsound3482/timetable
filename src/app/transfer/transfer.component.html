@@ -1,0 +1,43 @@
+<div>
+    <table mat-table [dataSource]="dataTable" >
+      <div *ngFor="let pos of displayedColumns;let i= index">
+      <ng-container [matColumnDef]= "pos">
+        <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
+            <mat-cell *matCellDef="let element;let j=index"> 
+                <div *ngIf="pos=='from_stop_id' || pos=='to_stop_id'" >
+                    <app-stop-picker [Detailmode]="true" [stopnow]="element[i]" (notify)="setstop($event,j,i)"></app-stop-picker>
+                </div>
+                <div *ngIf="pos=='min_transfer_time'" >
+                    <input matinput type="number" style="border:0;outline:0;" required [(ngModel)]="element[i]" #uname1="ngModel"> 
+                    <button mat-raised-button color="primary" (click)="deleteline(element)">Delete</button>
+                </div>
+                <div *ngIf="pos=='transfer_type'">
+                    <mat-form-field>
+                    <mat-select [(value)]="element[i]">
+                        <mat-option value="0">Recommended</mat-option>
+                        <mat-option value="1">Timed</mat-option>
+                        <mat-option value="2">Require Time</mat-option>
+                        <mat-option value="3">Not possible</mat-option>
+                        
+                    </mat-select> 
+                    </mat-form-field>
+                </div>
+           </mat-cell>
+      </ng-container>
+      </div>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row> 
+    </table> 
+    
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <button mat-icon-button (click)="addaLine()" >
+        <mat-icon>add_circle_outline</mat-icon>
+    </button>
+</div>
+
+<button mat-raised-button color="warn" (click)="onSave()" >
+    Save 
+  </button>
+

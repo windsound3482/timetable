@@ -1,45 +1,43 @@
 import { Component, OnInit ,ViewChild} from '@angular/core';
-import { TimetableservService } from '../timetableserv.service';
+import { StopservService } from '../stopserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
-  selector: 'app-freq',
-  templateUrl: './freq.component.html',
-  styleUrls: ['./freq.component.css']
+  selector: 'app-transfer',
+  templateUrl: './transfer.component.html',
+  styleUrls: ['./transfer.component.css']
 })
-export class FreqComponent implements OnInit {
+export class TransferComponent implements OnInit {
 
   constructor(
-    private time: TimetableservService,
+    private stop: StopservService,
   ) {  }
   dataSource :string[][];
   database :string[][]; 
   displayedColumns:string[];
   
-  value_trp="";
+  
   dataTable : MatTableDataSource<string[]>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   ngOnInit(): void {
-    this.dataSource=this.time.getfreq();
+    this.dataSource=this.stop.gettransfer();
     this.displayedColumns=this.dataSource[0];
     this.database=this.dataSource.slice(1);
-    let exindex=this.displayedColumns.indexOf("exact_times");
+    let exindex=this.displayedColumns.indexOf("min_transfer_time");
     if (exindex==-1)
     {
-      this.displayedColumns.push("exact_times");
+      this.displayedColumns.push("min_transfer_time");
       for (var i=0;i<this.database.length;i++)
       {
-        this.database[i].push("0");
+        this.database[i].push("");
       }
     }
-    else
+    exindex=this.displayedColumns.indexOf("transfer_type");
+    for (var i=0;i<this.database.length;i++)
     {
-      for (var i=0;i<this.database.length;i++)
-      {
-        if ((this.database[i][exindex]==("")) || (this.database[i][exindex]==null))
+      if (this.database[i][exindex]==(""))
           this.database[i][exindex]="0";
-      }
     }
     
     this.dataTable=new MatTableDataSource<string[]>(this.database);
@@ -50,48 +48,28 @@ export class FreqComponent implements OnInit {
     this.dataSource=[];
     this.dataSource.push(this.displayedColumns);
     this.dataSource=this.dataSource.concat(this.dataTable.data);
-    this.time.setfreq(this.dataSource);
-    this.value_trp="";
+    this.stop.settransfer(this.dataSource);
   }
 
-  onDelete(){
-    let tripidindex=this.displayedColumns.indexOf("trip_id");
-    for (var i=this.database.length-1;i>=0;i--)
-    {
-      if (this.database[i][tripidindex]==this.value_trp)
-      {
-        this.database.splice(i,1);
-      }
-    }
-    this.onSave();
-  }
-
-  setfilter(value:string) {
-    this.value_trp=value;
-    this.dataTable.filter=value; 
-  }
   deleteline(j:string[]){
     this.database=this.dataTable.data;
     this.database.splice(this.database.indexOf(j),1);
     
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
-    this.dataTable.filter=this.value_trp; 
   }
 
   addaLine(){
-    let tempadd=Array(this.displayedColumns.length).fill("");
-    let idindex=this.displayedColumns.indexOf("trip_id");
-    let exindex=this.displayedColumns.indexOf("exact_times");
-    tempadd[idindex]=this.value_trp;
-    tempadd[exindex]="0";
     this.database=this.dataTable.data;
-    this.database.push(tempadd);
+    this.database.push(["","","0",""]);
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
-    this.dataTable.filter=this.value_trp; 
   }
-
+  setstop(input,j,i)
+  {
+    this.database[j][i]=input;
+  }
   pattern_error=false;
   require_error=false;
 }
+

@@ -1,5 +1,5 @@
-<mat-form-field class="example-form-field" style="width:400px !important">
-    <mat-label>router_id</mat-label>
+<mat-form-field class="example-form-field" style="width:130% !important">
+    <mat-label>stop</mat-label>
     <input matInput type="text" [(ngModel)]="currentstop" readonly>
      <button mat-button [matMenuTriggerFor]="menu" matSuffix mat-icon-button> <mat-icon>swap_calls</mat-icon> </button>
 </mat-form-field>
@@ -24,7 +24,7 @@
                           <button mat-button *ngIf="pos=='stop_id'" matSuffix color="primary"  aria-label="edit" (click)="add_stop_input(element[i])">
                             <mat-icon>create</mat-icon>
                           </button>
-                          <button mat-button *ngIf="pos=='location_type' && ((element[i]=='0') || (element[i]=='1')) " matSuffix color="primary"  aria-label="edit" (click)="editchild(element[0])">
+                          <button mat-button *ngIf="pos=='location_type' && ((element[i]=='0') || (element[i]=='1') && Detailmode) " matSuffix color="primary"  aria-label="edit" (click)="editchild(element[0])">
                             <mat-icon>zoom_in</mat-icon>
                           </button>
 
@@ -36,7 +36,7 @@
                   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> 
                   
                 </table> 
-                <button mat-button *ngIf="currentparent" matSuffix color="primary"  aria-label="edit" (click)="editparent()">
+                <button mat-button *ngIf="currentparent && Detailmode" matSuffix color="primary"  aria-label="edit" (click)="editparent()">
                     <mat-icon>zoom_out</mat-icon>
                 </button>
                 <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>

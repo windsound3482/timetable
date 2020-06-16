@@ -12,6 +12,7 @@ import {Output,EventEmitter} from '@angular/core';
 
 })
 export class StopPickerComponent implements OnInit {
+  @Input() Detailmode:boolean;
   @Input() stopnow:string;
   @Output() notify= new EventEmitter();
   displayedColumns: string[]=[];
@@ -72,7 +73,6 @@ export class StopPickerComponent implements OnInit {
     this.displayedColumns=["stop_id","stop_name","location_type","parent_station","platform_code"];
     this.dataSource=this.stops.getstop();
     var i:string;
-    console.log(this.dataSource);
       if (!this.dataSource[0].includes("parent_station"))
       {
         this.dataSource[0].push("parent_station");
@@ -89,16 +89,13 @@ export class StopPickerComponent implements OnInit {
 
     if (!this.dataSource[0].includes("location_type"))
     {
-      console.log('ja');
       this.dataSource[0].push("location_type");
       for (var j=1;j<this.dataSource.length;j++)
         this.dataSource[j].push("0");
     }
     else
     {
-      console.log("nein");
       let index=this.dataSource[0].indexOf("location_type");
-      console.log(index);
       for (var j=1;j<this.dataSource.length;j++)
         if (this.dataSource[j][index]=="")
         {

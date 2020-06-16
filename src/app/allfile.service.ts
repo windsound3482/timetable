@@ -73,28 +73,31 @@ export class AllfileService {
         this.calendar.setmode(true);
       }
       if (filename==="calendar_dates.txt")
-        this.calendar.setexp(items as string[][]);
+        this.calendar.setexp(items);
       
       if (filename==="fare_attributes.txt") 
-        this.fare.setfareAttr(items as string[][]);
+        this.fare.setfareAttr(items);
       
       if (filename==="fare_rules.txt") 
-        this.fare.setfareRule(items as string[][]);
+        this.fare.setfareRule(items);
       
       if (filename==="levels.txt")
-        this.stop.setlevel(items as string[][]);
+        this.stop.setlevel(items);
 
       if (filename==="stops.txt")
-        this.stop.setstop(items as string[][]);
+        this.stop.setstop(items);
+
+      if (filename==="transfers.txt")
+        this.stop.settransfer(items);
 
       if (filename==="trips.txt")
-        this.timetable.settrip(items as string[][]);
+        this.timetable.settrip(items );
 
       if (filename==="frequencies.txt")
-        this.timetable.setfreq(items as string[][]);
+        this.timetable.setfreq(items);
 
       if (filename==="routes.txt")
-        this.timetable.setroute(items as string[][]);
+        this.timetable.setroute(items);
     }
     
   }

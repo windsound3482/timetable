@@ -303,7 +303,7 @@ export class StopComponent implements OnInit {
       {
         let index=this.dataSource[0].indexOf("location_type");
         for (var i=1;i<this.dataSource.length;i++)
-          if (!this.dataSource[i][index])
+          if (this.dataSource[i][index]=="")
           {
             this.dataSource[i][index]="0";
           }
