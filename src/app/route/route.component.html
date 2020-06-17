@@ -72,10 +72,6 @@
             <input matInput type="text" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}"> 
           </mat-form-field>
         </div>
-        
-      </div>
-     
-      <div *ngFor="let item of dataSource[0];let i=index" >
           <mat-form-field *ngIf="item=='route_type'">
             <mat-label>route_type</mat-label>
               <mat-select [(value)]="dataSource[current][i]">
@@ -103,10 +99,7 @@
             <mat-label>{{item}}</mat-label>
             <input matInput type="color" [(ngModel)]="route_text_color_now" >
           </mat-form-field>
-      </div>
-
-   
-      <div *ngFor="let item of dataSource[0];let i=index" >
+    
         <mat-form-field *ngIf="item=='route_sort_order'" >
           <mat-label>{{item}}</mat-label>
           <input matInput type="number" min="0" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}">

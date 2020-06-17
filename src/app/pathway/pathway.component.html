@@ -18,7 +18,6 @@
                 <div *ngIf="element[i]=='0'">Unidirectional</div>
                 <div *ngIf="element[i]=='1'">Bidirectional</div>
               </div>
-              <input matInput *ngIf="pos!='route_type'" type="text" style="border:0;outline:0;" [(ngModel)]="element[i]" > 
               <div *ngIf="pos=='pathway_id'">
                 {{element[i]}}
                 <button mat-button matSuffix color="primary"  aria-label="edit" [disabled]="addmode" (click)="add_route_input(element[i])">
@@ -71,82 +70,55 @@
     <div class="left_grid">
       
       <div *ngFor="let item of dataSource[0];let i=index" >
-        <div *ngIf="item=='agency_id' || item=='route_short_name' || item=='route_long_name'">
+        <div *ngIf="item=='length' || item=='max_slope' || item=='min_width'  || item=='signposted_as' || item=='reversed_signposted_as'">
           <mat-form-field class="example-form-field">
             <mat-label>{{item}}</mat-label>
             <input matInput type="text" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}"> 
           </mat-form-field>
         </div>
-        
-      </div>
-     
-      <div *ngFor="let item of dataSource[0];let i=index" >
-          <mat-form-field *ngIf="item=='route_type'">
+          <mat-form-field *ngIf="item=='pathway_mode'">
             <mat-label>route_type</mat-label>
               <mat-select [(value)]="dataSource[current][i]">
-                <mat-option value="0">Tram, Streetcar, Light rail</mat-option>
-                <mat-option value="1">Subway, Metro</mat-option>
-                <mat-option value="2">Rail</mat-option>
-                <mat-option value="3">Bus</mat-option>
-                <mat-option value="4">Ferry</mat-option>
-                <mat-option value="5">Cable tram</mat-option>
-                <mat-option value="6">Aerial lift</mat-option>
-                <mat-option value="7">Funicular</mat-option>
-                <mat-option value="11">Trolleybus</mat-option>
-                <mat-option value="12">Monorail</mat-option>
+                <mat-option value="1">walkway</mat-option>
+                <mat-option value="2">stairs</mat-option>
+                <mat-option value="3">moving sidewalk/travelator</mat-option>
+                <mat-option value="4">escalator</mat-option>
+                <mat-option value="5">elevator</mat-option>
+                <mat-option value="6">fare gate (or payment gate)</mat-option>
+                <mat-option value="7">exit gate</mat-option>
               </mat-select>
           </mat-form-field>
-          <mat-form-field *ngIf="item=='route_url'">
+          <mat-form-field *ngIf="item=='stair_count'" >
             <mat-label>{{item}}</mat-label>
-            <input matInput type="url" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}" >
+            <input matInput type="number" min="0" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}">
           </mat-form-field>
-          <mat-form-field *ngIf="item=='route_color' || item=='route_text_color'" >
+          <mat-form-field *ngIf="item=='is_bidirectional'">
             <mat-label>{{item}}</mat-label>
-            <input matInput type="color" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}">
+              <mat-select [(value)]="dataSource[current][i]">
+               
+                <mat-option value="0">Unidirectional pathway</mat-option>
+                <mat-option value="1">Bidirectional pathway</mat-option>
+              </mat-select>
           </mat-form-field>
-      </div>
+          <div  *ngIf="item=='from_stop_id' || item=='to_stop_id'">
+             <app-stop-picker class="stop_picker" [label]="item" [Detailmode]="true" [stopnow]="dataSource[current][i]" [disabled]="false" (notify)="changestop(i,$event)"> </app-stop-picker>
+             <div class="options"></div>
+          </div>
 
-   
-      <div *ngFor="let item of dataSource[0];let i=index" >
-        <mat-form-field *ngIf="item=='route_sort_order'" >
-          <mat-label>{{item}}</mat-label>
-          <input matInput type="number" min="0" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}">
-        </mat-form-field>
-          <mat-form-field *ngIf="item=='continuous_pickup'">
-            <mat-label>{{item}}</mat-label>
-              <mat-select [(value)]="dataSource[current][i]">
-                <mat-option value="0">Continuous stopping pickup</mat-option>
-                <mat-option value="1">No continuous stopping pickup</mat-option>
-                <mat-option value="2">Must phone an agency to arrange continuous stopping pickup</mat-option>
-                <mat-option value="3">Must coordinate with a driver to arrange continuous stopping pickup</mat-option>
-              </mat-select>
-          </mat-form-field>
-          <mat-form-field *ngIf="item=='continuous_drop_off'">
-            <mat-label>{{item}}</mat-label>
-              <mat-select [(value)]="dataSource[current][i]">
-                <mat-option value="0">Continuous stopping drop-off</mat-option>
-                <mat-option value="1">No continuous stopping drop-off</mat-option>
-                <mat-option value="2">Must phone an agency to arrange continuous stopping drop-off</mat-option>
-                <mat-option value="3">Must coordinate with a driver to arrange continuous stopping drop-off</mat-option>
-              </mat-select>
-          </mat-form-field>
       </div>
-    </div>
-    <div class="right_grid">
-        <mat-form-field *ngIf="dataSource[0].includes('route_desc')"   appearance="fill" style="width: 500px;">
-          <mat-label>route_desc</mat-label>
-          <textarea matInput  rows="10" [(ngModel)]="dataSource[current][dataSource[0].indexOf('route_desc')]" >
-          </textarea>
-        </mat-form-field>
     </div>
     
   </div>
 
 <div class="options">
-
+  &nbsp;&nbsp;
   <button mat-raised-button color="warn" (click)="onSave()" [disabled]="!addmode">
       Save 
     </button>
+  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
+  <button mat-raised-button color="primary"  (click)=" onDelete()" [disabled]="!addmode">
+    Delete
+  </button>
   &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
   <button mat-raised-button  (click)=" onReset()" [disabled]="!addmode">
     Reset

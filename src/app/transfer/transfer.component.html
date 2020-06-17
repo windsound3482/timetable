@@ -32,12 +32,17 @@
     </table> 
     
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-    <button mat-icon-button (click)="addaLine()" >
-        <mat-icon>add_circle_outline</mat-icon>
-    </button>
+    <mat-toolbar>
+        <button mat-icon-button (click)="addaLine()" >
+            <mat-icon>add_circle_outline</mat-icon>
+        </button>
+
+        <span class="example-spacer"></span>
+        <button mat-raised-button color="warn" (click)="onSave()" >
+        Save 
+        </button>
+</mat-toolbar>
 </div>
 
-<button mat-raised-button color="warn" (click)="onSave()" >
-    Save 
-  </button>
+
 

@@ -36,8 +36,15 @@ export class PathwayComponent implements OnInit {
     this.onReset();
   }
 
+  onDelete()
+  {
+    this.dataSource.splice(this.current,1);
+    this.file.setpathway(this.dataSource);
+    this.onReset();
+  }
+
   onReset(){
-    this.displayedColumns=["pathway_id","from_stop","to_stop","pathway_mode","is_bidirectional"];
+    this.displayedColumns=["pathway_id","from_stop_id","to_stop_id","pathway_mode","is_bidirectional"];
     this.dataSource=this.file.getpathway();
     let name:Array<string>= (this.dataSource)[0];
     let tempname:string[]=[];
@@ -63,7 +70,7 @@ export class PathwayComponent implements OnInit {
     for (var i=1;i<this.dataSource.length;i++)
     {
       let tempinput=[];
-      for (var j=0;j<4;j++)
+      for (var j=0;j<5;j++)
       {
         if (listname.includes(this.displayedColumns[j]))
           tempinput.push(this.dataSource[i][listname.indexOf(this.displayedColumns[j])]);
@@ -77,7 +84,7 @@ export class PathwayComponent implements OnInit {
   }
   
   
-  names:string[]=["length","traversal_time","stair_count","max_slope","min_width","rsignposted_as","reversed_signposted_as"];
+  names:string[]=["length","traversal_time","stair_count","max_slope","min_width","signposted_as","reversed_signposted_as"];
   defaultnames:string[]=["pathway_id","from_stop_id","to_stop_id","pathway_mode","is_bidirectional"];
 
   nameget = new FormControl();
@@ -122,7 +129,7 @@ export class PathwayComponent implements OnInit {
   edit(){
     this.addmode=true;
     this.notify.emit("");
-    let idindex=this.dataSource[0].indexOf("route_id");
+    let idindex=this.dataSource[0].indexOf("pathway_id");
     this.current=this.dataSource.length;
     for (var i=1;i<this.dataSource.length;i++)
     {
@@ -135,9 +142,18 @@ export class PathwayComponent implements OnInit {
     if (this.current==this.dataSource.length)
     {
       let tempinput:string[]=new Array(this.dataSource[0].length).fill("");
+      let pathway_way_index=this.dataSource[0].indexOf("pathway_mode");
+      let is_bidirectional_index=this.dataSource[0].indexOf("is_bidirectional");
       tempinput[idindex]=this.value_rou;
+      tempinput[pathway_way_index]="1";
+      tempinput[is_bidirectional_index]="0";
       this.dataSource.push(tempinput);
     }
+    this.changeontable();
+  }
+
+  changestop(i,stop){
+    this.dataSource[this.current][i]=stop;
   }
   
 }

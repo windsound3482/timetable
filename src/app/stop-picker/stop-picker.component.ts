@@ -15,6 +15,7 @@ export class StopPickerComponent implements OnInit {
   @Input() Detailmode:boolean=true;
   @Input() stopnow:string="";
   @Input() disabled:boolean=false;
+  @Input() label="";
   @Output() notify= new EventEmitter();
   displayedColumns: string[]=[];
   dataSource :string[][];

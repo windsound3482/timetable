@@ -14,17 +14,17 @@ table {
   margin-left: 40px;
 }
 
+.stop_picker{
+  float:left;
+  margin-left: 40px;
+}
+
 .left_grid{
   float:left;
-  width: 50%;
+  width: 90%;
   font-size: medium;
 }
 
-.right_grid{
-  float:left;
-  margin-left: 10px;
-  font-size:medium;
-}
 
 input:invalid {
   background-color:tomato;

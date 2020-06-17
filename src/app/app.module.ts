@@ -52,6 +52,7 @@ import { StopPickerComponent } from './stop-picker/stop-picker.component';
 import { TransferComponent } from './transfer/transfer.component';
 import { PathwayTransferEditorComponent } from './pathway-transfer-editor/pathway-transfer-editor.component';
 import { PathwayComponent } from './pathway/pathway.component';
+import { StopTimesComponent } from './stop-times/stop-times.component';
 
 
 @NgModule({
@@ -88,6 +89,7 @@ import { PathwayComponent } from './pathway/pathway.component';
     TransferComponent,
     PathwayTransferEditorComponent,
     PathwayComponent,
+    StopTimesComponent,
    
 
   ],
