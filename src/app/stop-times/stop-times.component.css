@@ -1,0 +1,31 @@
+table {
+    width: 100%;
+  }
+  
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.options{
+  clear:both;
+}
+.mat-form-field{
+  float:left;
+  margin-left: 40px;
+}
+
+.stop_picker{
+    float:left;
+    margin-left: 40px;
+  }
+  
+.left_grid{
+    float:left;
+    width: 90%;
+    font-size: medium;
+}
+  
+  
+input:invalid {
+    background-color:tomato;
+}

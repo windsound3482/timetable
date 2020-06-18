@@ -5,6 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { ZipService } from '../zip.service';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { FreqComponent } from '../freq/freq.component';
+import { StopTimesComponent } from '../stop-times/stop-times.component';
 import { RouteComponent } from '../route/route.component';
 import {FormControl} from '@angular/forms';
 
@@ -16,6 +17,7 @@ import {FormControl} from '@angular/forms';
 export class EditorComponent implements OnInit {
   @ViewChild(CalendarComponent) calencom:CalendarComponent ;
   @ViewChild(FreqComponent) freqcom:FreqComponent;
+  @ViewChild(StopTimesComponent) stoptimecom:FreqComponent;
   @ViewChild(RouteComponent) routecom:RouteComponent;
   constructor(
     private file:TimetableservService,
@@ -56,6 +58,7 @@ export class EditorComponent implements OnInit {
     this.calencom.value_cal=this.value_cal;
     this.routecom.value_rou=this.value_rou;
     this.freqcom.setfilter(this.value);
+    this.stoptimecom.setfilter(this.value);
   }
 
   ngOnInit(): void {

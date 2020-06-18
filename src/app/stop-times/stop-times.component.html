@@ -1,1 +1,129 @@
-<p>stop-times works!</p>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataTable" class="mat-elevation-z8">
+      <div *ngFor="let pos of displayedColumns;let i= index">
+      <ng-container [matColumnDef]= "pos">
+        <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
+            <mat-cell *matCellDef="let element"> 
+              <div *ngIf="pos=='departure_time' || pos=='arrival_time' || pos=='stop_sequence'">
+                {{element[i]}}
+              </div>
+              <div *ngIf="pos=='trip_id'">
+                <button mat-button matSuffix color="primary"  aria-label="edit" [disabled]="addmode" (click)="edit(element)">
+                  <mat-icon>create</mat-icon>
+                </button>
+                <button mat-button matSuffix color="warn"  aria-label="edit" [disabled]="addmode" (click)="editdelete(element)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+              </div>
+              <div *ngIf="pos=='stop_id'">
+                <app-stop-picker [Detailmode]="true" [stopnow]="element[i]" [disabled]="true"> </app-stop-picker>
+              </div>
+              
+          </mat-cell>
+      </ng-container>
+      </div>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> 
+    </table> 
+    
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    
+</div>
+
+
+<mat-toolbar>
+  &nbsp;&nbsp;
+  <button mat-icon-button (click)="addaLine()" [disabled]="addmode">
+    <mat-icon>add_circle_outline</mat-icon>
+  </button>
+  <mat-form-field>
+    <mat-select [formControl]="nameget" (selectionChange)="changecol()" multiple>
+      <mat-select-trigger>
+        {{nameget.value ? nameget.value[0] : ''}}
+        <span *ngIf="nameget.value?.length > 1" class="example-additional-selection">
+          (+{{nameget.value.length - 1}} {{nameget.value?.length === 2 ? 'other' : 'others'}})
+        </span>
+      </mat-select-trigger>
+      <mat-option *ngFor="let name of names" [value]="name">{{name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <span class="example-spacer"></span>
+  <button mat-raised-button color="warn" (click)="onSave()" [disabled]="!addmode">
+      Save 
+    </button>
+  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
+  <button mat-raised-button color="primary"  (click)=" onDelete()" [disabled]="!addmode">
+    Delete
+  </button>
+  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
+  <button mat-raised-button  (click)=" onReset()" [disabled]="!addmode">
+    Reset
+  </button>
+</mat-toolbar>
+
+<div class="options"></div>
+
+
+ 
+  <div  *ngIf="addmode" >
+    <div class="left_grid">
+      
+      <div *ngFor="let item of dataSource[0];let i=index" >
+        <div *ngIf="item=='stop_headsign' || item=='shape_dist_traveled'">
+          <mat-form-field class="example-form-field">
+            <mat-label>{{item}}</mat-label>
+            <input matInput type="text" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}"> 
+          </mat-form-field>
+        </div>
+          <mat-form-field *ngIf="item=='pickup_type' || item=='drop_off_type'">
+            <mat-label>{{item}}</mat-label>
+              <mat-select [(value)]="dataSource[current][i]">
+                <mat-option value="0">Regularly scheduled</mat-option>
+                <mat-option value="1">Not available</mat-option>
+                <mat-option value="2">Must phone agency</mat-option>
+                <mat-option value="3">Must coordinate with driver</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="item=='continuous_pickup' || item=='continuous_drop_off'">
+            <mat-label>{{item}}</mat-label>
+              <mat-select [(value)]="dataSource[current][i]">
+                <mat-option value="0">Continuous stopping</mat-option>
+                <mat-option value="1">Not continuous stopping</mat-option>
+                <mat-option value="2">Must phone agency</mat-option>
+                <mat-option value="3">Must coordinate with driver</mat-option>
+              </mat-select>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="item=='timepoint'">
+            <mat-label>{{item}}</mat-label>
+              <mat-select [(value)]="dataSource[current][i]">
+                <mat-option value="0">approximate</mat-option>
+                <mat-option value="1">exact</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="item=='stop_sequence'" >
+            <mat-label>{{item}}</mat-label>
+            <input matInput type="number" min="0" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <mat-form-field *ngIf="item=='arrival_time' || item=='departure_time'" >
+            <mat-label>{{item}}</mat-label>
+            <input matInput type="text"  [(ngModel)]="dataSource[current][i]"  required pattern="^[0-9]?[0-9][:]([0-5]?[0-9]|60)[:]([0-5]?[0-9]|60)$" #uname="ngModel">
+            <mat-error *ngIf="uname.errors?.pattern"> 
+                Time not valid.
+            </mat-error> 
+            <mat-error *ngIf="uname.errors?.required">
+                Time is required.
+            </mat-error>
+         </mat-form-field>
+          <div  *ngIf="item=='stop_id'">
+             <app-stop-picker class="stop_picker" [label]="item" [Detailmode]="true" [stopnow]="dataSource[current][i]" [disabled]="false" (notify)="changestop(i,$event)"> </app-stop-picker>
+             <div class="options"></div>
+          </div>
+      </div>
+    </div>
+</div>
+  <p></p>
+  
+<br><br>

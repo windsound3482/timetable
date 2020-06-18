@@ -97,11 +97,17 @@
     <ng-template matStepLabel>Service id:{{value_cal}} </ng-template>
     <app-calendar (notify)="oncal_Notify($event)"></app-calendar>
   </mat-step>
- 
+ <mat-step [editable]="true">
+    <ng-template matStepLabel> Stop_times </ng-template>
+    <app-stop-times></app-stop-times>
+  </mat-step>
+  
   <mat-step [editable]="true">
     <ng-template matStepLabel> Frequency </ng-template>
     <app-freq></app-freq>
   </mat-step>
+
+  
   <mat-step [editable]="true">
     <ng-template matStepLabel>Save or Cancel </ng-template>
     <div>

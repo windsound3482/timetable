@@ -12,7 +12,6 @@ import {Output,EventEmitter} from '@angular/core'
 })
 export class PathwayComponent implements OnInit {
 
-  @Output() notify= new EventEmitter();
   constructor(
     private file: StopservService,
   ) { }
@@ -32,7 +31,7 @@ export class PathwayComponent implements OnInit {
   onSave(){
     this.file.setpathway(this.dataSource);
     window.alert('Your File pathways.txt has already been saved!');
-    this.notify.emit(this.value_rou)
+  
     this.onReset();
   }
 
@@ -101,6 +100,7 @@ export class PathwayComponent implements OnInit {
       {
         this.dataSource[0].push(value[i]);
         add=true;
+        break;
       }
       else{
         let tempin=tempnames.indexOf(value[i]);
@@ -128,7 +128,7 @@ export class PathwayComponent implements OnInit {
   current=null;
   edit(){
     this.addmode=true;
-    this.notify.emit("");
+  
     let idindex=this.dataSource[0].indexOf("pathway_id");
     this.current=this.dataSource.length;
     for (var i=1;i<this.dataSource.length;i++)
@@ -147,9 +147,9 @@ export class PathwayComponent implements OnInit {
       tempinput[idindex]=this.value_rou;
       tempinput[pathway_way_index]="1";
       tempinput[is_bidirectional_index]="0";
-      this.dataSource.push(tempinput);
+      this.dataSource.push(tempinput); 
+      this.changeontable();
     }
-    this.changeontable();
   }
 
   changestop(i,stop){

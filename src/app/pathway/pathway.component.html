@@ -77,7 +77,7 @@
           </mat-form-field>
         </div>
           <mat-form-field *ngIf="item=='pathway_mode'">
-            <mat-label>route_type</mat-label>
+            <mat-label>{{item}}</mat-label>
               <mat-select [(value)]="dataSource[current][i]">
                 <mat-option value="1">walkway</mat-option>
                 <mat-option value="2">stairs</mat-option>
@@ -95,7 +95,6 @@
           <mat-form-field *ngIf="item=='is_bidirectional'">
             <mat-label>{{item}}</mat-label>
               <mat-select [(value)]="dataSource[current][i]">
-               
                 <mat-option value="0">Unidirectional pathway</mat-option>
                 <mat-option value="1">Bidirectional pathway</mat-option>
               </mat-select>

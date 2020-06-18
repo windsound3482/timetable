@@ -152,6 +152,9 @@ export class ZipService {
     temp=this.timetable.getroute();
     this.getfile(temp,"routes.txt");
 
+    temp=this.timetable.getstoptimes();
+    this.getfile(temp,"stop_times.txt");
+
     this.jszip.generateAsync({type:"blob"}).then((blob) => {
       FileSaver.saveAs(blob, "hello.zip");
     });

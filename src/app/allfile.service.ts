@@ -98,6 +98,9 @@ export class AllfileService {
 
       if (filename==="routes.txt")
         this.timetable.setroute(items);
+
+      if (filename==="stop_times.txt")
+        this.timetable.setstoptimes(items);
     }
     
   }
