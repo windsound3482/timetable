@@ -3,6 +3,7 @@ import { AllfileService } from '../allfile.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {FormControl} from '@angular/forms';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 @Component({
   selector: 'app-feedinfo',
   templateUrl: './feedinfo.component.html',
@@ -68,7 +69,8 @@ export class FeedinfoComponent implements OnInit {
     window.alert('Your File feed_info.txt has already been saved!');
     this.onReset();
   }
-
+  startatlist_start:FormControl[];
+  startatlist_end:FormControl[];
   onReset(){
     this.displayedColumns=[];
     this.dataSource=this.file.getfeedinfo();
@@ -83,9 +85,27 @@ export class FeedinfoComponent implements OnInit {
     }
     this.nameget.setValue(tempname);
     this.database=this.dataSource.slice(1);
+    let datestartindex=this.displayedColumns.indexOf("feed_start_date");
+    let dateendindex=this.displayedColumns.indexOf("feed_end_date");
+    this.startatlist_start=new Array(this.database.length).fill(null);
+    this.startatlist_end=new Array(this.database.length).fill(null);
+    console.log(this.database.length);
+    if (datestartindex>-1)
+      for (var i=0;i<this.database.length;i++)
+      {
+        console.log(this.database[i]);
+        if (this.database[i][datestartindex])
+          this.startatlist_start[i]=new FormControl(new Date(parseInt(this.database[i][datestartindex].slice(0,4)),parseInt(this.database[i][datestartindex].slice(4,6))-1,parseInt(this.database[i][datestartindex].slice(6))));
+      }
+    if ( dateendindex>-1)
+      for (var i=0;i<this.database.length;i++)
+      {
+        if (this.database[i][dateendindex])
+          this.startatlist_end[i]=new FormControl(new Date(parseInt(this.database[i][ dateendindex].slice(0,4)),parseInt(this.database[i][ dateendindex].slice(4,6))-1,parseInt(this.database[i][ dateendindex].slice(6))));
+      }
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
-   
+    
   }
   
   
@@ -94,6 +114,8 @@ export class FeedinfoComponent implements OnInit {
   addaLine(){
     this.database=this.dataTable.data;
     this.database.push([]);
+    this.startatlist_start.push(null);
+    this.startatlist_end.push(null);
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
   }
@@ -128,6 +150,17 @@ export class FeedinfoComponent implements OnInit {
       for (var j=0;j<this.database.length;j++)
           this.database[j].splice(tempindex,1);
     }
+    this.dataTable=new MatTableDataSource<string[]>(this.database);
+    this.dataTable.paginator = this.paginator;
+  }
+
+  adddate(event: MatDatepickerInputEvent<Date>,i,j){
+    const date:string =
+      event.value.getFullYear() +
+      ("00" + (event.value.getMonth()+1)).slice(-2) +
+      ("00" + event.value.getDate()).slice(-2);
+    this.database=this.dataTable.data;
+    this.database[j][i]=date;
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
   }

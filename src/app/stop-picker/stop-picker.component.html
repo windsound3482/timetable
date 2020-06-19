@@ -1,10 +1,10 @@
 <mat-form-field class="example-form-field" style="width:calc(19vw) !important; font-size:smaller">
     <mat-label *ngIf="label">{{label}}</mat-label>
-    <input matInput type="text" [(ngModel)]="currentstop"  style="max-width:95%; font-size:smaller" readonly>
+    <input matInput type="text" [(ngModel)]="currentstop"  style="max-width:95%; font-size:smaller" readonly required>
      <button mat-button [matMenuTriggerFor]="menu" matSuffix mat-icon-button [disabled]="disabled"> <mat-icon>swap_calls</mat-icon> </button>
 </mat-form-field>
    
-    <mat-menu #menu="matMenu">
+    <mat-menu #menu="matMenu" yPosition="below">
         <div  (click)="$event.stopPropagation()" class="mat-elevation-z8"> 
                 <table mat-table [dataSource]="dataTable" >
                   <div *ngFor="let pos of displayedColumns;let i= index">

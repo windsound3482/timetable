@@ -3,9 +3,36 @@
     <div *ngFor="let pos of displayedColumns;let i= index">
     <ng-container [matColumnDef]= "pos">
       <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
-          <mat-cell *matCellDef="let element"> 
-             
-            <input matInput type="text" style="border:0;outline:0;" [(ngModel)]="element[i]" > 
+          <mat-cell *matCellDef="let element;let j=index"> 
+            <div *ngIf="pos == 'feed_publisher_name' || pos == 'feed_lang'">
+              <input matinput type="text" style="border:0;outline:0;" required [(ngModel)]="element[i]"> 
+            </div>
+            <div *ngIf="pos == 'feed_publisher_url'">
+              <input matinput type="url" style="border:0;outline:0;" required [(ngModel)]="element[i]"> 
+            </div>
+            <div *ngIf="pos== 'default_lang' || pos== 'feed_version' ">
+              <input matInput type="text" style="border:0;outline:0;" [(ngModel)]="element[i]" > 
+            </div>
+            <div *ngIf="pos== 'feed_contact_url' ">
+              <input matInput type="url" style="border:0;outline:0;" [(ngModel)]="element[i]" > 
+            </div>
+            <div *ngIf="pos== 'feed_contact_email' ">
+              <input matInput type="email" style="border:0;outline:0;" [(ngModel)]="element[i]" > 
+            </div>
+            <div *ngIf="pos== 'feed_start_date'">
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker1" (dateChange)="adddate($event,i,j) " [formControl]="startatlist_start[j]">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1  readwrite></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div *ngIf="pos== 'feed_end_date' ">
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker2" (dateChange)="adddate($event,i,j)"  [formControl]="startatlist_end[j]">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker  #picker2  readwrite></mat-datepicker>
+              </mat-form-field>
+            </div>
             
         </mat-cell>
     </ng-container>

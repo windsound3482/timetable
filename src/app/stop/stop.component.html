@@ -7,7 +7,6 @@
                 <mat-cell *matCellDef="let element"> 
                   <div *ngIf="pos=='location_type'">
                     <div *ngIf="element[i]=='0'">Stop (or Platform)<mat-icon>commute</mat-icon></div>
-                    <div *ngIf="!element[i]">Stop (or Platform)<mat-icon>commute</mat-icon></div>
                     <div *ngIf="element[i]=='1'">Station<mat-icon> subway</mat-icon></div>
                     <div *ngIf="element[i]=='2'">Entrance/Exit<mat-icon>exit_to_app</mat-icon></div>
                     <div *ngIf="element[i]=='3'">Generic Node<mat-icon>airline_seat_recline_normal</mat-icon></div>
@@ -48,7 +47,6 @@
       
       <mat-select [(ngModel)]="addtype" [disabled]="editmode">
         <mat-option *ngFor="let x of currenttype" [value]="x" >
-          <div *ngIf="!x">Stop (or Platform)</div>
           <div *ngIf="x=='0'">Stop (or Platform)</div>
           <div *ngIf="x=='1'">Station</div>
           <div *ngIf="x=='2'">Entrance/Exit</div>
@@ -58,8 +56,6 @@
       </mat-select>
       &nbsp;&nbsp;&nbsp;
       <mat-checkbox [(ngModel)]="addmode" name="addmode" [disabled]="editmode ">Addmode</mat-checkbox>
-     
-    
       <span class="example-spacer"></span>
       <button mat-raised-button color="warn" (click)="onSave()" [disabled]="!editmode ">
         Save 
@@ -70,7 +66,6 @@
       </button>
     </mat-toolbar>
     <p></p>
-
 <div id='map' ></div> 
 <div class="myoptionclass">    
       <mat-form-field class="example-form-field">
@@ -91,14 +86,41 @@
       <div class="options"> </div>
       <div *ngIf="editmode">
         <div *ngFor="let attrs of dataSource[0];let i=index">
-          <div *ngIf='attrs=="stop_lat" || attrs=="stop_lon" || attrs=="stop_lon" || attrs=="location_type" || attrs=="parent_station"' >
+          <div *ngIf='attrs=="stop_lat" || attrs=="stop_lon"'>
+            <mat-form-field>
+              <mat-label>{{attrs}}</mat-label>
+              <input matInput *ngIf="currentvalue[dataSource[0].indexOf('location_type')]!='3' && currentvalue[dataSource[0].indexOf('location_type')]!='4'" type="text" [(ngModel)]="currentvalue[i]" [ngModelOptions]="{standalone: true}" required readonly>
+              <input matInput *ngIf="currentvalue[dataSource[0].indexOf('location_type')]=='3' || currentvalue[dataSource[0].indexOf('location_type')]=='4'" type="text" [(ngModel)]="currentvalue[i]" [ngModelOptions]="{standalone: true}" readonly>
+            </mat-form-field>
+          </div>
+          <div *ngIf='attrs=="parent_station"' >
             <mat-form-field >
                 <mat-label>{{attrs}}</mat-label>
                 <input matInput type="text" [(ngModel)]="currentvalue[i]" [ngModelOptions]="{standalone: true}" readonly>
-              
             </mat-form-field>
           </div>
-          <div *ngIf='attrs=="stop_code" || attrs=="stop_name" || attrs=="stop_desc" || attrs=="zone_id" || attrs=="platform_code"'>
+          <div *ngIf='attrs=="location_type"' >
+            <mat-form-field >
+                <mat-label>{{attrs}}</mat-label>
+                <mat-select [(ngModel)]="currentvalue[i]" [disabled]="true">
+                  <mat-option *ngFor="let x of currenttype" [value]="x" >
+                    <div *ngIf="x=='0'">Stop (or Platform)</div>
+                    <div *ngIf="x=='1'">Station</div>
+                    <div *ngIf="x=='2'">Entrance/Exit</div>
+                    <div *ngIf="x=='3'">Generic Node</div>
+                    <div *ngIf="x=='4'">Boarding Area</div>
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+          </div>
+          <div *ngIf='attrs=="stop_name"'>
+            <mat-form-field>
+              <mat-label>{{attrs}}</mat-label>
+              <input matInput *ngIf="currentvalue[dataSource[0].indexOf('location_type')]!='3' && currentvalue[dataSource[0].indexOf('location_type')]!='4'" type="text" [(ngModel)]="currentvalue[i]" [ngModelOptions]="{standalone: true}" required>
+              <input matInput *ngIf="currentvalue[dataSource[0].indexOf('location_type')]=='3' || currentvalue[dataSource[0].indexOf('location_type')]=='4'" type="text" [(ngModel)]="currentvalue[i]" [ngModelOptions]="{standalone: true}" >
+            </mat-form-field>
+          </div>
+          <div *ngIf='attrs=="stop_code" ||attrs=="stop_desc" || attrs=="zone_id" || attrs=="platform_code"'>
             <mat-form-field >
                 <mat-label>{{attrs}}</mat-label>
                 <input matInput type="text" [(ngModel)]="currentvalue[i]" [ngModelOptions]="{standalone: true}">

@@ -25,7 +25,12 @@ export class AgencytableComponent implements OnInit {
     this.onReset();
   }
  
-  
+  gettimezone(i,j,input:string){
+    this.database=this.dataTable.data;
+    this.database[j][i]=input;
+    this.dataTable=new MatTableDataSource<string[]>(this.database);
+    this.dataTable.paginator = this.paginator;
+  }
   
   onSave(){
     this.dataSource=[];
@@ -111,9 +116,10 @@ export class AgencytableComponent implements OnInit {
       if (this.displayedColumns.includes(value[i])==false)
       {
         this.displayedColumns.push(value[i]);
-        
+        for (var i=0;i<this.database.length;i++)
+          this.database[i].push("");
         add=true;
-        
+        break;
       }
       else{
         let tempin=tempnames.indexOf(value[i]);

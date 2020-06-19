@@ -46,8 +46,11 @@ export class AllfileService {
           else
           tempitem=tempitem.concat(templine[i]);
         }
-        tempstring.push(tempitem);
-        items.push(tempstring);
+        if (tempitem)
+        {
+          tempstring.push(tempitem);
+          items.push(tempstring);
+        }
       }
     };
     reader.readAsText(file);
