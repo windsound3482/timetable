@@ -96,7 +96,7 @@ export class CalendarComponent implements OnInit {
   };
 
   getDatabeginend(){
-    if (!this.current || !this.tempbegin || !this.tempend)
+    if (!this.current)
     { return [null,null];}
     let x:string=this.calendarData[this.current][this.c_start_date];
     let y:string=this.calendarData[this.current][this.c_end_date];
@@ -348,9 +348,7 @@ export class CalendarComponent implements OnInit {
   {
    
     calendar1._goToDateInView(new Date(datenow),'month');
-  
-    datenow=new Date(datenow);
-    dateend=new Date(dateend);
+
     while (datenow<=dateend)
       {
         if (dayava[datenow.getDay()]==1)
@@ -367,8 +365,9 @@ export class CalendarComponent implements OnInit {
   }
 
   daya:number[]=new Array(7).fill(0);
-  edit(calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any){
+  edit(picker1,picker2,calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any){
     this.notify.emit("");
+    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
     this.daysSelected=[];
     let index=this.c_ID;
     let editable:boolean=false;
@@ -387,6 +386,7 @@ export class CalendarComponent implements OnInit {
       this.daya=this.getdaya();
       let datenow:Date = this.getDatabeginend()[0];
       let dateend:Date = this.getDatabeginend()[1];
+      
       this.paintOnCalend(datenow,dateend,this.daya,calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
       this.paintwithexp(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
     }
@@ -394,7 +394,7 @@ export class CalendarComponent implements OnInit {
     {
       this.current=this.calendarData.length;
     }
-    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+    
   }
 
   displayedColumns: string[]=[];

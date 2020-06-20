@@ -30,7 +30,7 @@
         <mat-label>Service_id</mat-label>
         <input matInput type="text" [(ngModel)]="value_cal" name="value_cal" [disabled]="addmode || !mode" >
       
-        <button mat-button *ngIf="value_cal" matSuffix  aria-label="edit" [disabled]="addmode || !mode" (click)="edit(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6)">
+        <button mat-button *ngIf="value_cal" matSuffix  aria-label="edit" [disabled]="addmode || !mode" (click)="edit(picker1,picker2,calendar1,calendar2,calendar3,calendar4,calendar5,calendar6)">
           <mat-icon>create</mat-icon>
         </button>
         
