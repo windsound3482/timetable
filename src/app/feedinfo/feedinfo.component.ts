@@ -89,7 +89,6 @@ export class FeedinfoComponent implements OnInit {
     let dateendindex=this.displayedColumns.indexOf("feed_end_date");
     this.startatlist_start=new Array(this.database.length).fill(null);
     this.startatlist_end=new Array(this.database.length).fill(null);
-    console.log(this.database.length);
     if (datestartindex>-1)
       for (var i=0;i<this.database.length;i++)
       {

@@ -30,7 +30,7 @@
         <mat-label>Service_id</mat-label>
         <input matInput type="text" [(ngModel)]="value_cal" name="value_cal" [disabled]="addmode || !mode" >
       
-        <button mat-button *ngIf="value_cal" matSuffix  aria-label="edit" [disabled]="addmode || !mode" (click)="edit(calendar)">
+        <button mat-button *ngIf="value_cal" matSuffix  aria-label="edit" [disabled]="addmode || !mode" (click)="edit(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6)">
           <mat-icon>create</mat-icon>
         </button>
         
@@ -52,36 +52,49 @@
             <mat-datepicker #picker2 readwrite></mat-datepicker>
           </mat-form-field>
           &nbsp;&nbsp;
-          <p></p>
+         
             <mat-checkbox class="example-margin" *ngFor="let day of days;let i=index" [(ngModel)]="dayth[i]" name="day" [disabled]="!addmode || !mode" color="primary">
               {{day}}  &nbsp;
            </mat-checkbox>
-           <p></p>
-           <br>
-          <button mat-raised-button color="primary" (click)="change(calendar)" [disabled]="(!addmode) || (tempbegin==null) || (tempend==null) || (tempbegin>tempend) || !mode">
-             Change Date On The Calendar
+           <div class="options"></div>
+          <button mat-raised-button color="primary" (click)="change(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6)" [disabled]="(!addmode) || (tempbegin==null) || (tempend==null) || (tempbegin>tempend) || !mode">
+             Change Date On The calendar
           </button>
-          <p></p>
-          <br><br><br><br>
-          <button mat-raised-button color="accent" (click)="onSave(calendar,begininput,endinput)" [disabled]="(!addmode || !mode) ">
-             Save 
-          </button>
-          &nbsp;&nbsp;&nbsp;&nbsp;                    
-          <button mat-raised-button color="warn" (click)=" onDelete(calendar,begininput,endinput)" [disabled]="(!addmode || !mode || this.current==this.calendarData.length) ">
-              Delete
-           </button>
-          &nbsp;&nbsp;&nbsp;&nbsp;                    
-          <button mat-raised-button  (click)=" onReset(calendar,begininput,endinput)" [disabled]="(!addmode || !mode) ">
-              Reset
-           </button>
         </div>    
     </form>
  
-  
-  <mat-calendar #calendar (selectedChange)="select($event,calendar)" [dateClass]="isSelected" [startAt]="currentmonth"></mat-calendar>
+    <div class="options"></div>
+    
+    
+    <mat-calendar #calendar1 class="calendars" (selectedChange)="select($event,calendar1,calendar2,calendar3,calendar4,calendar5,calendar6)" [dateClass]="isSelected"  [startAt]="startdat[0]"></mat-calendar>
+    <mat-calendar #calendar2 class="calendars" (selectedChange)="select($event,calendar1,calendar2,calendar3,calendar4,calendar5,calendar6)" [dateClass]="isSelected"  [startAt]="startdat[1]"></mat-calendar>
+    <mat-calendar #calendar3 class="calendars" (selectedChange)="select($event,calendar1,calendar2,calendar3,calendar4,calendar5,calendar6)" [dateClass]="isSelected"  [startAt]="startdat[2]"></mat-calendar>
+    <mat-calendar #calendar4 class="calendars" (selectedChange)="select($event,calendar1,calendar2,calendar3,calendar4,calendar5,calendar6)" [dateClass]="isSelected"  [startAt]="startdat[3]"></mat-calendar>
+    <mat-calendar #calendar5 class="calendars" (selectedChange)="select($event,calendar1,calendar2,calendar3,calendar4,calendar5,calendar6)" [dateClass]="isSelected"  [startAt]="startdat[4]"></mat-calendar>
+    <mat-calendar #calendar6 class="calendars" (selectedChange)="select($event,calendar1,calendar2,calendar3,calendar4,calendar5,calendar6)" [dateClass]="isSelected"  [startAt]="startdat[5]"></mat-calendar>
+    <button mat-icon-button  class="calendars" color="primary" (click)="lastmonth(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6)">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    {{ currentyear}}
+     <button mat-icon-button  class="calendars" color="primary" (click)="nextmonth(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6)">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+    <div class="options"></div>
+    <br>
+    <button mat-raised-button color="accent" (click)="onSave(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6,begininput,endinput)" [disabled]="(!addmode || !mode) ">
+      Save 
+   </button>
+   &nbsp;&nbsp;&nbsp;&nbsp;                    
+   <button mat-raised-button color="warn" (click)=" onDelete(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6,begininput,endinput)" [disabled]="(!addmode || !mode || this.current==this.calendarData.length) ">
+       Delete
+    </button>
+   &nbsp;&nbsp;&nbsp;&nbsp;                    
+   <button mat-raised-button  (click)=" onReset(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6,begininput,endinput)" [disabled]="(!addmode || !mode) ">
+       Reset
+    </button>
+    <br><br><br><br>
   </mat-tab>
-  <mat-tab label="Alternate" [disabled]="(mode) ">
+ <mat-tab label="Alternate" [disabled]="(mode) ">
     <app-altercalen [inevent]="mode"></app-altercalen>
-  </mat-tab>
-  
+    </mat-tab>
 </mat-tab-group>

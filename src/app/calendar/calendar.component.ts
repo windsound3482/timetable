@@ -1,4 +1,4 @@
-import { Component, OnInit ,ViewEncapsulation,ViewChild ,}from '@angular/core';
+import { Component, OnInit ,ViewEncapsulation,ViewChild ,ChangeDetectionStrategy}from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
@@ -6,22 +6,38 @@ import { AltercalenComponent } from '../altercalen/altercalen.component';
 import { CalendarservService } from '../calendarserv.service';
 import {Output,EventEmitter} from '@angular/core'
 
+
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarComponent implements OnInit {
   constructor(private file:CalendarservService,) { 
-
+    
   }
 
   @ViewChild(AltercalenComponent ) altercalen: AltercalenComponent ;
   @Output() notify= new EventEmitter();
+  startdat:Date[]=Array(6).fill(new Date());
   //select date on the calendar
   
-  onSave(calendar: any,begininput,endinput){
+  lastmonth(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6){
+    let tempmonth:Date=new Date(calendar1.activeDate);
+    tempmonth.setMonth(tempmonth.getMonth()-1);
+    calendar1._goToDateInView(tempmonth,'month');
+    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+  }
+
+  nextmonth(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6){
+    let tempmonth:Date=new Date(calendar1.activeDate);
+    tempmonth.setMonth(tempmonth.getMonth()+1);
+    calendar1._goToDateInView(tempmonth,'month');
+    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+  }
+  onSave(calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any,begininput,endinput){
     this.file.setcalender(this.calendarData);
     this.file.setexp(this.calendarexpData);
     this.database=this.calendarData.slice(1);
@@ -34,17 +50,19 @@ export class CalendarComponent implements OnInit {
     this.calen_addin=["","","","","","","","","",""];
     this.addmode=false;
     this.current=null;
-    begininput.value_cal="";
-    endinput.value_cal="";
-    calendar.updateTodaysDate();
+    this.tempbegin=null;
+    this.tempend=null;
+    begininput.value="";
+    endinput.value="";
+    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6)
     window.alert('Your Files have already been saved!');
   }
 
-  onReset(calendar: any,begininput,endinput){
+  onReset(calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any,begininput,endinput){
     if (this.current<this.calendarData.length)
       this.notify.emit(this.value_cal);
     this.ngOnInit();
-    calendar.updateTodaysDate();
+    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
     begininput.value_cal="";
     endinput.value_cal="";
   }
@@ -78,7 +96,7 @@ export class CalendarComponent implements OnInit {
   };
 
   getDatabeginend(){
-    if (!this.current)
+    if (!this.current || !this.tempbegin || !this.tempend)
     { return [null,null];}
     let x:string=this.calendarData[this.current][this.c_start_date];
     let y:string=this.calendarData[this.current][this.c_end_date];
@@ -93,7 +111,7 @@ export class CalendarComponent implements OnInit {
     return [datebegin,dateend];
   }
 
-  select(event: any, calendar: any) {
+  select(event: any, calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any) {
     if ((!this.addmode) || (!this.mode))
     {
       return;
@@ -186,7 +204,33 @@ export class CalendarComponent implements OnInit {
       }
       this.daysSelected.splice(index, 1);
     }
-    calendar.updateTodaysDate();
+    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+  }
+  currentyear;
+  calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6){
+    calendar1.updateTodaysDate();
+    let tempmonth:Date=new Date(calendar1.activeDate);
+    console.log(tempmonth);
+    this.currentyear=new Date(tempmonth).getFullYear();
+    tempmonth.setMonth(tempmonth.getMonth()+1);
+    calendar2._goToDateInView(tempmonth,'month');
+    calendar2.updateTodaysDate();
+    tempmonth=new Date(tempmonth);
+    tempmonth.setMonth(tempmonth.getMonth()+1);
+    calendar3._goToDateInView(tempmonth,'month');
+    calendar3.updateTodaysDate();
+    tempmonth=new Date(tempmonth);
+    tempmonth.setMonth(tempmonth.getMonth()+1);
+    calendar4._goToDateInView(tempmonth,'month');
+    calendar4.updateTodaysDate();
+    tempmonth=new Date(tempmonth);
+    tempmonth.setMonth(tempmonth.getMonth()+1);
+    calendar5._goToDateInView(tempmonth,'month');
+    calendar5.updateTodaysDate();
+    tempmonth=new Date(tempmonth);
+    tempmonth.setMonth(tempmonth.getMonth()+1);
+    calendar6._goToDateInView(tempmonth,'month');
+    calendar6.updateTodaysDate();
   }
   
   tempbegin:Date=null;
@@ -194,7 +238,7 @@ export class CalendarComponent implements OnInit {
   days:string[]=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   dayth:any[]=[0,0,0,0,0,0,0,0,0];
   calen_addin:string[]=["","","","","","","","","",""];
-  currentmonth:Date=new Date();
+
 
   addBegin(event: MatDatepickerInputEvent<Date>){
     this.tempbegin =
@@ -218,7 +262,7 @@ export class CalendarComponent implements OnInit {
       dayava.push(parseInt(this.calendarData[this.current][this.c_Sat]));
     return dayava;
   }
-  change(calendar){
+  change(calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any){
     this.daysSelected=[];
     this.calen_addin[this.c_start_date]=this.tempbegin.getFullYear() +
     ("00" + (this.tempbegin.getMonth()+1)).slice(-2) +
@@ -248,9 +292,8 @@ export class CalendarComponent implements OnInit {
     this.daya=this.getdaya();
     let tempb=new Date(this.tempbegin);
     let tempe=new Date(this.tempend);
-    this.paintOnCalend(tempb,tempe,this.dayth,calendar);
-    console.log(this.daya);
-
+    this.paintOnCalend(tempb,tempe,this.dayth,calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+    
     let expidindex=this.calendarexpData[0].indexOf("service_id");
     let expatde:string[][]=this.calendarexpData.slice();
     for (var i=this.calendarexpData.length - 1 ;i>=1;i--)
@@ -264,7 +307,7 @@ export class CalendarComponent implements OnInit {
     this.calendarexpData=expatde;
   }
   
-  onDelete(calendar,begininput,endinput){
+  onDelete(calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any,begininput,endinput){
     this.calendarData.splice(this.current,1);
     let expidindex=this.calendarexpData[0].indexOf("service_id");
     let expatde:string[][]=this.calendarexpData.slice();
@@ -277,10 +320,10 @@ export class CalendarComponent implements OnInit {
     }
     this.value_cal="";
     this.calendarexpData=expatde;
-    this.onSave(calendar,begininput,endinput);
+    this.onSave(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6,begininput,endinput);
   }
 
-  paintwithexp(calendar: any){
+  paintwithexp(calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any){
     let expidindex=this.calendarexpData[0].indexOf("service_id");
     let exptypeindex=this.calendarexpData[0].indexOf("exception_type");
     let expdateindex=this.calendarexpData[0].indexOf("date");
@@ -298,13 +341,16 @@ export class CalendarComponent implements OnInit {
         } 
       }
     }
-    calendar.updateTodaysDate();
+    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
   }
 
-  paintOnCalend(datenow:Date,dateend:Date,dayava:number[],calendar: any)
+  paintOnCalend(datenow:Date,dateend:Date,dayava:number[],calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any)
   {
    
-    calendar._goToDateInView(new Date(datenow),'month');
+    calendar1._goToDateInView(new Date(datenow),'month');
+  
+    datenow=new Date(datenow);
+    dateend=new Date(dateend);
     while (datenow<=dateend)
       {
         if (dayava[datenow.getDay()]==1)
@@ -317,14 +363,13 @@ export class CalendarComponent implements OnInit {
         }
         datenow.setDate(datenow.getDate() + 1);
       }
-      calendar.updateTodaysDate();
+     this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
   }
 
   daya:number[]=new Array(7).fill(0);
-  edit(calendar: any){
+  edit(calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any){
     this.notify.emit("");
     this.daysSelected=[];
-    calendar.updateTodaysDate();
     let index=this.c_ID;
     let editable:boolean=false;
     for (var i=1;i<this.calendarData.length;i++)
@@ -342,13 +387,14 @@ export class CalendarComponent implements OnInit {
       this.daya=this.getdaya();
       let datenow:Date = this.getDatabeginend()[0];
       let dateend:Date = this.getDatabeginend()[1];
-      this.paintOnCalend(datenow,dateend,this.daya,calendar);
-      this.paintwithexp(calendar);
+      this.paintOnCalend(datenow,dateend,this.daya,calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+      this.paintwithexp(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
     }
     else
     {
       this.current=this.calendarData.length;
     }
+    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
   }
 
   displayedColumns: string[]=[];
@@ -408,7 +454,14 @@ export class CalendarComponent implements OnInit {
     this.calen_addin=["","","","","","","","","",""];
     this.addmode=false;
     this.current=null;
-
+    let tempdate=new Date(Date.now());
+    this.currentyear=tempdate.getFullYear();
+    for (var i=0;i<6;i++){
+      this.startdat[i]=tempdate;
+      tempdate=new Date(tempdate);
+      tempdate.setMonth(tempdate.getMonth()+1);
+    }
+    
   }
 
   add_service_input(name:string){
@@ -421,3 +474,5 @@ export class CalendarComponent implements OnInit {
     this.ngOnInit();
   }
 }
+
+

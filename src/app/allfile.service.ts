@@ -49,6 +49,9 @@ export class AllfileService {
         if (tempitem)
         {
           tempstring.push(tempitem);
+        }
+        if (tempstring)
+        {
           items.push(tempstring);
         }
       }

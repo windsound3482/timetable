@@ -128,6 +128,11 @@ export class StopPickerComponent implements OnInit {
       }
     }
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataTable.filter = filterValue.trim().toLowerCase();
+  }
     
 }
 

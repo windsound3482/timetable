@@ -1,10 +1,11 @@
 .mattabg{
-  width: 97%;
+  width:100%;
 }
 
 table {
   width: 100%;
 }
+
 .mat-calendar-body-cell.selected
 {
   background-color:lightblue;
@@ -26,9 +27,14 @@ table {
 
 .mat-calendar
 {
-  float:right;
-  margin-left:calc(1vw);
-  width:calc(25vw);
+  float:left;
+  margin-left:calc(8px);
+  width:calc(14vw);
+}
+
+.calendars .mat-calendar-header{
+  opacity: 0;
+  pointer-events: none;
 }
 
 .myoptionclass {
@@ -58,5 +64,9 @@ table {
 .myoptionclass .example-section .example-margin {
   margin: 0 10px;
   font-size: medium;
+}
+
+.options{
+  clear:both;
 }
   

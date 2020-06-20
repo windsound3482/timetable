@@ -29,6 +29,11 @@
             <button mat-stroked-button (click)="addaLine()">Add a Line</button>
         </mat-toolbar>
         </div>
+        &nbsp;&nbsp;
+        <mat-form-field>
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium">
+          </mat-form-field>
        
    
     </mat-menu>

@@ -78,5 +78,9 @@ export class LevelPickerComponent implements OnInit {
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
   }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataTable.filter = filterValue.trim().toLowerCase();
+  }
 
 }

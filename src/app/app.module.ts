@@ -55,6 +55,7 @@ import { PathwayComponent } from './pathway/pathway.component';
 import { StopTimesComponent } from './stop-times/stop-times.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -90,6 +91,7 @@ import { StopTimesComponent } from './stop-times/stop-times.component';
     PathwayTransferEditorComponent,
     PathwayComponent,
     StopTimesComponent,
+  
    
 
   ],
