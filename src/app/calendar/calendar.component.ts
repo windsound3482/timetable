@@ -211,7 +211,7 @@ export class CalendarComponent implements OnInit {
     calendar1.updateTodaysDate();
     let tempmonth:Date=new Date(calendar1.activeDate);
     console.log(tempmonth);
-    this.currentyear=new Date(tempmonth).getFullYear();
+    this.currentyear=("00" + (new Date(tempmonth).getMonth()+1)).slice(-2)+" "+(new Date(tempmonth).getFullYear());
     tempmonth.setMonth(tempmonth.getMonth()+1);
     calendar2._goToDateInView(tempmonth,'month');
     calendar2.updateTodaysDate();
@@ -455,7 +455,7 @@ export class CalendarComponent implements OnInit {
     this.addmode=false;
     this.current=null;
     let tempdate=new Date(Date.now());
-    this.currentyear=tempdate.getFullYear();
+    this.currentyear=("00" + (new Date(tempdate).getMonth()+1)).slice(-2)+" "+(new Date(tempdate).getFullYear());
     for (var i=0;i<6;i++){
       this.startdat[i]=tempdate;
       tempdate=new Date(tempdate);

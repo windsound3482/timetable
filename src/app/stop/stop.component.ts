@@ -76,12 +76,25 @@ export class StopComponent implements OnInit {
       if (this.dataSource[i][idindex]==this.currentparent)
       {
         this.currentparent=this.dataSource[i][this.dataSource[0].indexOf("parent_station")];
-        
+        let temptype=this.dataSource[i][this.dataSource[0].indexOf("location_type")];
+        if (!this.currentparent)
+        {
+          this.currenttype=["0","1"];
+          this.addtype=temptype;
+        }
+        else
+        {
+          this.currenttype=["0","2","3"];
+          this.addtype=temptype;
+        }
         this.value=this.currentparent;
         this.getstation(this.currentparent);
         let latindex=this.dataSource[0].indexOf("stop_lat");
         let lonindex=this.dataSource[0].indexOf("stop_lon");
-       
+        if (!this.currentparent)
+          this.map.setZoom(10);
+        else
+          this.map.setZoom(18);
         this.map.flyTo({
           center: [
             parseFloat(this.dataSource[i][lonindex]),
@@ -89,6 +102,7 @@ export class StopComponent implements OnInit {
           ],
           essential: true // this animation is considered essential with respect to prefers-reduced-motion
         });
+        
         this.addmode=true;
         this.editmode=false;
         this.current=null;
@@ -118,6 +132,7 @@ export class StopComponent implements OnInit {
       let temptype=this.dataSource[this.current][this.dataSource[0].indexOf("location_type")];
       if (temptype=="0" || temptype=="1")
       {
+        let temp
         this.currentparent=this.value;
         
         this.getstation(this.currentparent);
@@ -133,14 +148,17 @@ export class StopComponent implements OnInit {
         }
         let latindex=this.dataSource[0].indexOf("stop_lat");
         let lonindex=this.dataSource[0].indexOf("stop_lon");
-       
-        this.map.flyTo({
-          center: [
-            parseFloat(this.dataSource[this.current][lonindex]),
-            parseFloat(this.dataSource[this.current][latindex])
-          ],
-          essential: true // this animation is considered essential with respect to prefers-reduced-motion
-        });
+        console.log(this.dataSource[this.current][lonindex]);
+        this.map.setZoom(18);
+        if (this.dataSource[this.current][lonindex])
+          this.map.flyTo({
+            center: [
+              parseFloat(this.dataSource[this.current][lonindex]),
+              parseFloat(this.dataSource[this.current][latindex])
+            ],
+            essential: true // this animation is considered essential with respect to prefers-reduced-motion
+          });
+        
         this.value="";
         this.addmode=true;
         this.editmode=false;
@@ -197,8 +215,8 @@ export class StopComponent implements OnInit {
         container: 'map', // container id
         style: this.stops.getstyle()
         ,
-        center: [10, 50], // starting position
-        zoom: 5 // starting zoom
+        center: [8.646927, 49.878708], // starting position
+        zoom: 10 // starting zoom
       });
       this.map.addControl(new mapboxgl.NavigationControl());
      

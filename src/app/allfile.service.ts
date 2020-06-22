@@ -31,6 +31,11 @@ export class AllfileService {
           if (templine[i]=='"')
           {
             flag=!flag;
+            if (tempitem && templine[i+1]=='"')
+            {
+              tempitem=tempitem.concat(templine[i]);
+              i=i+1;
+            }
           }
           else
           if (templine[i]==',')
