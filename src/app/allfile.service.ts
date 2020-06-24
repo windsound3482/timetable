@@ -51,12 +51,11 @@ export class AllfileService {
           else
           tempitem=tempitem.concat(templine[i]);
         }
-        if (tempitem)
-        {
-          tempstring.push(tempitem);
-        }
+       
+        
         if (tempstring)
         {
+          tempstring.push(tempitem);
           items.push(tempstring);
         }
       }
@@ -81,7 +80,7 @@ export class AllfileService {
       if (filename==="calendar.txt")
       {
         this.calendar.setcalender(items);
-        this.calendar.setmode(true);
+      
       }
       if (filename==="calendar_dates.txt")
         this.calendar.setexp(items);

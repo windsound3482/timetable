@@ -94,7 +94,7 @@ export class StopComponent implements OnInit {
         if (!this.currentparent)
           this.map.setZoom(10);
         else
-          this.map.setZoom(18);
+          this.map.setZoom(16);
         this.map.flyTo({
           center: [
             parseFloat(this.dataSource[i][lonindex]),
@@ -132,7 +132,6 @@ export class StopComponent implements OnInit {
       let temptype=this.dataSource[this.current][this.dataSource[0].indexOf("location_type")];
       if (temptype=="0" || temptype=="1")
       {
-        let temp
         this.currentparent=this.value;
         
         this.getstation(this.currentparent);
@@ -149,7 +148,7 @@ export class StopComponent implements OnInit {
         let latindex=this.dataSource[0].indexOf("stop_lat");
         let lonindex=this.dataSource[0].indexOf("stop_lon");
         console.log(this.dataSource[this.current][lonindex]);
-        this.map.setZoom(18);
+        this.map.setZoom(16);
         if (this.dataSource[this.current][lonindex])
           this.map.flyTo({
             center: [
@@ -168,13 +167,22 @@ export class StopComponent implements OnInit {
   }
 
   onSave(){
+    let elements=document.getElementsByTagName("input");
+    for (var i=0;i<elements.length;i++)
+    {
+      if (!elements[i].checkValidity())
+      {
+        window.alert("Some Input goes wrong, check the red marked space!");
+        return;
+      }
+    }
     this.stops.setstop(this.dataSource);
     this.onReset();
   }
 
   createElement(id,lat,lon,type){
     var ell = document.createElement('div');
-    if (type=='0')
+    if (type=='0' || !type)
       ell.innerHTML = " <span class=\"material-icons\" style=\"color:blue\">place</span>";
     if (type=='1')
       ell.innerHTML = " <span class=\"material-icons\" style=\"color:darkblue\">place</span>";

@@ -27,5 +27,6 @@ table {
 
 
 input:invalid {
-  background-color:tomato;
+  background-color:red;
+  color:white
 }

@@ -47,6 +47,15 @@ export class FreqComponent implements OnInit {
   } 
 
   onSave(){
+    let elements=document.getElementsByTagName("input");
+    for (var i=0;i<elements.length;i++)
+    {
+      if (!elements[i].checkValidity())
+      {
+        window.alert("Some Input goes wrong, check the red marked space!");
+        return;
+      }
+    }
     this.dataSource=[];
     this.dataSource.push(this.displayedColumns);
     this.dataSource=this.dataSource.concat(this.dataTable.data);

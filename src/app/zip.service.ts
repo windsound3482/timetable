@@ -36,7 +36,8 @@ export class ZipService {
     for (var i=0;i<temprow;i++)
     {
       let tempstrr:string[]=temp[i];
-      tempstrr=tempstrr.map(x=> x.replace(/"/g, '""')).map(x => x='"'.concat(x,'"'));
+      if (tempstrr)
+        tempstrr=tempstrr.map(x=>x.toString().replace(/"/g, '""')).map(x => x='"'.concat(x,'"'));
       tempstr=tempstr.concat(tempstrr.toString());
       tempstr=tempstr.concat('\n');
     }
@@ -59,10 +60,6 @@ export class ZipService {
         });
         
       });
-    if (this.jszip.file("calendar.txt")==null)
-    {
-      this.calen.setmode(false);
-    }
     return files;
   }
 
@@ -95,13 +92,12 @@ export class ZipService {
       this.getfile(temp,"attributions.txt");
     }
 
-    if (this.calen.getmode()==true)
-    {
-      temp=this.calen.getcalender();
-      this.getfile(temp,"calendar.txt");
-    }
+  
+    temp=this.calen.getcalender();
+    this.getfile(temp,"calendar.txt");
+   
     temp=this.calen.getexp();
-    if (this.calen.getmode()!=true || temp.length>1)
+    if (temp.length>1)
     {
       this.getfile(temp,"calendar_dates.txt");
     }

@@ -29,6 +29,15 @@ export class StopTimesComponent implements OnInit {
   
   
   onSave(){
+    let elements=document.getElementsByTagName("input");
+    for (var i=0;i<elements.length;i++)
+    {
+      if (!elements[i].checkValidity())
+      {
+        window.alert("Some Input goes wrong, check the red marked space!");
+        return;
+      }
+    }
     this.file.setstoptimes(this.dataSource);
     window.alert('Your File pathways.txt has already been saved!');
     this.onReset();

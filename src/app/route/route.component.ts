@@ -22,6 +22,15 @@ export class RouteComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataTable.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataTable.paginator) {
+      this.dataTable.paginator.firstPage();
+    }
+  }
+
   ngOnInit(): void {
     this.onReset();
   }
@@ -31,6 +40,15 @@ export class RouteComponent implements OnInit {
   onSave(){
     this.dataSource[this.current][this.dataSource[0].indexOf("route_color")]=this.router_color_now.slice(1);
     this.dataSource[this.current][this.dataSource[0].indexOf("route_text_color")]=this.route_text_color_now.slice(1);
+    let elements=document.getElementsByTagName("input");
+    for (var i=0;i<elements.length;i++)
+    {
+      if (!elements[i].checkValidity())
+      {
+        window.alert("Some Input goes wrong, check the red marked space!");
+        return;
+      }
+    }
     this.file.setroute(this.dataSource);
     window.alert('Your File routes.txt has already been saved!');
     this.notify.emit(this.value_rou);

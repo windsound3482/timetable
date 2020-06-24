@@ -126,6 +126,15 @@ export class EditorComponent implements OnInit {
   defaultnames:string[]=["route_id","service_id","trip_id"];
   nameget = new FormControl();
   onSave(stepper:any){
+    let elements=document.getElementsByTagName("input");
+    for (var i=0;i<elements.length;i++)
+    {
+      if (!elements[i].checkValidity())
+      {
+        window.alert("Some Input goes wrong, check the red marked space!");
+        return;
+      }
+    }
     this.file.settrip(this.dataSource);
     this.freqcom.onSave();
     window.alert('Your Files have already been saved!');

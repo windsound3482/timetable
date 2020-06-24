@@ -1,4 +1,7 @@
-
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)">
+</mat-form-field>
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataTable" class="mat-elevation-z8">
       <div *ngFor="let pos of displayedColumns;let i= index">

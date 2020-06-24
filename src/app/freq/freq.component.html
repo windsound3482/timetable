@@ -5,7 +5,7 @@
         <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
             <mat-cell *matCellDef="let element"> 
                 <div *ngIf="pos=='start_time' || pos=='end_time'">
-                    <input matInput type="text"  [(ngModel)]="element[i]"  required pattern="^[0-9]?[0-9][:]([0-5]?[0-9]|60)[:]([0-5]?[0-9]|60)$">
+                    <input matInput type="text"  [(ngModel)]="element[i]"  required pattern="^[0-9]?[0-9][:]([0-5][0-9]|60)[:]([0-5][0-9]|60)$">
                 </div>
                 <div *ngIf="pos=='headway_secs'" >
                     <input matInput type="number" min="0" [(ngModel)]="element[i]" >

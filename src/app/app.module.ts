@@ -32,7 +32,7 @@ import { EditorComponent } from './editor/editor.component';
 import { FeedinfoComponent } from './feedinfo/feedinfo.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { TbForCalenComponent } from './tb-for-calen/tb-for-calen.component';
-import { AltercalenComponent } from './altercalen/altercalen.component';
+
 import { ShapetableComponent } from './shapetable/shapetable.component';
 import { AttributionsComponent } from './attributions/attributions.component';
 import { TranslationComponent } from './translation/translation.component';
@@ -70,7 +70,6 @@ import { StopTimesComponent } from './stop-times/stop-times.component';
     FeedinfoComponent,
     CalendarComponent,
     TbForCalenComponent,
-    AltercalenComponent,
     ShapetableComponent,
     AttributionsComponent,
     TranslationComponent,

@@ -33,43 +33,20 @@ export class AgencytableComponent implements OnInit {
   }
   
   onSave(){
+    //check Validity
+    let elements=document.getElementsByTagName("input");
+    for (var i=0;i<elements.length;i++)
+    {
+      if (!elements[i].checkValidity())
+      {
+        window.alert("Some Input goes wrong, check the red marked space!");
+        return;
+      }
+    }
     this.dataSource=[];
     this.dataSource.push(this.displayedColumns);
     this.database=this.dataTable.data;
-    let mussthing:number[]=[];
-    for (var i=0;i<this.defaultnames.length;i++)
-    {
-      mussthing.push(this.displayedColumns.indexOf(this.defaultnames[i]));
-    }
-    let copydatabase=this.database.slice();
-    let tempindex=this.displayedColumns.length;
-    for (var i=this.database.length -1;i>=0;i--)
-    {
-      let deleteeable=true;
-      for (var j=tempindex-1;j>=0;j--)
-      if (this.database[i][j]!="" && this.database[i][j]!=null)
-      {
-        deleteeable=false;
-      }
-      if (deleteeable==true)
-      {
-        copydatabase.splice(i,1);
-      }
-      else
-      {
-        for (var j=0;j<mussthing.length;j++)
-        {
-          if (this.database[i][mussthing[j]]=="" || this.database[i][mussthing[j]]==null)
-          {
-            let message:string="datatable need a value at [";
-            message=message.concat(i.toString(),",",mussthing[j].toString(),"] ,for ",(this.displayedColumns[mussthing[j]]).toString());
-            window.alert(message);
-            return;
-          }
-        }
-      }
-    }
-    this.dataSource=this.dataSource.concat(copydatabase);
+    this.dataSource=this.dataSource.concat(this.database);
     
     this.file.setagencyList(this.dataSource);
     window.alert('Your File agency.txt has already been saved!');
@@ -92,7 +69,6 @@ export class AgencytableComponent implements OnInit {
     this.database=this.dataSource.slice(1);
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
-   
   }
   
   
@@ -139,7 +115,9 @@ export class AgencytableComponent implements OnInit {
     }
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
+   
   }
+  
   
 }
  

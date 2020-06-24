@@ -107,7 +107,7 @@
           </mat-form-field>
           <mat-form-field *ngIf="item=='arrival_time' || item=='departure_time'" >
             <mat-label>{{item}}</mat-label>
-            <input matInput type="text"  [(ngModel)]="dataSource[current][i]"  required pattern="^[0-9]?[0-9][:]([0-5]?[0-9]|60)[:]([0-5]?[0-9]|60)$" #uname="ngModel">
+            <input matInput type="text"  [(ngModel)]="dataSource[current][i]"  required pattern="^[0-9]?[0-9][:]([0-5][0-9]|60)[:]([0-5][0-9]|60)$">
          </mat-form-field>
           <div  *ngIf="item=='stop_id'">
              <app-stop-picker class="stop_picker" [label]="item" [Detailmode]="false" [stopnow]="dataSource[current][i]" [disabled]="false" (notify)="changestop(i,$event)"> </app-stop-picker>

@@ -26,6 +26,15 @@ export class FeedinfoComponent implements OnInit {
   
   
   onSave(){
+    let elements=document.getElementsByTagName("input");
+    for (var i=0;i<elements.length;i++)
+    {
+      if (!elements[i].checkValidity())
+      {
+        window.alert("Some Input goes wrong, check the red marked space!");
+        return;
+      }
+    }
     this.dataSource=[];
     this.dataSource.push(this.displayedColumns);
     this.database=this.dataTable.data;

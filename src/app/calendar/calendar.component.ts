@@ -2,9 +2,10 @@ import { Component, OnInit ,ViewEncapsulation,ViewChild ,ChangeDetectionStrategy
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-import { AltercalenComponent } from '../altercalen/altercalen.component';
 import { CalendarservService } from '../calendarserv.service';
 import {Output,EventEmitter} from '@angular/core'
+import { ViewChildren, QueryList } from '@angular/core';
+import {MatCalendar} from '@angular/material/datepicker';
 
 
 @Component({
@@ -19,25 +20,25 @@ export class CalendarComponent implements OnInit {
     
   }
 
-  @ViewChild(AltercalenComponent ) altercalen: AltercalenComponent ;
+ 
   @Output() notify= new EventEmitter();
   startdat:Date[]=Array(6).fill(new Date());
   //select date on the calendar
   
-  lastmonth(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6){
-    let tempmonth:Date=new Date(calendar1.activeDate);
-    tempmonth.setMonth(tempmonth.getMonth()-1);
-    calendar1._goToDateInView(tempmonth,'month');
-    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+  lastmonth(){
+    let tempmonth:Date=new Date(this.calendars.first.activeDate);
+    tempmonth.setFullYear(tempmonth.getFullYear()-1);
+    this.calendars.first._goToDateInView(tempmonth,'month');
+    this.calendar_updateTodaysDate();
   }
 
-  nextmonth(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6){
-    let tempmonth:Date=new Date(calendar1.activeDate);
-    tempmonth.setMonth(tempmonth.getMonth()+1);
-    calendar1._goToDateInView(tempmonth,'month');
-    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+  nextmonth(){
+    let tempmonth:Date=new Date(this.calendars.first.activeDate);
+    tempmonth.setFullYear(tempmonth.getFullYear()+1);
+    this.calendars.first._goToDateInView(tempmonth,'month');
+    this.calendar_updateTodaysDate();
   }
-  onSave(calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any,begininput,endinput){
+  onSave(begininput,endinput){
     this.file.setcalender(this.calendarData);
     this.file.setexp(this.calendarexpData);
     this.database=this.calendarData.slice(1);
@@ -54,15 +55,15 @@ export class CalendarComponent implements OnInit {
     this.tempend=null;
     begininput.value="";
     endinput.value="";
-    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6)
+    this.calendar_updateTodaysDate()
     window.alert('Your Files have already been saved!');
   }
 
-  onReset(calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any,begininput,endinput){
+  onReset(begininput,endinput){
     if (this.current<this.calendarData.length)
       this.notify.emit(this.value_cal);
     this.ngOnInit();
-    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+    this.calendar_updateTodaysDate();
     begininput.value_cal="";
     endinput.value_cal="";
   }
@@ -111,8 +112,8 @@ export class CalendarComponent implements OnInit {
     return [datebegin,dateend];
   }
 
-  select(event: any, calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any) {
-    if ((!this.addmode) || (!this.mode))
+  select(event: any) {
+    if ((!this.addmode))
     {
       return;
     }
@@ -204,33 +205,20 @@ export class CalendarComponent implements OnInit {
       }
       this.daysSelected.splice(index, 1);
     }
-    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+    this.calendar_updateTodaysDate();
   }
   currentyear;
-  calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6){
-    calendar1.updateTodaysDate();
-    let tempmonth:Date=new Date(calendar1.activeDate);
-    console.log(tempmonth);
-    this.currentyear=("00" + (new Date(tempmonth).getMonth()+1)).slice(-2)+" "+(new Date(tempmonth).getFullYear());
-    tempmonth.setMonth(tempmonth.getMonth()+1);
-    calendar2._goToDateInView(tempmonth,'month');
-    calendar2.updateTodaysDate();
-    tempmonth=new Date(tempmonth);
-    tempmonth.setMonth(tempmonth.getMonth()+1);
-    calendar3._goToDateInView(tempmonth,'month');
-    calendar3.updateTodaysDate();
-    tempmonth=new Date(tempmonth);
-    tempmonth.setMonth(tempmonth.getMonth()+1);
-    calendar4._goToDateInView(tempmonth,'month');
-    calendar4.updateTodaysDate();
-    tempmonth=new Date(tempmonth);
-    tempmonth.setMonth(tempmonth.getMonth()+1);
-    calendar5._goToDateInView(tempmonth,'month');
-    calendar5.updateTodaysDate();
-    tempmonth=new Date(tempmonth);
-    tempmonth.setMonth(tempmonth.getMonth()+1);
-    calendar6._goToDateInView(tempmonth,'month');
-    calendar6.updateTodaysDate();
+  @ViewChildren ("calendar") calendars: QueryList<MatCalendar<Date>>;
+  calendar_updateTodaysDate(){
+    this.calendars.first.updateTodaysDate();
+    let tempmonth:Date=new Date(this.calendars.first.activeDate);
+    this.currentyear=new Date(tempmonth).getFullYear();
+    this.calendars.forEach((cal)=>{
+      cal._goToDateInView(tempmonth,'month');
+      cal.updateTodaysDate();
+      tempmonth=new Date(tempmonth);
+      tempmonth.setMonth(tempmonth.getMonth()+1);
+    })
   }
   
   tempbegin:Date=null;
@@ -262,7 +250,7 @@ export class CalendarComponent implements OnInit {
       dayava.push(parseInt(this.calendarData[this.current][this.c_Sat]));
     return dayava;
   }
-  change(calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any){
+  change(){
     this.daysSelected=[];
     this.calen_addin[this.c_start_date]=this.tempbegin.getFullYear() +
     ("00" + (this.tempbegin.getMonth()+1)).slice(-2) +
@@ -292,7 +280,7 @@ export class CalendarComponent implements OnInit {
     this.daya=this.getdaya();
     let tempb=new Date(this.tempbegin);
     let tempe=new Date(this.tempend);
-    this.paintOnCalend(tempb,tempe,this.dayth,calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+    this.paintOnCalend(tempb,tempe,this.dayth);
     
     let expidindex=this.calendarexpData[0].indexOf("service_id");
     let expatde:string[][]=this.calendarexpData.slice();
@@ -307,7 +295,7 @@ export class CalendarComponent implements OnInit {
     this.calendarexpData=expatde;
   }
   
-  onDelete(calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any,begininput,endinput){
+  onDelete(begininput,endinput){
     this.calendarData.splice(this.current,1);
     let expidindex=this.calendarexpData[0].indexOf("service_id");
     let expatde:string[][]=this.calendarexpData.slice();
@@ -320,10 +308,10 @@ export class CalendarComponent implements OnInit {
     }
     this.value_cal="";
     this.calendarexpData=expatde;
-    this.onSave(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6,begininput,endinput);
+    this.onSave(begininput,endinput);
   }
 
-  paintwithexp(calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any){
+  paintwithexp(){
     let expidindex=this.calendarexpData[0].indexOf("service_id");
     let exptypeindex=this.calendarexpData[0].indexOf("exception_type");
     let expdateindex=this.calendarexpData[0].indexOf("date");
@@ -341,13 +329,14 @@ export class CalendarComponent implements OnInit {
         } 
       }
     }
-    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+    this.calendar_updateTodaysDate();
   }
 
-  paintOnCalend(datenow:Date,dateend:Date,dayava:number[],calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any)
+  paintOnCalend(datenow:Date,dateend:Date,dayava:number[])
   {
-   
-    calendar1._goToDateInView(new Date(datenow),'month');
+    let tempdate=new Date(datenow);
+    tempdate.setMonth(0);
+    this.calendars.first._goToDateInView(tempdate,'month');
 
     while (datenow<=dateend)
       {
@@ -361,13 +350,13 @@ export class CalendarComponent implements OnInit {
         }
         datenow.setDate(datenow.getDate() + 1);
       }
-     this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+     this.calendar_updateTodaysDate();
   }
 
   daya:number[]=new Array(7).fill(0);
-  edit(picker1,picker2,calendar1: any,calendar2: any,calendar3: any,calendar4: any,calendar5: any,calendar6: any){
+  edit(){
     this.notify.emit("");
-    this.calendar_updateTodaysDate(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+    this.calendar_updateTodaysDate();
     this.daysSelected=[];
     let index=this.c_ID;
     let editable:boolean=false;
@@ -387,8 +376,8 @@ export class CalendarComponent implements OnInit {
       let datenow:Date = this.getDatabeginend()[0];
       let dateend:Date = this.getDatabeginend()[1];
       
-      this.paintOnCalend(datenow,dateend,this.daya,calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
-      this.paintwithexp(calendar1,calendar2,calendar3,calendar4,calendar5,calendar6);
+      this.paintOnCalend(datenow,dateend,this.daya);
+      this.paintwithexp();
     }
     else
     {
@@ -418,16 +407,14 @@ export class CalendarComponent implements OnInit {
   c_Sat:number;
   c_Sun:number;
   c_ID:number;
-  mode:boolean;
+  
   ngOnInit(): void {
-    this.mode=this.file.getmode();
     this.calendarData=this.file.getcalender();
     this.calendarexpData=this.file.getexp();
     this.daysSelected=[];
     this.displayedColumns=[];
     let name:Array<string>= (this.calendarData)[0];
-    if (this.mode)
-    {
+   
       
       this.c_start_date=this.calendarData[0].indexOf("start_date");
       this.c_end_date=this.calendarData[0].indexOf("end_date");
@@ -440,7 +427,7 @@ export class CalendarComponent implements OnInit {
       this.c_Sun=this.calendarData[0].indexOf("sunday");
       this.c_ID=this.calendarData[0].indexOf("service_id");
       
-    }
+   
     for (let i=0;i<name.length;i++){
       this.displayedColumns.push(name[i]);
     }
@@ -455,8 +442,9 @@ export class CalendarComponent implements OnInit {
     this.addmode=false;
     this.current=null;
     let tempdate=new Date(Date.now());
-    this.currentyear=("00" + (new Date(tempdate).getMonth()+1)).slice(-2)+" "+(new Date(tempdate).getFullYear());
-    for (var i=0;i<6;i++){
+    tempdate.setMonth(0);
+    this.currentyear=new Date(tempdate).getFullYear();
+    for (var i=0;i<12;i++){
       this.startdat[i]=tempdate;
       tempdate=new Date(tempdate);
       tempdate.setMonth(tempdate.getMonth()+1);
@@ -468,11 +456,11 @@ export class CalendarComponent implements OnInit {
     this.value_cal=name;
   }
 
-  changemode(){
-    this.mode=this.file.getmode();
-    this.altercalen.ngOnInit();
-    this.ngOnInit();
-  }
+
+
+  counter(i: number) {
+    return new Array(i);
+}
 }
 
 
