@@ -114,6 +114,16 @@ export class StopTimesComponent implements OnInit {
       }
       this.database.push(tempinput);
     }
+    //sort the database
+    for (var i=1;i<this.database.length;i++)
+      for (var j=this.database.length-1;j>i;j--)
+        if (this.database[i][4]==this.database[j][4])
+          if (parseInt(this.database[i][3])>parseInt(this.database[j][3]))
+          {
+            let tempstring=this.database[i].slice();
+            this.database[i]=this.database[j].slice();
+            this.database[j]=tempstring;
+          }
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
     this.dataTable.filter=this.value_trp; 
@@ -164,22 +174,29 @@ export class StopTimesComponent implements OnInit {
     this.changeontable();
   }
   current=null;
+
+  
   edit(editelement:string[]){
     let database_index_stop_id=this.displayedColumns.indexOf("stop_id");
+    let database_index_stop_sequence=this.displayedColumns.indexOf("stop_sequence");
     let dataSource_index_stop_id=this.dataSource[0].indexOf("stop_id");
     let dataSource_index_trip_id=this.dataSource[0].indexOf("trip_id");
+    let dataSource_index_stop_sequence=this.dataSource[0].indexOf("stop_sequence");
     this.addmode=true;
     for (var i=1;i<this.dataSource.length;i++)
     {
-      if (this.dataSource[i][dataSource_index_trip_id]==this.value_trp && this.dataSource[i][dataSource_index_stop_id]==this.database[i-1][database_index_stop_id]){
+      if (this.dataSource[i][dataSource_index_trip_id]==this.value_trp && 
+          this.dataSource[i][dataSource_index_stop_id]==editelement[database_index_stop_id] &&
+          this.dataSource[i][dataSource_index_stop_sequence]==editelement[database_index_stop_sequence]
+        ){
         this.current=i;
-        break;
+        return this.current;
       }
     }
   }
 
   editdelete(editelement:string[]){
-    this.current=this.database.indexOf(editelement)+1;
+    this.current=this.edit(editelement);
     this.onDelete();
   }
 

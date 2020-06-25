@@ -216,6 +216,15 @@ export class StopComponent implements OnInit {
     this.onSave();
   }
 
+  additemtotable(index,i){
+    let tempinput=new Array(5).fill("");
+    for (var j=0;j<5;j++)
+        if (index[j]>-1){
+            tempinput[j]=this.dataSource[i][index[j]];
+         }
+    this.database.push(tempinput);
+   
+  }
   getstation(parentstation){
     var tempmap=document.getElementById("map");
       tempmap.innerHTML=null;
@@ -230,7 +239,7 @@ export class StopComponent implements OnInit {
      
     let latindex=this.dataSource[0].indexOf("stop_lat");
     let lonindex=this.dataSource[0].indexOf("stop_lon");
-     
+    let idindex=this.dataSource[0].indexOf("stop_id");
     let index=[];
     for (var i=0;i<5;i++)
     {
@@ -239,21 +248,46 @@ export class StopComponent implements OnInit {
     this.database=[];
     let parentindex=this.dataSource[0].indexOf("parent_station");
     let typeindex=this.dataSource[0].indexOf("location_type");
+    if (parentstation)
+    {
+      let pop:string=""; //parent of parent
+      for (var i=1;i<this.dataSource.length;i++)
+      {
+        if (this.dataSource[i][idindex]==parentstation)
+        {
+          pop=this.dataSource[i][parentindex];
+          if (pop){
+            for (var j=1;j<this.dataSource.length;j++)
+            {
+              if (this.dataSource[j][idindex]==pop)
+              {
+                this.additemtotable(index,j);
     
+                if (this.dataSource[j][latindex] && this.dataSource[j][lonindex])
+                  this.createElement(this.database[this.database.length-1][0],this.dataSource[j][latindex].valueOf(),this.dataSource[j][lonindex].valueOf(),this.dataSource[j][typeindex]);
+                break;
+              }
+            }
+          }
+          this.additemtotable(index,i);
+
+          if (this.dataSource[i][latindex] && this.dataSource[i][lonindex])
+            this.createElement(this.database[this.database.length-1][0],this.dataSource[i][latindex].valueOf(),this.dataSource[i][lonindex].valueOf(),this.dataSource[i][typeindex]);
+          break;  
+        }
+      } 
+    }
       for (var i=1;i<this.dataSource.length;i++)
       {
         if (this.dataSource[i][parentindex]==parentstation)
         {
-          let tempinput=new Array(5).fill("");
-          for (var j=0;j<5;j++)
-            if (index[j]>-1){
-                tempinput[j]=this.dataSource[i][index[j]];
-            }
-          this.database.push(tempinput);
+          this.additemtotable(index,i);
           if (this.dataSource[i][latindex] && this.dataSource[i][lonindex])
-           this.createElement(tempinput[0],this.dataSource[i][latindex].valueOf(),this.dataSource[i][lonindex].valueOf(),this.dataSource[i][typeindex]);
+           this.createElement(this.database[this.database.length-1][0],this.dataSource[i][latindex].valueOf(),this.dataSource[i][lonindex].valueOf(),this.dataSource[i][typeindex]);
         }
       }
+
+   
       this.dataTable=new MatTableDataSource<string[]>(this.database);
       this.dataTable.paginator = this.paginator;
 
