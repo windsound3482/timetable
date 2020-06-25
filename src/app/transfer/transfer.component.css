@@ -6,3 +6,8 @@ table {
 .example-spacer {
     flex: 1 1 auto;
 }
+
+input:invalid {
+    background-color:red;
+    color:white;
+}

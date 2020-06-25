@@ -8,7 +8,7 @@
                     <app-stop-picker [Detailmode]="true" [stopnow]="element[i]" (notify)="setstop($event,j,i)"></app-stop-picker>
                 </div>
                 <div *ngIf="pos=='min_transfer_time'" >
-                    <input matinput type="number" min="0" style="border:0;outline:0;" required [(ngModel)]="element[i]"> 
+                    <input matinput type="number" min="0" style="border:0;outline:0;" [(ngModel)]="element[i]"> 
                     <button mat-raised-button color="primary" (click)="deleteline(element)">Delete</button>
                 </div>
                 <div *ngIf="pos=='transfer_type'">

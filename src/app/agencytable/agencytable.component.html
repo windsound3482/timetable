@@ -7,6 +7,11 @@
               <div *ngIf="pos == 'agency_id' || pos == 'agency_name'">
                 <input matinput type="text" style="border:0;outline:0;" required [(ngModel)]="element[i]" > 
               </div>
+              <div *ngIf="pos == 'agency_id'">
+                <button mat-button matSuffix (click)="ondelete(element)">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
               <div *ngIf="pos == 'agency_url'">
                 <input matinput type="url" style="border:0;outline:0;" required [(ngModel)]="element[i]"> 
               </div>

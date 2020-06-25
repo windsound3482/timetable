@@ -28,10 +28,15 @@ export class AgencytableComponent implements OnInit {
   gettimezone(i,j,input:string){
     this.database=this.dataTable.data;
     this.database[j][i]=input;
-    this.dataTable=new MatTableDataSource<string[]>(this.database);
-    this.dataTable.paginator = this.paginator;
+    this.gettablefrombase();
   }
   
+  ondelete(element){
+    this.database=this.dataTable.data;
+    this.database.splice(this.database.indexOf(element),1);
+    this.gettablefrombase();
+  }
+
   onSave(){
     //check Validity
     let elements=document.getElementsByTagName("input");
@@ -43,11 +48,20 @@ export class AgencytableComponent implements OnInit {
         return;
       }
     }
+    let timezoneindex=this.displayedColumns.indexOf("agency_timezone");
     this.dataSource=[];
     this.dataSource.push(this.displayedColumns);
     this.database=this.dataTable.data;
+    for (var i=0;i<this.database.length;i++)
+    {
+      if (!this.database[i][timezoneindex])
+      {
+        window.alert("Please enter an timezone");
+        return;
+      }
+    }
     this.dataSource=this.dataSource.concat(this.database);
-    
+    console.log("saveit");
     this.file.setagencyList(this.dataSource);
     window.alert('Your File agency.txt has already been saved!');
     this.onReset();
@@ -67,8 +81,7 @@ export class AgencytableComponent implements OnInit {
     }
     this.nameget.setValue(tempname);
     this.database=this.dataSource.slice(1);
-    this.dataTable=new MatTableDataSource<string[]>(this.database);
-    this.dataTable.paginator = this.paginator;
+    this.gettablefrombase();
   }
   
   
@@ -77,8 +90,7 @@ export class AgencytableComponent implements OnInit {
   addaLine(){
     this.database=this.dataTable.data;
     this.database.push([]);
-    this.dataTable=new MatTableDataSource<string[]>(this.database);
-    this.dataTable.paginator = this.paginator;
+    this.gettablefrombase();
   }
 
   nameget = new FormControl();
@@ -113,9 +125,12 @@ export class AgencytableComponent implements OnInit {
       for (var j=0;j<this.database.length;j++)
           this.database[j].splice(tempindex,1);
     }
+    this.gettablefrombase();
+  }
+
+  gettablefrombase(){
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
-   
   }
   
   

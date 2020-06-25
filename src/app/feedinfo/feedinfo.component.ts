@@ -38,41 +38,7 @@ export class FeedinfoComponent implements OnInit {
     this.dataSource=[];
     this.dataSource.push(this.displayedColumns);
     this.database=this.dataTable.data;
-    let mussthing:number[]=[];
-    for (var i=0;i<this.defaultnames.length;i++)
-    {
-      mussthing.push(this.displayedColumns.indexOf(this.defaultnames[i]));
-    }
-    let copydatabase=this.database.slice();
-    let tempindex=this.displayedColumns.length;
-    for (var i=this.database.length - 1;i>=0;i--)
-    {
-      let deleteeable=true;
-      for (var j=0;j<tempindex;j++)
-      if (this.database[i][j]!="" && this.database[i][j]!=null)
-      {
-        deleteeable=false;
-      }
-      if (deleteeable==true)
-      {
-        copydatabase.splice(i,1);
-      }
-      else
-      {
-        for (var j=0;j<mussthing.length;j++)
-        {
-          if (this.database[i][mussthing[j]]=="" || this.database[i][mussthing[j]]==null)
-          {
-            let message:string="datatable need a value at [";
-            message=message.concat(i.toString(),",",mussthing[j].toString(),"] ,for ",(this.displayedColumns[mussthing[j]]).toString());
-            window.alert(message);
-            return;
-          }
-        }
-      }
-    }
-   
-    this.dataSource=this.dataSource.concat(copydatabase);
+    this.dataSource=this.dataSource.concat(this.database);
     
     this.file.setfeedinfo(this.dataSource);
     window.alert('Your File feed_info.txt has already been saved!');
@@ -111,9 +77,7 @@ export class FeedinfoComponent implements OnInit {
         if (this.database[i][dateendindex])
           this.startatlist_end[i]=new FormControl(new Date(parseInt(this.database[i][ dateendindex].slice(0,4)),parseInt(this.database[i][ dateendindex].slice(4,6))-1,parseInt(this.database[i][ dateendindex].slice(6))));
       }
-    this.dataTable=new MatTableDataSource<string[]>(this.database);
-    this.dataTable.paginator = this.paginator;
-    
+    this.gettablefrombase();
   }
   
   
@@ -124,12 +88,17 @@ export class FeedinfoComponent implements OnInit {
     this.database.push([]);
     this.startatlist_start.push(null);
     this.startatlist_end.push(null);
-    this.dataTable=new MatTableDataSource<string[]>(this.database);
-    this.dataTable.paginator = this.paginator;
+    this.gettablefrombase();
   }
 
   nameget = new FormControl();
   
+  ondelete(element){
+    this.database=this.dataTable.data;
+    this.database.splice(this.database.indexOf(element),1);
+    this.gettablefrombase();
+  }
+
   changecol(){
     
     var value=this.nameget.value;
@@ -158,8 +127,7 @@ export class FeedinfoComponent implements OnInit {
       for (var j=0;j<this.database.length;j++)
           this.database[j].splice(tempindex,1);
     }
-    this.dataTable=new MatTableDataSource<string[]>(this.database);
-    this.dataTable.paginator = this.paginator;
+    this.gettablefrombase();
   }
 
   adddate(event: MatDatepickerInputEvent<Date>,i,j){
@@ -169,6 +137,10 @@ export class FeedinfoComponent implements OnInit {
       ("00" + event.value.getDate()).slice(-2);
     this.database=this.dataTable.data;
     this.database[j][i]=date;
+    this.gettablefrombase();
+  }
+
+  gettablefrombase(){
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
   }

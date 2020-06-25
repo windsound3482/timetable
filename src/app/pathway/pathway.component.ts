@@ -38,6 +38,12 @@ export class PathwayComponent implements OnInit {
         return;
       }
     }
+    let indexfromstop=this.dataSource[0].indexOf("from_stop_id");
+    let indextostop=this.dataSource[0].indexOf("to_stop_id");
+    if (!this.dataSource[this.current][indexfromstop] || !this.dataSource[this.current][indextostop]){
+      window.alert("Some Input goes wrong, check the stop inputs!");
+      return;
+    }
     this.file.setpathway(this.dataSource);
     window.alert('Your File pathways.txt has already been saved!');
   

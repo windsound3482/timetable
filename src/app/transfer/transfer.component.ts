@@ -45,8 +45,29 @@ export class TransferComponent implements OnInit {
   } 
 
   onSave(){
+    let elements=document.getElementsByTagName("input");
+    for (var i=0;i<elements.length;i++)
+    {
+      if (!elements[i].checkValidity())
+      {
+        window.alert("Some Input goes wrong, check the red marked space!");
+        return;
+      }
+    }
     this.dataSource=[];
     this.dataSource.push(this.displayedColumns);
+    let index_from=this.displayedColumns.indexOf("from_stop_id");
+    let index_to=this.displayedColumns.indexOf("to_stop_id");
+    this.database=this.dataTable.data;
+    for (var i=0;i<this.database.length;i++)
+    {
+      if (!this.database[i][index_from] || !this.database[i][index_to])
+      {
+        window.alert("please fill in every stop blank");
+        return;
+      }
+    }
+    window.alert("transfer.txt saved");
     this.dataSource=this.dataSource.concat(this.dataTable.data);
     this.stop.settransfer(this.dataSource);
   }
