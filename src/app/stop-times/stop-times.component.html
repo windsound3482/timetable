@@ -34,33 +34,55 @@
 
 
 <mat-toolbar>
-  &nbsp;&nbsp;
-  <button mat-icon-button (click)="addaLine()" [disabled]="addmode">
-    <mat-icon>add_circle_outline</mat-icon>
-  </button>
-  <mat-form-field>
-    <mat-select [formControl]="nameget" (selectionChange)="changecol()" multiple>
-      <mat-select-trigger>
-        {{nameget.value ? nameget.value[0] : ''}}
-        <span *ngIf="nameget.value?.length > 1" class="example-additional-selection">
-          (+{{nameget.value.length - 1}} {{nameget.value?.length === 2 ? 'other' : 'others'}})
-        </span>
-      </mat-select-trigger>
-      <mat-option *ngFor="let name of names" [value]="name">{{name}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <span class="example-spacer"></span>
-  <button mat-raised-button color="warn" (click)="onSave()" [disabled]="!addmode">
-      Save 
+  <mat-toolbar-row *ngIf="!checked">
+    <mat-checkbox class="example-margin" [(ngModel)]="checked">ADD SOMETHING</mat-checkbox>
+  </mat-toolbar-row>
+  <mat-toolbar-row *ngIf="checked">
+    
+    <mat-form-field >
+      <mat-label>arrival_time</mat-label>
+      <input matInput type="text"  [(ngModel)]="tosubmitdata[0]"  required pattern="^[0-9]?[0-9][:]([0-5][0-9]|60)[:]([0-5][0-9]|60)$">
+    </mat-form-field>
+    <mat-form-field >
+      <mat-label>departure_time</mat-label>
+      <input matInput type="text"  [(ngModel)]="tosubmitdata[1]"  required pattern="^[0-9]?[0-9][:]([0-5][0-9]|60)[:]([0-5][0-9]|60)$">
+    </mat-form-field>
+  
+    <app-stop-picker class="stop_picker" [label]="'stop_id'" [Detailmode]="false" [stopnow]="''" [disabled]="false" (notify)="changeaddstop($event)"> </app-stop-picker>
+    <mat-form-field>
+      <mat-label>stop_sequence</mat-label>
+      <input matInput type="number" min="0" [(ngModel)]="tosubmitdata[3]" required>
+    </mat-form-field>
+    &nbsp;&nbsp;&nbsp;
+    <button mat-icon-button (click)="addaLine()" [disabled]="addmode">
+      <mat-icon>add_circle_outline</mat-icon>
     </button>
-  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
-  <button mat-raised-button color="primary"  (click)=" onDelete()" [disabled]="!addmode">
-    Delete
-  </button>
-  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
-  <button mat-raised-button  (click)=" onReset()" [disabled]="!addmode">
-    Reset
-  </button>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <mat-form-field>
+      <mat-select [formControl]="nameget" (selectionChange)="changecol()" multiple>
+        <mat-select-trigger>
+          {{nameget.value ? nameget.value[0] : ''}}
+          <span *ngIf="nameget.value?.length > 1" class="example-additional-selection">
+            (+{{nameget.value.length - 1}} {{nameget.value?.length === 2 ? 'other' : 'others'}})
+          </span>
+        </mat-select-trigger>
+        <mat-option *ngFor="let name of names" [value]="name">{{name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span class="example-spacer"></span>
+    <button mat-raised-button color="warn" (click)="onSave()" [disabled]="!addmode">
+        Save 
+      </button>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
+    <button mat-raised-button color="primary"  (click)=" onDelete()" [disabled]="!addmode">
+      Delete
+    </button>
+    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;                     
+    <button mat-raised-button  (click)=" onReset()" [disabled]="!addmode">
+      Reset
+    </button>
+  </mat-toolbar-row>
 </mat-toolbar>
 
 <div class="options"></div>
@@ -71,9 +93,13 @@
     <div class="left_grid">
       <div *ngFor="let item of dataSource[0];let i=index" >
         
-          <mat-form-field *ngIf="item=='stop_headsign' || item=='shape_dist_traveled'">
+          <mat-form-field *ngIf="item=='stop_headsign'">
             <mat-label>{{item}}</mat-label>
             <input matInput type="text" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}"> 
+          </mat-form-field>
+          <mat-form-field *ngIf=" item=='shape_dist_traveled'">
+            <mat-label>{{item}}</mat-label>
+            <input matInput type="number" min="0" step="any" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}"> 
           </mat-form-field>
           <mat-form-field *ngIf="item=='pickup_type' || item=='drop_off_type'">
             <mat-label>{{item}}</mat-label>

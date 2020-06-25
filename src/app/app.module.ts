@@ -21,11 +21,7 @@ import { FileuploaderComponent } from './fileuploader/fileuploader.component';
 import { DragDropDirective } from './drag-drop.directive';
 import { TableComponent } from './table/table.component';
 import { HomeComponent } from './home/home.component';
-import { AllfileService } from './allfile.service';
-import { StopservService } from './stopserv.service';
-import { TimetableservService } from './timetableserv.service';
-import { FareservService } from './fareserv.service';
-import { CalendarservService } from './calendarserv.service';
+
 
 import { AgencytableComponent } from './agencytable/agencytable.component';
 import { EditorComponent } from './editor/editor.component';
@@ -36,7 +32,7 @@ import { TbForCalenComponent } from './tb-for-calen/tb-for-calen.component';
 import { ShapetableComponent } from './shapetable/shapetable.component';
 import { AttributionsComponent } from './attributions/attributions.component';
 import { TranslationComponent } from './translation/translation.component';
-import {WarningDialog} from './tb-for-calen/tb-for-calen.component';
+
 import { FareComponent } from './fare/fare.component';
 import { FareruleComponent } from './farerule/farerule.component';
 import { FaretoolbarComponent } from './faretoolbar/faretoolbar.component';
@@ -73,7 +69,7 @@ import { StopTimesComponent } from './stop-times/stop-times.component';
     ShapetableComponent,
     AttributionsComponent,
     TranslationComponent,
-    WarningDialog,
+  
     FareComponent,
     FareruleComponent,
     FaretoolbarComponent,
@@ -94,6 +90,8 @@ import { StopTimesComponent } from './stop-times/stop-times.component';
    
 
   ],
+ 
+
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -110,6 +108,7 @@ import { StopTimesComponent } from './stop-times/stop-times.component';
       { path: 'Path_Tansfer_Editor', component:PathwayTransferEditorComponent},
      
     ]),
+    
     MatSidenavModule,
     MatButtonModule,
     MatIconModule,

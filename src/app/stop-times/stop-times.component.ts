@@ -3,6 +3,7 @@ import { TimetableservService } from '../timetableserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {FormControl} from '@angular/forms';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-stop-times',
@@ -14,6 +15,7 @@ export class StopTimesComponent implements OnInit {
 
   constructor(
     private file: TimetableservService,
+    public dialog: MatDialog,
   ) { }
   displayedColumns: string[]=[];
   dataSource :string[][];
@@ -163,9 +165,19 @@ export class StopTimesComponent implements OnInit {
   }
   current=null;
   edit(editelement:string[]){
+    let database_index_stop_id=this.displayedColumns.indexOf("stop_id");
+    let dataSource_index_stop_id=this.dataSource[0].indexOf("stop_id");
+    let dataSource_index_trip_id=this.dataSource[0].indexOf("trip_id");
     this.addmode=true;
-    this.current=this.database.indexOf(editelement)+1;
+    for (var i=1;i<this.dataSource.length;i++)
+    {
+      if (this.dataSource[i][dataSource_index_trip_id]==this.value_trp && this.dataSource[i][dataSource_index_stop_id]==this.database[i-1][database_index_stop_id]){
+        this.current=i;
+        break;
+      }
+    }
   }
+
   editdelete(editelement:string[]){
     this.current=this.database.indexOf(editelement)+1;
     this.onDelete();
@@ -176,25 +188,65 @@ export class StopTimesComponent implements OnInit {
   }
 
   addaLine(){
-    let tempadd=Array(this.dataSource[0].length).fill("");
-    let idindex=this.dataSource[0].indexOf("trip_id");
-    tempadd[idindex]=this.value_trp;
-    let exindex=this.dataSource[0].indexOf("drop_off_type");
-    if (exindex>1)
-      tempadd[exindex]="0";
-    exindex=this.dataSource[0].indexOf("continuous_pickup");
-    if (exindex>1)
-      tempadd[exindex]="0";
-    exindex=this.dataSource[0].indexOf("continuous_drop_off");
-    if (exindex>1)
-      tempadd[exindex]="0";
-    exindex=this.dataSource[0].indexOf("timepoint");
-    if (exindex>1)
-      tempadd[exindex]="0";
-    this.dataSource.push(tempadd);
-    this.changeontable();
+    for (var i=0;i<4;i++)
+    {
+      if (!this.tosubmitdata[i])
+      {
+        window.alert("Please fill in every blank");
+        return;
+      }
+    }
+    let elements=document.getElementsByTagName("input");
+    for (var i=0;i<elements.length;i++)
+    {
+      if (!elements[i].checkValidity())
+      {
+        window.alert("Some Input goes wrong, check the red marked space!");
+        return;
+      }
+    }
+ 
+        let tempadd=Array(this.dataSource[0].length).fill("");
+        let idindex=this.dataSource[0].indexOf("trip_id");
+        let result=this.tosubmitdata;
+        tempadd[idindex]=this.value_trp;
+        idindex=this.dataSource[0].indexOf("arrival_time");
+        tempadd[idindex]=result[0];
+        idindex=this.dataSource[0].indexOf("departure_time");
+        tempadd[idindex]=result[1];
+        idindex=this.dataSource[0].indexOf("stop_id");
+        tempadd[idindex]=result[2];
+        idindex=this.dataSource[0].indexOf("stop_sequence");
+        tempadd[idindex]=result[3];
+        let exindex=this.dataSource[0].indexOf("drop_off_type");
+        if (exindex>1)
+          tempadd[exindex]="0";
+        exindex=this.dataSource[0].indexOf("continuous_pickup");
+        if (exindex>1)
+          tempadd[exindex]="0";
+        exindex=this.dataSource[0].indexOf("continuous_drop_off");
+        if (exindex>1)
+          tempadd[exindex]="0";
+        exindex=this.dataSource[0].indexOf("timepoint");
+        if (exindex>1)
+          tempadd[exindex]="0";
+        this.dataSource.push(tempadd);
+        this.changeontable();
+    this.checked=false;
+      
+   
+   
     
   }
-  
+  tosubmitdata:string[]=[];
+  changeaddstop(event){
+    this.tosubmitdata[2]=event;
+  }
+  checked=false;
+ 
 }
+
+ 
+
+
 

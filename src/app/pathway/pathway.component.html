@@ -70,12 +70,23 @@
     <div class="left_grid">
       
       <div *ngFor="let item of dataSource[0];let i=index" >
-        <div *ngIf="item=='length' || item=='max_slope' || item=='min_width'  || item=='signposted_as' || item=='reversed_signposted_as'">
-          <mat-form-field class="example-form-field">
+     
+          <mat-form-field  *ngIf=" item=='signposted_as' || item=='reversed_signposted_as'">
             <mat-label>{{item}}</mat-label>
             <input matInput type="text" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}"> 
           </mat-form-field>
-        </div>
+          <mat-form-field  *ngIf="item=='length' || item=='min_width'">
+            <mat-label>{{item}}</mat-label>
+            <input matInput type="number" min="0" step="any" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}"> 
+          </mat-form-field>
+          <mat-form-field  *ngIf="item=='traversal_time'">
+            <mat-label>{{item}}</mat-label>
+            <input matInput type="number" min="0" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}"> 
+          </mat-form-field>
+          <mat-form-field  *ngIf="item=='max_slope'">
+            <mat-label>{{item}}</mat-label>
+            <input matInput type="number" step="any" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}"> 
+          </mat-form-field>
           <mat-form-field *ngIf="item=='pathway_mode'">
             <mat-label>{{item}}</mat-label>
               <mat-select [(value)]="dataSource[current][i]">
@@ -90,7 +101,7 @@
           </mat-form-field>
           <mat-form-field *ngIf="item=='stair_count'" >
             <mat-label>{{item}}</mat-label>
-            <input matInput type="number" min="0" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}">
+            <input matInput type="number" [(ngModel)]="dataSource[current][i]" [ngModelOptions]="{standalone: true}">
           </mat-form-field>
           <mat-form-field *ngIf="item=='is_bidirectional'">
             <mat-label>{{item}}</mat-label>
