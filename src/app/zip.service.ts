@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AllfileService } from './allfile.service';
 import * as JSZip from 'jszip';
-import * as fs from 'fs'
 import * as FileSaver from 'file-saver';
-import { zip } from 'rxjs';
+
 import { CalendarservService } from './calendarserv.service';
 import { FareservService } from './fareserv.service';
 import { StopservService } from './stopserv.service';
 import { TimetableservService } from './timetableserv.service';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'

@@ -12,6 +12,16 @@
                     <div *ngIf="element[i]=='3'">Generic Node<mat-icon>airline_seat_recline_normal</mat-icon></div>
                     <div *ngIf="element[i]=='4'">Boarding Area<mat-icon> rowing</mat-icon></div>
                   </div>
+                  <div *ngIf="pos=='stop_id'" style="display:inline;">
+                    
+                    <div *ngIf="element[3]!=''" style="display:inline;">
+                      <div *ngIf="element[2]=='4'" style="display:inline;">
+                        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; 
+                      </div>
+                      &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; 
+                    </div>
+                  </div>
+
                   <div *ngIf="pos!='location_type'">
                     {{element[i]}} 
                   </div>

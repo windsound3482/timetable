@@ -15,3 +15,8 @@
 </div>
 
 
+<div class="uploadfilecontainer" (click)="fileInput1.click()" appDragDrop (onFileDropped)="uploadrealtimeFile($event)">
+  <input hidden type="file" accept=".pb" #fileInput1 (change)="uploadrealtimeFile($event.target.files)" />
+</div>
+
+
