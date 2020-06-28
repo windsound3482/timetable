@@ -27,7 +27,7 @@
     "file-saver": "^2.0.2",
     "gtfs-realtime-bindings": "0.0.5",
     "jszip": "^3.5.0",
-    "long":"^4.0.1",
+    "long":"4.0.0",
     "mapbox-gl": "^1.11.0",
     "protobufjs": "^6.9.0",
     "protobufjs-cli-stacey": "^7.1.50",

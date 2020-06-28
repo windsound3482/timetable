@@ -49,6 +49,7 @@ import { TransferComponent } from './transfer/transfer.component';
 import { PathwayTransferEditorComponent } from './pathway-transfer-editor/pathway-transfer-editor.component';
 import { PathwayComponent } from './pathway/pathway.component';
 import { StopTimesComponent } from './stop-times/stop-times.component';
+import { RealtimeComponent } from './realtime/realtime.component';
 
 
 
@@ -86,9 +87,7 @@ import { StopTimesComponent } from './stop-times/stop-times.component';
     PathwayTransferEditorComponent,
     PathwayComponent,
     StopTimesComponent,
-  
-   
-
+    RealtimeComponent,
   ],
  
 
@@ -106,7 +105,7 @@ import { StopTimesComponent } from './stop-times/stop-times.component';
       { path: 'StopEditor', component:StopComponent},
       { path: 'TimetableEditor', component:EditorComponent},
       { path: 'Path_Tansfer_Editor', component:PathwayTransferEditorComponent},
-     
+      { path: 'RealTime', component:RealtimeComponent},
     ]),
     
     MatSidenavModule,

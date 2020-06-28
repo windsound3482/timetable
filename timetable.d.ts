@@ -1,5 +1,4 @@
 import * as $protobuf from "protobufjs";
-import * as Long from 'long';
 /** Namespace transit_realtime. */
 export namespace transit_realtime {
 
@@ -102,8 +101,8 @@ export namespace transit_realtime {
     /** Properties of a FeedHeader. */
     interface IFeedHeader {
 
-        /** FeedHeader gtfsRealtimeVersion */
-        gtfsRealtimeVersion: string;
+        /** FeedHeader gtfs_realtime_version */
+        gtfs_realtime_version: string;
 
         /** FeedHeader incrementality */
         incrementality?: (transit_realtime.FeedHeader.Incrementality|null);
@@ -121,8 +120,8 @@ export namespace transit_realtime {
          */
         constructor(properties?: transit_realtime.IFeedHeader);
 
-        /** FeedHeader gtfsRealtimeVersion. */
-        public gtfsRealtimeVersion: string;
+        /** FeedHeader gtfs_realtime_version. */
+        public gtfs_realtime_version: string;
 
         /** FeedHeader incrementality. */
         public incrementality: transit_realtime.FeedHeader.Incrementality;
@@ -216,11 +215,11 @@ export namespace transit_realtime {
         /** FeedEntity id */
         id: string;
 
-        /** FeedEntity isDeleted */
-        isDeleted?: (boolean|null);
+        /** FeedEntity is_deleted */
+        is_deleted?: (boolean|null);
 
-        /** FeedEntity tripUpdate */
-        tripUpdate?: (transit_realtime.ITripUpdate|null);
+        /** FeedEntity trip_update */
+        trip_update?: (transit_realtime.ITripUpdate|null);
 
         /** FeedEntity vehicle */
         vehicle?: (transit_realtime.IVehiclePosition|null);
@@ -241,11 +240,11 @@ export namespace transit_realtime {
         /** FeedEntity id. */
         public id: string;
 
-        /** FeedEntity isDeleted. */
-        public isDeleted: boolean;
+        /** FeedEntity is_deleted. */
+        public is_deleted: boolean;
 
-        /** FeedEntity tripUpdate. */
-        public tripUpdate?: (transit_realtime.ITripUpdate|null);
+        /** FeedEntity trip_update. */
+        public trip_update?: (transit_realtime.ITripUpdate|null);
 
         /** FeedEntity vehicle. */
         public vehicle?: (transit_realtime.IVehiclePosition|null);
@@ -333,8 +332,8 @@ export namespace transit_realtime {
         /** TripUpdate vehicle */
         vehicle?: (transit_realtime.IVehicleDescriptor|null);
 
-        /** TripUpdate stopTimeUpdate */
-        stopTimeUpdate?: (transit_realtime.TripUpdate.IStopTimeUpdate[]|null);
+        /** TripUpdate stop_time_update */
+        stop_time_update?: (transit_realtime.TripUpdate.IStopTimeUpdate[]|null);
 
         /** TripUpdate timestamp */
         timestamp?: (number|Long|null);
@@ -358,8 +357,8 @@ export namespace transit_realtime {
         /** TripUpdate vehicle. */
         public vehicle?: (transit_realtime.IVehicleDescriptor|null);
 
-        /** TripUpdate stopTimeUpdate. */
-        public stopTimeUpdate: transit_realtime.TripUpdate.IStopTimeUpdate[];
+        /** TripUpdate stop_time_update. */
+        public stop_time_update: transit_realtime.TripUpdate.IStopTimeUpdate[];
 
         /** TripUpdate timestamp. */
         public timestamp: (number|Long);
@@ -545,11 +544,11 @@ export namespace transit_realtime {
         /** Properties of a StopTimeUpdate. */
         interface IStopTimeUpdate {
 
-            /** StopTimeUpdate stopSequence */
-            stopSequence?: (number|null);
+            /** StopTimeUpdate stop_sequence */
+            stop_sequence?: (number|null);
 
-            /** StopTimeUpdate stopId */
-            stopId?: (string|null);
+            /** StopTimeUpdate stop_id */
+            stop_id?: (string|null);
 
             /** StopTimeUpdate arrival */
             arrival?: (transit_realtime.TripUpdate.IStopTimeEvent|null);
@@ -557,8 +556,8 @@ export namespace transit_realtime {
             /** StopTimeUpdate departure */
             departure?: (transit_realtime.TripUpdate.IStopTimeEvent|null);
 
-            /** StopTimeUpdate scheduleRelationship */
-            scheduleRelationship?: (transit_realtime.TripUpdate.StopTimeUpdate.ScheduleRelationship|null);
+            /** StopTimeUpdate schedule_relationship */
+            schedule_relationship?: (transit_realtime.TripUpdate.StopTimeUpdate.ScheduleRelationship|null);
         }
 
         /** Represents a StopTimeUpdate. */
@@ -570,11 +569,11 @@ export namespace transit_realtime {
              */
             constructor(properties?: transit_realtime.TripUpdate.IStopTimeUpdate);
 
-            /** StopTimeUpdate stopSequence. */
-            public stopSequence: number;
+            /** StopTimeUpdate stop_sequence. */
+            public stop_sequence: number;
 
-            /** StopTimeUpdate stopId. */
-            public stopId: string;
+            /** StopTimeUpdate stop_id. */
+            public stop_id: string;
 
             /** StopTimeUpdate arrival. */
             public arrival?: (transit_realtime.TripUpdate.IStopTimeEvent|null);
@@ -582,8 +581,8 @@ export namespace transit_realtime {
             /** StopTimeUpdate departure. */
             public departure?: (transit_realtime.TripUpdate.IStopTimeEvent|null);
 
-            /** StopTimeUpdate scheduleRelationship. */
-            public scheduleRelationship: transit_realtime.TripUpdate.StopTimeUpdate.ScheduleRelationship;
+            /** StopTimeUpdate schedule_relationship. */
+            public schedule_relationship: transit_realtime.TripUpdate.StopTimeUpdate.ScheduleRelationship;
 
             /**
              * Creates a new StopTimeUpdate instance using the specified properties.
@@ -679,23 +678,23 @@ export namespace transit_realtime {
         /** VehiclePosition position */
         position?: (transit_realtime.IPosition|null);
 
-        /** VehiclePosition currentStopSequence */
-        currentStopSequence?: (number|null);
+        /** VehiclePosition current_stop_sequence */
+        current_stop_sequence?: (number|null);
 
-        /** VehiclePosition stopId */
-        stopId?: (string|null);
+        /** VehiclePosition stop_id */
+        stop_id?: (string|null);
 
-        /** VehiclePosition currentStatus */
-        currentStatus?: (transit_realtime.VehiclePosition.VehicleStopStatus|null);
+        /** VehiclePosition current_status */
+        current_status?: (transit_realtime.VehiclePosition.VehicleStopStatus|null);
 
         /** VehiclePosition timestamp */
         timestamp?: (number|Long|null);
 
-        /** VehiclePosition congestionLevel */
-        congestionLevel?: (transit_realtime.VehiclePosition.CongestionLevel|null);
+        /** VehiclePosition congestion_level */
+        congestion_level?: (transit_realtime.VehiclePosition.CongestionLevel|null);
 
-        /** VehiclePosition occupancyStatus */
-        occupancyStatus?: (transit_realtime.VehiclePosition.OccupancyStatus|null);
+        /** VehiclePosition occupancy_status */
+        occupancy_status?: (transit_realtime.VehiclePosition.OccupancyStatus|null);
     }
 
     /** Represents a VehiclePosition. */
@@ -716,23 +715,23 @@ export namespace transit_realtime {
         /** VehiclePosition position. */
         public position?: (transit_realtime.IPosition|null);
 
-        /** VehiclePosition currentStopSequence. */
-        public currentStopSequence: number;
+        /** VehiclePosition current_stop_sequence. */
+        public current_stop_sequence: number;
 
-        /** VehiclePosition stopId. */
-        public stopId: string;
+        /** VehiclePosition stop_id. */
+        public stop_id: string;
 
-        /** VehiclePosition currentStatus. */
-        public currentStatus: transit_realtime.VehiclePosition.VehicleStopStatus;
+        /** VehiclePosition current_status. */
+        public current_status: transit_realtime.VehiclePosition.VehicleStopStatus;
 
         /** VehiclePosition timestamp. */
         public timestamp: (number|Long);
 
-        /** VehiclePosition congestionLevel. */
-        public congestionLevel: transit_realtime.VehiclePosition.CongestionLevel;
+        /** VehiclePosition congestion_level. */
+        public congestion_level: transit_realtime.VehiclePosition.CongestionLevel;
 
-        /** VehiclePosition occupancyStatus. */
-        public occupancyStatus: transit_realtime.VehiclePosition.OccupancyStatus;
+        /** VehiclePosition occupancy_status. */
+        public occupancy_status: transit_realtime.VehiclePosition.OccupancyStatus;
 
         /**
          * Creates a new VehiclePosition instance using the specified properties.
@@ -838,11 +837,11 @@ export namespace transit_realtime {
     /** Properties of an Alert. */
     interface IAlert {
 
-        /** Alert activePeriod */
-        activePeriod?: (transit_realtime.ITimeRange[]|null);
+        /** Alert active_period */
+        active_period?: (transit_realtime.ITimeRange[]|null);
 
-        /** Alert informedEntity */
-        informedEntity?: (transit_realtime.IEntitySelector[]|null);
+        /** Alert informed_entity */
+        informed_entity?: (transit_realtime.IEntitySelector[]|null);
 
         /** Alert cause */
         cause?: (transit_realtime.Alert.Cause|null);
@@ -853,11 +852,11 @@ export namespace transit_realtime {
         /** Alert url */
         url?: (transit_realtime.ITranslatedString|null);
 
-        /** Alert headerText */
-        headerText?: (transit_realtime.ITranslatedString|null);
+        /** Alert header_text */
+        header_text?: (transit_realtime.ITranslatedString|null);
 
-        /** Alert descriptionText */
-        descriptionText?: (transit_realtime.ITranslatedString|null);
+        /** Alert description_text */
+        description_text?: (transit_realtime.ITranslatedString|null);
     }
 
     /** Represents an Alert. */
@@ -869,11 +868,11 @@ export namespace transit_realtime {
          */
         constructor(properties?: transit_realtime.IAlert);
 
-        /** Alert activePeriod. */
-        public activePeriod: transit_realtime.ITimeRange[];
+        /** Alert active_period. */
+        public active_period: transit_realtime.ITimeRange[];
 
-        /** Alert informedEntity. */
-        public informedEntity: transit_realtime.IEntitySelector[];
+        /** Alert informed_entity. */
+        public informed_entity: transit_realtime.IEntitySelector[];
 
         /** Alert cause. */
         public cause: transit_realtime.Alert.Cause;
@@ -884,11 +883,11 @@ export namespace transit_realtime {
         /** Alert url. */
         public url?: (transit_realtime.ITranslatedString|null);
 
-        /** Alert headerText. */
-        public headerText?: (transit_realtime.ITranslatedString|null);
+        /** Alert header_text. */
+        public header_text?: (transit_realtime.ITranslatedString|null);
 
-        /** Alert descriptionText. */
-        public descriptionText?: (transit_realtime.ITranslatedString|null);
+        /** Alert description_text. */
+        public description_text?: (transit_realtime.ITranslatedString|null);
 
         /**
          * Creates a new Alert instance using the specified properties.
@@ -1206,23 +1205,23 @@ export namespace transit_realtime {
     /** Properties of a TripDescriptor. */
     interface ITripDescriptor {
 
-        /** TripDescriptor tripId */
-        tripId?: (string|null);
+        /** TripDescriptor trip_id */
+        trip_id?: (string|null);
 
-        /** TripDescriptor routeId */
-        routeId?: (string|null);
+        /** TripDescriptor route_id */
+        route_id?: (string|null);
 
-        /** TripDescriptor directionId */
-        directionId?: (number|null);
+        /** TripDescriptor direction_id */
+        direction_id?: (number|null);
 
-        /** TripDescriptor startTime */
-        startTime?: (string|null);
+        /** TripDescriptor start_time */
+        start_time?: (string|null);
 
-        /** TripDescriptor startDate */
-        startDate?: (string|null);
+        /** TripDescriptor start_date */
+        start_date?: (string|null);
 
-        /** TripDescriptor scheduleRelationship */
-        scheduleRelationship?: (transit_realtime.TripDescriptor.ScheduleRelationship|null);
+        /** TripDescriptor schedule_relationship */
+        schedule_relationship?: (transit_realtime.TripDescriptor.ScheduleRelationship|null);
     }
 
     /** Represents a TripDescriptor. */
@@ -1234,23 +1233,23 @@ export namespace transit_realtime {
          */
         constructor(properties?: transit_realtime.ITripDescriptor);
 
-        /** TripDescriptor tripId. */
-        public tripId: string;
+        /** TripDescriptor trip_id. */
+        public trip_id: string;
 
-        /** TripDescriptor routeId. */
-        public routeId: string;
+        /** TripDescriptor route_id. */
+        public route_id: string;
 
-        /** TripDescriptor directionId. */
-        public directionId: number;
+        /** TripDescriptor direction_id. */
+        public direction_id: number;
 
-        /** TripDescriptor startTime. */
-        public startTime: string;
+        /** TripDescriptor start_time. */
+        public start_time: string;
 
-        /** TripDescriptor startDate. */
-        public startDate: string;
+        /** TripDescriptor start_date. */
+        public start_date: string;
 
-        /** TripDescriptor scheduleRelationship. */
-        public scheduleRelationship: transit_realtime.TripDescriptor.ScheduleRelationship;
+        /** TripDescriptor schedule_relationship. */
+        public schedule_relationship: transit_realtime.TripDescriptor.ScheduleRelationship;
 
         /**
          * Creates a new TripDescriptor instance using the specified properties.
@@ -1343,8 +1342,8 @@ export namespace transit_realtime {
         /** VehicleDescriptor label */
         label?: (string|null);
 
-        /** VehicleDescriptor licensePlate */
-        licensePlate?: (string|null);
+        /** VehicleDescriptor license_plate */
+        license_plate?: (string|null);
     }
 
     /** Represents a VehicleDescriptor. */
@@ -1362,8 +1361,8 @@ export namespace transit_realtime {
         /** VehicleDescriptor label. */
         public label: string;
 
-        /** VehicleDescriptor licensePlate. */
-        public licensePlate: string;
+        /** VehicleDescriptor license_plate. */
+        public license_plate: string;
 
         /**
          * Creates a new VehicleDescriptor instance using the specified properties.
@@ -1439,20 +1438,20 @@ export namespace transit_realtime {
     /** Properties of an EntitySelector. */
     interface IEntitySelector {
 
-        /** EntitySelector agencyId */
-        agencyId?: (string|null);
+        /** EntitySelector agency_id */
+        agency_id?: (string|null);
 
-        /** EntitySelector routeId */
-        routeId?: (string|null);
+        /** EntitySelector route_id */
+        route_id?: (string|null);
 
-        /** EntitySelector routeType */
-        routeType?: (number|null);
+        /** EntitySelector route_type */
+        route_type?: (number|null);
 
         /** EntitySelector trip */
         trip?: (transit_realtime.ITripDescriptor|null);
 
-        /** EntitySelector stopId */
-        stopId?: (string|null);
+        /** EntitySelector stop_id */
+        stop_id?: (string|null);
     }
 
     /** Represents an EntitySelector. */
@@ -1464,20 +1463,20 @@ export namespace transit_realtime {
          */
         constructor(properties?: transit_realtime.IEntitySelector);
 
-        /** EntitySelector agencyId. */
-        public agencyId: string;
+        /** EntitySelector agency_id. */
+        public agency_id: string;
 
-        /** EntitySelector routeId. */
-        public routeId: string;
+        /** EntitySelector route_id. */
+        public route_id: string;
 
-        /** EntitySelector routeType. */
-        public routeType: number;
+        /** EntitySelector route_type. */
+        public route_type: number;
 
         /** EntitySelector trip. */
         public trip?: (transit_realtime.ITripDescriptor|null);
 
-        /** EntitySelector stopId. */
-        public stopId: string;
+        /** EntitySelector stop_id. */
+        public stop_id: string;
 
         /**
          * Creates a new EntitySelector instance using the specified properties.

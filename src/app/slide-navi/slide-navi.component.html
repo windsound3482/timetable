@@ -58,14 +58,24 @@
           </mat-list-item>
 
           <mat-list-item role="listitem">
-            <a [routerLink]="['/Path_Tansfer_Editor']">
+            <a [routerLink]="['/RealTime']">
               <button mat-raised-button color="basic" >
-                <mat-icon aria-hidden="false" >call_split</mat-icon>
-                Path_Tansfer_Editor
+                <mat-icon aria-hidden="false" >leak_add</mat-icon>
+                Reltime_Editor
               </button>
             </a>
           </mat-list-item>
-        </mat-list>
+      
+
+        <mat-list-item role="listitem">
+          <a [routerLink]="['/Path_Tansfer_Editor']">
+            <button mat-raised-button color="basic" >
+              <mat-icon aria-hidden="false" >call_split</mat-icon>
+              Path_Tansfer_Editor
+            </button>
+          </a>
+        </mat-list-item>
+      </mat-list>
         
          <mat-divider></mat-divider>
          <div mat-subheader>
@@ -84,7 +94,13 @@
          <mat-list-item role="listitem">
           <button mat-raised-button (click)="download()">
           <mat-icon aria-hidden="false" >cloud_download</mat-icon>
-            Download
+            GTFS-Download
+         </button>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <button mat-raised-button (click)="timedownload()">
+          <mat-icon aria-hidden="false" >attachment</mat-icon>
+            RealTime-Download
          </button>
         </mat-list-item>
         <mat-divider></mat-divider>

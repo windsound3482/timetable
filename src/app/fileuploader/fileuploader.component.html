@@ -1,4 +1,4 @@
-
+<h2> &nbsp;&nbsp;&nbsp; GTFS Files:</h2>
 <div class="uploadfilecontainer" (click)="fileInput.click()" appDragDrop (onFileDropped)="uploadFile($event)">
     <input hidden type="file" accept="application/zip" #fileInput (change)="uploadFile($event.target.files)" />
 </div>
@@ -14,9 +14,14 @@
     </div>
 </div>
 
-
+<h2> &nbsp;&nbsp;&nbsp; GTFS REALTIME:</h2>
 <div class="uploadfilecontainer" (click)="fileInput1.click()" appDragDrop (onFileDropped)="uploadrealtimeFile($event)">
   <input hidden type="file" accept=".pb" #fileInput1 (change)="uploadrealtimeFile($event.target.files)" />
 </div>
+<div  class="detail-list" *ngIf="num">
+  <p> {{num}} Trip-Updates are uploaded</p>
+</div>
+
+
 
 

@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ZipService } from '../zip.service';
-
-import {transit_realtime} from 'gtfs-realtime';
-
-
-
+import {transit_realtime} from 'timetable';
+import { RealtimeservService } from '../realtimeserv.service';
 @Component({
   selector: 'app-fileuploader',
   templateUrl: './fileuploader.component.html',
   styleUrls: ['./fileuploader.component.css']
 })
+
 export class FileuploaderComponent implements OnInit {
 
   constructor(
     private zip:ZipService,
+    private realtime:RealtimeservService
   ) { }
 
   ngOnInit(): void {
@@ -36,6 +35,7 @@ export class FileuploaderComponent implements OnInit {
   }
 
   realtimefiles: any = [];
+  num=null;
   uploadrealtimeFile(event) {
     var reader:FileReader = new FileReader();
     
@@ -43,20 +43,14 @@ export class FileuploaderComponent implements OnInit {
   
       let temparray=reader.result as string;
       let element=Buffer.from(temparray,"ascii");
-      console.log(element);
       var feed =transit_realtime.FeedMessage.decode(element);
-      console.log(feed);
-      feed.entity.forEach(function(entity) {
-        if (entity.tripUpdate) {
-          console.log(entity.tripUpdate);
-        }
-      });
+      this.realtime.setfeed(feed);
+      this.num=feed.entity.length;
+
     };
+   
     reader.readAsArrayBuffer(event[0]);
-    
- 
-      
-    
-    
   }
+
+  
 }
