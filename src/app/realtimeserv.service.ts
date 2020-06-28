@@ -10,6 +10,7 @@ export class RealtimeservService {
   setfeed(tempfeed)
   {
     this.feed=tempfeed;
+    console.log(this.feed);
   }
 
   getfeed()
@@ -27,6 +28,10 @@ export class RealtimeservService {
       incrementality: 0,
       timestamp: Math.round(new Date().getTime()/1000)
     });
+    this.feed=transit_realtime.FeedMessage.create(
+      {header:feedhead
+      }
+    )
     
   }
 }

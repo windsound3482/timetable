@@ -1,3 +1,13 @@
 table {
     width: 100%;
 }
+
+
+input:invalid {
+    background-color:red;
+    color:white;
+}
+
+.options{
+    clear:both;
+}

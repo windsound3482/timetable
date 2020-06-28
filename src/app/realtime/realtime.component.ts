@@ -2,6 +2,7 @@ import { Component, OnInit,ViewChild} from '@angular/core';
 import { RealtimeservService } from '../realtimeserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import {transit_realtime} from 'timetable';
 
 
 @Component({
@@ -9,11 +10,14 @@ import {MatTableDataSource} from '@angular/material/table';
   templateUrl: './realtime.component.html',
   styleUrls: ['./realtime.component.css']
 })
+
+
 export class RealtimeComponent implements OnInit {
 
   constructor(
     private realtime:RealtimeservService,
   ) { }
+  value="";
   displayedColumns: string[]=[];
   dataSource :string[][];
   database :string[][]; 
@@ -49,7 +53,30 @@ export class RealtimeComponent implements OnInit {
     
     this.addmode=false;
   }
+  current;
+  edit(){
+    this.addmode=true;
+    this.feed.entity.forEach((entity) => {
+      if (entity.trip_update) {
+        
+        if (entity.id == this.value)
+          this.current=entity;
+        return;
+      }
+    });
+  }
+  
+  editentity(addvalue){
+    this.value=addvalue as string;
+  }
+
+  onSave(){
+    this.realtime.setfeed(this.feed);
+    this.ngOnInit();
+  }
   feed=null;
   addmode=false;
-
+  addvehicle(){
+    this.current.VehicleDescriptor=transit_realtime.VehicleDescriptor.create();
+  }
 }
