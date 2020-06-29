@@ -51,6 +51,7 @@ import { PathwayComponent } from './pathway/pathway.component';
 import { StopTimesComponent } from './stop-times/stop-times.component';
 import { RealtimeComponent } from './realtime/realtime.component';
 import { RealtimeTripComponent } from './realtime-trip/realtime-trip.component';
+import { RealtimeStopTimesComponent } from './realtime-stop-times/realtime-stop-times.component';
 
 
 
@@ -90,6 +91,7 @@ import { RealtimeTripComponent } from './realtime-trip/realtime-trip.component';
     StopTimesComponent,
     RealtimeComponent,
     RealtimeTripComponent,
+    RealtimeStopTimesComponent,
   ],
  
 

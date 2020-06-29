@@ -3,7 +3,6 @@ import { TimetableservService } from '../timetableserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {FormControl} from '@angular/forms';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-stop-times',
@@ -15,7 +14,7 @@ export class StopTimesComponent implements OnInit {
 
   constructor(
     private file: TimetableservService,
-    public dialog: MatDialog,
+ 
   ) { }
   displayedColumns: string[]=[];
   dataSource :string[][];
@@ -51,7 +50,7 @@ export class StopTimesComponent implements OnInit {
     this.onSave();
   }
 
-  value_trp="";
+  value_trp="XXXXXXXXXXXXXXXXXXXXX";
   setfilter(value:string) {
     this.value_trp=value;
     this.dataTable.filter=value; 
@@ -90,7 +89,7 @@ export class StopTimesComponent implements OnInit {
     this.change_null_to_value(tempindex,"1");
     tempindex=this.dataSource[0].indexOf("continuous_drop_off");
     this.change_null_to_value(tempindex,"1");
-
+    this.value_trp=="XXXXXXXXXXXXXXXXXXXXX";
     this.changeontable();
     this.addmode=false;
  

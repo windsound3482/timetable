@@ -17,7 +17,15 @@
           <ng-container [matColumnDef]= "pos">
             <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
                 <mat-cell *matCellDef="let element"> 
-                  {{element[i]}}
+                  <div *ngIf="pos=='schedule_relationship'">
+                    <div *ngIf="element[i]=='0'" style="color:blue">SCHEDULED</div>
+                    <div *ngIf="element[i]=='1'" style="color:green">ADDED</div>
+                    <div *ngIf="element[i]=='2'" style="color:purple">UNSCHEDULED</div>
+                    <div *ngIf="element[i]=='3'" style="color:red">CANCELED</div>
+                  </div>
+                  <div *ngIf="pos!='schedule_relationship'">
+                    {{element[i]}}
+                  </div>
                   <button mat-button *ngIf="pos=='entity_id'" matSuffix color="primary"  aria-label="edit" [disabled]="addmode" (click)="editentity(element[i])">
                     <mat-icon>create</mat-icon>
                   </button>
@@ -44,6 +52,7 @@
     <ng-template matStepLabel *ngIf="current" >Trip id:{{current.trip.trip_id}}</ng-template>
     <app-realtime-trip (info)="addinfo($event)"></app-realtime-trip>
     <div *ngIf="this.current"> 
+      <br>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <mat-form-field >
         <mat-label>trip_id</mat-label>
@@ -81,7 +90,6 @@
           <mat-option value="2">UNSCHEDULED</mat-option>
           <mat-option value="3">CANCELED</mat-option>
         </mat-select>
-        
       </mat-form-field>
      
       <div class="options"></div>
@@ -100,32 +108,108 @@
   </mat-step>
   <div class="options"></div>
   &nbsp;&nbsp;
-   <mat-step [editable]="true" *ngIf="this.current">
+   <mat-step [editable]="true" *ngIf="current">
     <ng-template matStepLabel >VehicleDescriptor:
       <button mat-button *ngIf="!current.VehicleDescriptor" matSuffix [disabled]="!addmode" (click)="addvehicle()">
-      <mat-icon>add</mat-icon>
-    </button>
-   </ng-template>
+        <mat-icon>add</mat-icon>
+      </button>
+    </ng-template>
  
   
     <div *ngIf="current.VehicleDescriptor">
       &nbsp;&nbsp;&nbsp;&nbsp;
       <mat-form-field >
         <mat-label>VehicleDescriptor_id</mat-label>
-        <input matInput type="text" [(ngModel)]="current.VehicleDescriptor.id"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+        <input matInput type="text" [(ngModel)]="current.VehicleDescriptor.id" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
       &nbsp;&nbsp;
       <mat-form-field >
         <mat-label>VehicleDescriptor_label</mat-label>
-        <input matInput type="text" [(ngModel)]="current.VehicleDescriptor.label"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+        <input matInput type="text" [(ngModel)]="current.VehicleDescriptor.label"  [ngModelOptions]="{standalone: true}">
       </mat-form-field>
       &nbsp;&nbsp;
       <mat-form-field >
         <mat-label>VehicleDescriptor_license_plate</mat-label>
-        <input matInput type="text" [(ngModel)]="current.VehicleDescriptor.license_plate"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+        <input matInput type="text" [(ngModel)]="current.VehicleDescriptor.license_plate"  [ngModelOptions]="{standalone: true}">
       </mat-form-field>
     </div>
  
+  </mat-step>
+  <mat-step [editable]="true" *ngIf="current">
+    <ng-template matStepLabel  >StopTimeUpdate</ng-template>
+    <app-realtime-stop-times (info)="addstoptimeinfo($event)"></app-realtime-stop-times>
+    <div *ngIf="currentstop">
+      <br>
+      &nbsp;&nbsp;&nbsp;&nbsp; 
+      <mat-form-field >  
+        <mat-label>stop_id</mat-label>
+        <input matInput type="text" [(ngModel)]="currentstop.stop_id"  [ngModelOptions]="{standalone: true}" readonly>
+      </mat-form-field>
+      &nbsp;&nbsp;
+      <mat-form-field >  
+        <mat-label>stop_id</mat-label>
+        <input matInput type="text" [(ngModel)]="currentstop.stop_sequence"  [ngModelOptions]="{standalone: true}" readonly>
+      </mat-form-field>
+      &nbsp;&nbsp;
+      <mat-form-field >
+        <mat-label>schedule_relationship</mat-label>
+        <mat-select [(ngModel)]="currentstop.schedule_relationship" name="available">
+          <mat-option value="0">SCHEDULED</mat-option>
+          <mat-option value="1">ADDED</mat-option>
+          <mat-option value="2">UNSCHEDULED</mat-option>
+          <mat-option value="3">CANCELED</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="options"></div>
+      <p></p>
+      &nbsp;&nbsp;
+      <h3>
+        arrival
+        <button mat-button *ngIf="!currentstop.arrival" matSuffix [disabled]="!addmode" (click)="addarrival()">
+        <mat-icon>add</mat-icon>
+      </button>
+      </h3>
+      <div *ngIf="currentstop.arrival">
+        &nbsp;&nbsp;&nbsp;&nbsp; 
+        <mat-form-field >
+          <mat-label>delay</mat-label>
+          <input matInput type="number" [(ngModel)]="currentstop.arrival.delay"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        &nbsp;&nbsp;
+        <mat-form-field >
+          <mat-label>time</mat-label>
+          <input matInput type="number" [(ngModel)]="currentstop.arrival.time"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        &nbsp;&nbsp;
+        <mat-form-field >
+          <mat-label>uncertainty</mat-label>
+          <input matInput type="number" [(ngModel)]="currentstop.arrival.uncertainty"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+      </div>
+      <h3>
+        departure
+        <button mat-button *ngIf="!currentstop.departure" matSuffix [disabled]="!addmode" (click)="adddeparture()">
+        <mat-icon>add</mat-icon>
+      </button>
+      </h3>
+      <div *ngIf="currentstop.departure">
+        &nbsp;&nbsp;&nbsp;&nbsp; 
+        <mat-form-field >
+          <mat-label>delay</mat-label>
+          <input matInput type="number" [(ngModel)]="currentstop.departure.delay"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        &nbsp;&nbsp;
+        <mat-form-field >
+          <mat-label>time</mat-label>
+          <input matInput type="number" [(ngModel)]="currentstop.departure.time"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        &nbsp;&nbsp;
+        <mat-form-field >
+          <mat-label>uncertainty</mat-label>
+          <input matInput type="number" [(ngModel)]="currentstop.departure.uncertainty"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+      </div>
+    </div>
   </mat-step>
 
   <mat-step [editable]="true">

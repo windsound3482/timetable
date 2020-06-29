@@ -17,7 +17,7 @@ export class FreqComponent implements OnInit {
   database :string[][]; 
   displayedColumns:string[];
   
-  value_trp="";
+  value_trp="XXXXXXXXXXXXXXXXXXXXX";
   dataTable : MatTableDataSource<string[]>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   ngOnInit(): void {
@@ -60,7 +60,7 @@ export class FreqComponent implements OnInit {
     this.dataSource.push(this.displayedColumns);
     this.dataSource=this.dataSource.concat(this.dataTable.data);
     this.time.setfreq(this.dataSource);
-    this.value_trp="";
+    this.value_trp="XXXXXXXXXXXXXXXXXXXXX";
   }
 
   onDelete(){
