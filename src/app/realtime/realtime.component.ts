@@ -60,7 +60,7 @@ export class RealtimeComponent implements OnInit {
       if (entity.trip_update) {
         
         if (entity.id == this.value)
-          this.current=entity;
+          this.current=entity.trip_update;
         return;
       }
     });
@@ -78,5 +78,10 @@ export class RealtimeComponent implements OnInit {
   addmode=false;
   addvehicle(){
     this.current.VehicleDescriptor=transit_realtime.VehicleDescriptor.create();
+  }
+  addinfo(info){
+    this.current.trip.trip_id=info[0];
+    this.current.trip.route_id=info[1];
+    this.current.trip.direction_id=info[2];
   }
 }

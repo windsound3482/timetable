@@ -1,14 +1,14 @@
 <app-tb-for-calen></app-tb-for-calen>
 
-    <div class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataTable" class="mat-elevation-z8">
+    <div >
+      <table mat-table [dataSource]="dataTable" >
         <div *ngFor="let pos of displayedColumns;let i= index">
         <ng-container [matColumnDef]= "pos">
           <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
               <mat-cell *matCellDef="let element"> 
               
                 {{element[i]}} 
-                <button mat-button *ngIf="pos=='service_id'" matSuffix  aria-label="edit" [disabled]="addmode " (click)="add_service_input(element[i])">
+                <button mat-button *ngIf="pos=='service_id'" matSuffix  [disabled]="addmode " (click)="add_service_input(element[i])">
                   <mat-icon>create</mat-icon>
                 </button>
             </mat-cell>

@@ -1,89 +1,138 @@
-<mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)">
-  </mat-form-field>
-  <div class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataTable" class="mat-elevation-z8">
-        <div *ngFor="let pos of displayedColumns;let i= index">
-        <ng-container [matColumnDef]= "pos">
-          <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
-              <mat-cell *matCellDef="let element"> 
-                 {{element[i]}}
-                
-                <button mat-button *ngIf="pos=='entity_id'" matSuffix color="primary"  aria-label="edit" [disabled]="addmode" (click)="editentity(element[i])">
-                  <mat-icon>create</mat-icon>
-                </button>
-            </mat-cell>
-        </ng-container>
+<mat-vertical-stepper #stepper> 
+  <ng-template matStepperIcon="number">
+    <mat-icon>explore</mat-icon>
+  </ng-template>
+  <ng-template matStepperIcon="edit">
+    <mat-icon>edit_location</mat-icon>
+  </ng-template>
+  <mat-step [completed]="addmode" [editable]="true">
+    <ng-template matStepLabel >Entity_id:{{value}}</ng-template>
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)">
+    </mat-form-field>
+    <div>
+        <table mat-table [dataSource]="dataTable">
+          <div *ngFor="let pos of displayedColumns;let i= index">
+          <ng-container [matColumnDef]= "pos">
+            <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> 
+                  {{element[i]}}
+                  <button mat-button *ngIf="pos=='entity_id'" matSuffix color="primary"  aria-label="edit" [disabled]="addmode" (click)="editentity(element[i])">
+                    <mat-icon>create</mat-icon>
+                  </button>
+              </mat-cell>
+          </ng-container>
         </div>
-  
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> 
-      </table> 
-      
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-      
-  </div>
-
-<p></p>
-<br />
-<div>
-  &nbsp;&nbsp;
-  <mat-form-field class="example-form-field">
-      <mat-label>Entity_id</mat-label>
-      <input matInput type="text" [(ngModel)]="value" [disabled]="addmode" [ngModelOptions]="{standalone: true}">
-      <button mat-button *ngIf="value" matSuffix  aria-label="edit" [disabled]="addmode" (click)="edit()">
-        <mat-icon>create</mat-icon>
-      </button>
-  </mat-form-field>
-</div>
-
-<div *ngIf="this.current"> 
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <mat-form-field >
-    <mat-label>trip_timestamp</mat-label>
-    <input matInput type="number" min="0" [(ngModel)]="current.timestamp"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
-  </mat-form-field>
-  &nbsp;&nbsp;
-  <mat-form-field >
-    <mat-label>trip_delay</mat-label>
-    <input matInput type="number" min="0" [(ngModel)]="current.delay"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
-  </mat-form-field>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> 
+        </table> 
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+    <div>
+      &nbsp;&nbsp;
+      <mat-form-field >
+          <mat-label>Entity_id</mat-label>
+          <input matInput type="text" [(ngModel)]="value" [disabled]="addmode" [ngModelOptions]="{standalone: true}">
+          <button mat-button *ngIf="value" matSuffix  aria-label="edit" [disabled]="addmode" (click)="edit()">
+            <mat-icon>create</mat-icon>
+          </button>
+      </mat-form-field>
+    </div>
+  </mat-step>
+  <mat-step [editable]="true">
+    <ng-template matStepLabel *ngIf="current" >Trip id:{{current.trip.trip_id}}</ng-template>
+    <app-realtime-trip (info)="addinfo($event)"></app-realtime-trip>
+    <div *ngIf="this.current"> 
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <mat-form-field >
+        <mat-label>trip_id</mat-label>
+        <input matInput type="text" [(ngModel)]="current.trip.trip_id"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      &nbsp;&nbsp;
+      <mat-form-field >
+        <mat-label>route_id</mat-label>
+        <input matInput type="text" [(ngModel)]="current.trip.route_id"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      &nbsp;&nbsp;
+      <mat-form-field >
+        <mat-label>direction_id</mat-label>
+          <mat-select [(ngModel)]="current.trip.direction_id" name="available">
+            <mat-option value="0">in one direction</mat-option>
+            <mat-option value="1">in opposite direction</mat-option>
+          </mat-select>
+      </mat-form-field>
+      &nbsp;&nbsp;
+      <mat-form-field >
+        <mat-label>start_time</mat-label>
+        <input matInput type="text" [(ngModel)]="current.trip.start_time"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      &nbsp;&nbsp;
+      <mat-form-field >
+        <mat-label>start_date</mat-label>
+        <input matInput type="text" [(ngModel)]="current.trip.start_date"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      &nbsp;&nbsp;
+      <mat-form-field >
+        <mat-label>schedule_relationship</mat-label>
+        <mat-select [(ngModel)]="current.schedule_relationship" name="available">
+          <mat-option value="0">SCHEDULED</mat-option>
+          <mat-option value="1">ADDED</mat-option>
+          <mat-option value="2">UNSCHEDULED</mat-option>
+          <mat-option value="3">CANCELED</mat-option>
+        </mat-select>
+        
+      </mat-form-field>
+     
+      <div class="options"></div>
+      <p></p>
+       &nbsp;&nbsp;&nbsp;&nbsp;
+      <mat-form-field >
+        <mat-label>trip_timestamp</mat-label>
+        <input matInput type="number" min="0" [(ngModel)]="current.timestamp"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      &nbsp;&nbsp;
+      <mat-form-field >
+        <mat-label>trip_delay</mat-label>
+        <input matInput type="number" min="0" [(ngModel)]="current.delay"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+    </div>
+  </mat-step>
   <div class="options"></div>
   &nbsp;&nbsp;
-  <h3> VehicleDescriptor:
-    <button mat-button *ngIf="!current.VehicleDescriptor" matSuffix [disabled]="!addmode" (click)="addvehicle()">
+   <mat-step [editable]="true" *ngIf="this.current">
+    <ng-template matStepLabel >VehicleDescriptor:
+      <button mat-button *ngIf="!current.VehicleDescriptor" matSuffix [disabled]="!addmode" (click)="addvehicle()">
       <mat-icon>add</mat-icon>
     </button>
-  </h3>
-  
-  
-  <div *ngIf="current.VehicleDescriptor">
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <mat-form-field >
-      <mat-label>VehicleDescriptor_id</mat-label>
-      <input matInput type="text" [(ngModel)]="current.VehicleDescriptor.id"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
-    </mat-form-field>
-    &nbsp;&nbsp;
-    <mat-form-field >
-      <mat-label>VehicleDescriptor_label</mat-label>
-      <input matInput type="text" [(ngModel)]="current.VehicleDescriptor.label"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
-    </mat-form-field>
-    &nbsp;&nbsp;
-    <mat-form-field >
-      <mat-label>VehicleDescriptor_license_plate</mat-label>
-      <input matInput type="text" [(ngModel)]="current.VehicleDescriptor.license_plate"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
-    </mat-form-field>
-  </div>
-</div>
-
-<div class="options">
-
-  <button mat-raised-button color="warn" (click)="onSave()" [disabled]="!addmode">
-      Save 
-    </button>
+   </ng-template>
  
-</div>
-  <p></p>
   
-  <br><br>
+    <div *ngIf="current.VehicleDescriptor">
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <mat-form-field >
+        <mat-label>VehicleDescriptor_id</mat-label>
+        <input matInput type="text" [(ngModel)]="current.VehicleDescriptor.id"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      &nbsp;&nbsp;
+      <mat-form-field >
+        <mat-label>VehicleDescriptor_label</mat-label>
+        <input matInput type="text" [(ngModel)]="current.VehicleDescriptor.label"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      &nbsp;&nbsp;
+      <mat-form-field >
+        <mat-label>VehicleDescriptor_license_plate</mat-label>
+        <input matInput type="text" [(ngModel)]="current.VehicleDescriptor.license_plate"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+    </div>
+ 
+  </mat-step>
+
+  <mat-step [editable]="true">
+    <ng-template matStepLabel>Save or Cancel </ng-template>
+    <button mat-raised-button color="warn" (click)="onSave()" [disabled]="!addmode">
+        Save 
+    </button>
+  
+  </mat-step>
+</mat-vertical-stepper>

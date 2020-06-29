@@ -6,7 +6,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. 
 ng serve limit its memory to 1500mb. This project use a special protocol to test, so it is not enough.
-You can use a new script `npm run build-server`
+You can use a new script `npm run build-serve`
 The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
@@ -15,7 +15,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `docs/` directory. Use the `--prod` flag for a production build.
 
 ## Running unit tests
 

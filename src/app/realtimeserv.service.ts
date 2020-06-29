@@ -10,7 +10,6 @@ export class RealtimeservService {
   setfeed(tempfeed)
   {
     this.feed=tempfeed;
-    console.log(this.feed);
   }
 
   getfeed()

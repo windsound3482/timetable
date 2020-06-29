@@ -2,7 +2,6 @@ import { Component, OnInit,ViewChild} from '@angular/core';
 import { TimetableservService } from '../timetableserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import { ZipService } from '../zip.service';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { FreqComponent } from '../freq/freq.component';
 import { StopTimesComponent } from '../stop-times/stop-times.component';
@@ -21,7 +20,6 @@ export class EditorComponent implements OnInit {
   @ViewChild(RouteComponent) routecom:RouteComponent;
   constructor(
     private file:TimetableservService,
-    private zip: ZipService,
   ) { }
   displayedColumns: string[]=[];
   dataSource :string[][];
@@ -173,9 +171,6 @@ export class EditorComponent implements OnInit {
     this.dataSource[this.current][this.dataSource[0].indexOf("route_id")]=this.value_rou;
   }
 
-  download(){
-    this.zip.downloadFile();
-  }
   
   changecol(){
     var value=this.nameget.value;
