@@ -1,9 +1,10 @@
-import { Component, OnInit,ViewChild} from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef} from '@angular/core';
 import { RealtimeservService } from '../realtimeserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {transit_realtime} from 'timetable';
 import { RealtimeStopTimesComponent } from '../realtime-stop-times/realtime-stop-times.component';
+import {FormControl} from '@angular/forms';
 
 
 @Component({
@@ -25,7 +26,10 @@ export class RealtimeComponent implements OnInit {
   dataTable : MatTableDataSource<string[]>;
   @ViewChild(RealtimeStopTimesComponent) stoptimescom:RealtimeStopTimesComponent ;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
+  currentfeedtime;
+  currenttimedate;
+  startdatetime;
+  enddatetime;
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataTable.filter = filterValue.trim().toLowerCase();
@@ -52,11 +56,16 @@ export class RealtimeComponent implements OnInit {
     });
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
-    
+    console.log(this.feed.header.timestamp);
+    this.currentfeedtime=new FormControl(new Date(this.feed.header.timestamp * 1000).toISOString().slice(0, -5));
+    console.log(this.currentfeedtime);
     this.addmode=false;
+    this.currenttimedate=null;
   }
   current;
+  
   edit(){
+    this.currenttimedate=null;
     this.addmode=true;
     let flag=true;
     this.feed.entity.forEach((entity) => {
@@ -66,6 +75,7 @@ export class RealtimeComponent implements OnInit {
         {
           this.current=entity.trip_update;
           flag=false;
+          this.currenttimedate=new FormControl(new Date(this.current.timestamp * 1000).toISOString().slice(0, -5));
           return;
         }
       }
@@ -81,12 +91,35 @@ export class RealtimeComponent implements OnInit {
     }
     
   }
+
+  changtimedate(value)
+  {
+    this.current.timestamp=new Date(value).valueOf()/1000;
+  }
+
+  changfeedtimedate(value)
+  {
+    console.log(value);
+    this.feed.header.timestamp=new Date(value).valueOf()/1000;
+    console.log(this.feed.header.timestamp);
+  }
+  changbegintimedate(value)
+  {
+    this.currentstop.arrival.time=new Date(value).valueOf()/1000;
+  }
+
+  changendtimedate(value)
+  {
+    this.currentstop.departure.time=new Date(value).valueOf()/1000;
+  }
+  
   
   editentity(addvalue){
     this.value=addvalue as string;
   }
 
-  onSave(){
+  onSave(stepper){
+    stepper.reset();
     this.realtime.setfeed(this.feed);
     this.ngOnInit();
   }
@@ -110,11 +143,23 @@ export class RealtimeComponent implements OnInit {
     this.stoptimescom.setfilter(info[0]);
   }
   currentstop;
+
+  
   addstoptimeinfo(info){
+    this.startdatetime=null;
+    this.enddatetime=null;
     this.current.stop_time_update.forEach((stoptime) => {
       if ((stoptime.stop_sequence==info[1]) && (stoptime.stop_id==info[0]))
       {
         this.currentstop=stoptime;
+        if (this.currentstop.arrival)
+        {
+          this.startdatetime=new FormControl(new Date(this.currentstop.arrival.time * 1000).toISOString().slice(0, -5));
+        }
+        if (this.currentstop.departure)
+        {
+          this.enddatetime.nativeElement.value=new FormControl(new Date(this.currentstop.departure.time * 1000).toISOString().slice(0, -5));
+        }
         return;
       }
     });

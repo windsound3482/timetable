@@ -48,8 +48,8 @@
       </mat-form-field>
     </div>
   </mat-step>
-  <mat-step [editable]="true">
-    <ng-template matStepLabel *ngIf="current" >Trip id:{{current.trip.trip_id}}</ng-template>
+  <mat-step [editable]="true" *ngIf="current">
+    <ng-template matStepLabel  >Trip id:{{current.trip.trip_id}}</ng-template>
     <app-realtime-trip (info)="addinfo($event)"></app-realtime-trip>
     <div *ngIf="this.current"> 
       <br>
@@ -97,7 +97,7 @@
        &nbsp;&nbsp;&nbsp;&nbsp;
       <mat-form-field >
         <mat-label>trip_timestamp</mat-label>
-        <input matInput type="number" min="0" [(ngModel)]="current.timestamp"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+        <input matInput type="datetime-local" step="1" [formControl]="currenttimedate" (change)="changtimedate($event.target.value)" [disabled]="!addmode" >
       </mat-form-field>
       &nbsp;&nbsp;
       <mat-form-field >
@@ -165,7 +165,7 @@
       &nbsp;&nbsp;
       <h3>
         arrival
-        <button mat-button *ngIf="!currentstop.arrival" matSuffix [disabled]="!addmode" (click)="addarrival()">
+        <button mat-button *ngIf="!currentstop.arrival" matSuffix  (click)="addarrival()">
         <mat-icon>add</mat-icon>
       </button>
       </h3>
@@ -173,17 +173,17 @@
         &nbsp;&nbsp;&nbsp;&nbsp; 
         <mat-form-field >
           <mat-label>delay</mat-label>
-          <input matInput type="number" [(ngModel)]="currentstop.arrival.delay"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+          <input matInput type="number" [(ngModel)]="currentstop.arrival.delay"  >
         </mat-form-field>
         &nbsp;&nbsp;
         <mat-form-field >
           <mat-label>time</mat-label>
-          <input matInput type="number" [(ngModel)]="currentstop.arrival.time"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+          <input matInput type="datetime-local" step="1" [formControl]="startdatetime" (change)="changbegintimedate($event.target.value)" [disabled]="!addmode" >
         </mat-form-field>
         &nbsp;&nbsp;
         <mat-form-field >
           <mat-label>uncertainty</mat-label>
-          <input matInput type="number" [(ngModel)]="currentstop.arrival.uncertainty"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+          <input matInput type="number" [(ngModel)]="currentstop.arrival.uncertainty"  >
         </mat-form-field>
       </div>
       <h3>
@@ -196,25 +196,29 @@
         &nbsp;&nbsp;&nbsp;&nbsp; 
         <mat-form-field >
           <mat-label>delay</mat-label>
-          <input matInput type="number" [(ngModel)]="currentstop.departure.delay"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+          <input matInput type="number" [(ngModel)]="currentstop.departure.delay"  [ngModelOptions]="{standalone: true}">
         </mat-form-field>
         &nbsp;&nbsp;
         <mat-form-field >
           <mat-label>time</mat-label>
-          <input matInput type="number" [(ngModel)]="currentstop.departure.time"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+          <input matInput type="datetime-local" step="1" [formControl]="enddatetime" (change)="changbegintimedate($event.target.value)" [disabled]="!addmode" >
         </mat-form-field>
         &nbsp;&nbsp;
         <mat-form-field >
           <mat-label>uncertainty</mat-label>
-          <input matInput type="number" [(ngModel)]="currentstop.departure.uncertainty"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+          <input matInput type="number" [(ngModel)]="currentstop.departure.uncertainty"  [ngModelOptions]="{standalone: true}">
         </mat-form-field>
       </div>
     </div>
   </mat-step>
 
-  <mat-step [editable]="true">
+  <mat-step [editable]="true" >
     <ng-template matStepLabel>Save or Cancel </ng-template>
-    <button mat-raised-button color="warn" (click)="onSave()" [disabled]="!addmode">
+    <mat-form-field >
+      <mat-label>Feed_timestamp</mat-label>
+      <input matInput [formControl]="currentfeedtime" type="datetime-local" step="1" (change)="changfeedtimedate($event.target.value)" required>
+    </mat-form-field>
+    <button mat-raised-button color="warn" (click)="onSave(stepper)" >
         Save 
     </button>
   

@@ -63,7 +63,6 @@ export class EditorComponent implements OnInit {
     
     this.displayedColumns=["trip_id","route_id","service_id"];
     this.dataSource=this.file.gettrip();
-    
     let name:Array<string>= (this.dataSource)[0];
     let tempname:string[]=[];
     for (let i=0;i<name.length;i++){
