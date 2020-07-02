@@ -28,7 +28,8 @@ export class RealtimeservService {
       timestamp: Math.round(new Date().getTime()/1000)
     });
     this.feed=transit_realtime.FeedMessage.create(
-      {header:feedhead
+      {header:feedhead,
+        entity:[]
       }
     )
     

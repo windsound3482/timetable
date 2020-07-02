@@ -114,7 +114,7 @@ export class StopTimesComponent implements OnInit {
       this.database.push(tempinput);
     }
     //sort the database
-    for (var i=1;i<this.database.length;i++)
+    for (var i=0;i<this.database.length;i++)
       for (var j=this.database.length-1;j>i;j--)
         if (this.database[i][4]==this.database[j][4])
           if (parseInt(this.database[i][3])>parseInt(this.database[j][3]))

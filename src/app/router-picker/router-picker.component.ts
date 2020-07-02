@@ -10,7 +10,7 @@ import {Output,EventEmitter} from '@angular/core';
   styleUrls: ['./router-picker.component.css']
 })
 export class RouterPickerComponent implements OnInit {
-  @Input() routernow:string;
+  @Input() routernow:string="";
   @Output() notify= new EventEmitter();
   constructor(
     private file: TimetableservService,

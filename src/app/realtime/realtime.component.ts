@@ -3,8 +3,8 @@ import { RealtimeservService } from '../realtimeserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {transit_realtime} from 'timetable';
-import { RealtimeStopTimesComponent } from '../realtime-stop-times/realtime-stop-times.component';
 import {FormControl} from '@angular/forms';
+import { StopPickerComponent } from '../stop-picker/stop-picker.component';
 
 
 @Component({
@@ -19,25 +19,22 @@ export class RealtimeComponent implements OnInit {
   constructor(
     private realtime:RealtimeservService,
   ) { }
+  
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataTable.filter = filterValue.trim().toLowerCase();
+  }
   value="";
   displayedColumns: string[]=[];
   dataSource :string[][];
   database :string[][]; 
   dataTable : MatTableDataSource<string[]>;
-  @ViewChild(RealtimeStopTimesComponent) stoptimescom:RealtimeStopTimesComponent ;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   currentfeedtime;
   currenttimedate;
   startdatetime;
   enddatetime;
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataTable.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataTable.paginator) {
-      this.dataTable.paginator.firstPage();
-    }
-  }
   ngOnInit(): void {
     this.displayedColumns=["entity_id","trip_id","start_time","start_date","schedule_relationship"];
     this.feed=this.realtime.getfeed();
@@ -56,14 +53,54 @@ export class RealtimeComponent implements OnInit {
     });
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
-    console.log(this.feed.header.timestamp);
     this.currentfeedtime=new FormControl(new Date(this.feed.header.timestamp * 1000).toISOString().slice(0, -5));
-    console.log(this.currentfeedtime);
     this.addmode=false;
     this.currenttimedate=null;
   }
   current;
-  
+  displayedStoptimeColumns:string[]=[];
+  dataStoptimebase=[];
+  dataStoptimeTable : MatTableDataSource<string[]>;
+  @ViewChild(MatPaginator, {static: true}) Stoptimepaginator: MatPaginator;
+
+  resetstoptime(){
+    this.displayedStoptimeColumns=["stop_sequence","stop_id","arrival_time","departure_date","schedule_relationship","tool"];
+    this.dataStoptimebase=[];
+          
+    this.current.stop_time_update.forEach((stoptime) => {
+           
+      let tempinput=[];
+      tempinput.push(stoptime.stop_sequence);
+      tempinput.push(stoptime.stop_id);
+      if (!stoptime.arrival)
+      {
+        stoptime.arrival=transit_realtime.TripUpdate.StopTimeEvent.create();
+        stoptime.arrival.time=Date.now().valueOf()/1000;
+      }
+      if (!stoptime.departure)
+      {
+        stoptime.departure=transit_realtime.TripUpdate.StopTimeEvent.create();
+        stoptime.departure.time=Date.now().valueOf()/1000;
+      }
+      tempinput.push(new Date(stoptime.arrival.time * 1000).toISOString().slice(0, -5));
+      tempinput.push(new Date(stoptime.departure.time * 1000).toISOString().slice(0, -5));
+      tempinput.push(stoptime.schedule_relationship);
+      this.dataStoptimebase.push(tempinput);
+    });
+
+    for (var i=0;i<this.dataStoptimebase.length;i++)
+     for (var j=this.dataStoptimebase.length-1;j>i;j--)
+      if (this.dataStoptimebase[i][0]>this.dataStoptimebase[j][0])
+       {
+          let tempstring=this.dataStoptimebase[i].slice();
+          this.dataStoptimebase[i]=this.dataStoptimebase[j].slice();
+          this.dataStoptimebase[j]=tempstring;
+      }
+    this.dataStoptimeTable=new MatTableDataSource<string[]>(this.dataStoptimebase);
+    this.dataStoptimeTable.paginator = this.Stoptimepaginator;
+          
+  }
+
   edit(){
     this.currenttimedate=null;
     this.addmode=true;
@@ -73,16 +110,23 @@ export class RealtimeComponent implements OnInit {
         
         if (entity.id == this.value)
         {
-          this.current=entity.trip_update;
+          
           flag=false;
+         
+          this.current.timestamp=Date.now().valueOf()/1000;
           this.currenttimedate=new FormControl(new Date(this.current.timestamp * 1000).toISOString().slice(0, -5));
+          this.current=entity.trip_update;
+          this.resetstoptime();
           return;
         }
       }
     });
     if (flag==true)
     {
-      this.current=transit_realtime.TripUpdate.create();
+      this.current=transit_realtime.TripUpdate.create({
+        trip:transit_realtime.TripDescriptor.create(),
+        stop_time_update:[]
+      });
       this.feed.entity.push(transit_realtime.FeedEntity.create({
         id:this.value,
         trip_update:this.current
@@ -118,7 +162,18 @@ export class RealtimeComponent implements OnInit {
     this.value=addvalue as string;
   }
 
+
+  
   onSave(stepper){
+    let elements=document.getElementsByTagName("input");
+    for (var i=0;i<elements.length;i++)
+    {
+      if (!elements[i].checkValidity())
+      {
+        window.alert("Some Input goes wrong, check the red marked space!");
+        return false;
+      }
+    }
     stepper.reset();
     this.realtime.setfeed(this.feed);
     this.ngOnInit();
@@ -136,38 +191,88 @@ export class RealtimeComponent implements OnInit {
     this.currentstop.departure=transit_realtime.TripUpdate.StopTimeEvent.create();
   }
 
-  addinfo(info){
-    this.current.trip.trip_id=info[0];
-    this.current.trip.route_id=info[1];
-    this.current.trip.direction_id=info[2];
-    this.stoptimescom.setfilter(info[0]);
-  }
   currentstop;
-
-  
+ @ViewChild("stopicker", { static: false }) stoppicker: StopPickerComponent;
+ @ViewChild("datetimestopbegin", { static: false }) datetimestopbegin: ElementRef;
+ @ViewChild("datetimestopend", { static: false }) datetimestopend: ElementRef;
   addstoptimeinfo(info){
+    if (this.currentstop)
+      if (!this.checkvalid())
+        return;
+      else
+      {
+        this.stoppicker.currentstop="";
+        this.datetimestopbegin.nativeElement.value=null;
+        this.datetimestopend.nativeElement.value=null;
+      }
+    this.currentstop=null;
     this.startdatetime=null;
     this.enddatetime=null;
     this.current.stop_time_update.forEach((stoptime) => {
-      if ((stoptime.stop_sequence==info[1]) && (stoptime.stop_id==info[0]))
+      if ((stoptime.stop_sequence==info[0]) && (stoptime.stop_id==info[1]))
       {
-        this.currentstop=stoptime;
-        if (this.currentstop.arrival)
+        
+        if (stoptime.arrival)
         {
-          this.startdatetime=new FormControl(new Date(this.currentstop.arrival.time * 1000).toISOString().slice(0, -5));
+          this.startdatetime=new FormControl(new Date(stoptime.arrival.time * 1000).toISOString().slice(0, -5));
         }
-        if (this.currentstop.departure)
+        if (stoptime.departure)
         {
-          this.enddatetime.nativeElement.value=new FormControl(new Date(this.currentstop.departure.time * 1000).toISOString().slice(0, -5));
+          this.enddatetime=new FormControl(new Date(stoptime.departure.time * 1000).toISOString().slice(0, -5));
         }
+        
+        this.currentstop=stoptime; 
+        this.resetstoptime();
+        this.stoppicker.currentstop=stoptime.stop_id;
         return;
       }
     });
+   
+  }
+  checkvalid(){
+    let elements=document.getElementsByTagName("input");
+    for (var i=0;i<elements.length;i++)
+    {
+      if (!elements[i].checkValidity())
+      {
+        window.alert("Some Input goes wrong, check the red marked space!");
+        return false;
+      }
+    }
+    if (!this.currentstop.stop_id){
+      window.alert("Stop_id can not be empty!");
+      return false;
+    }
+    return true;
+  }
+  addaLine()
+  {
+    if (this.currentstop)
+      if (!this.checkvalid())
+        return;
+      else
+      {
+        this.stoppicker.currentstop="";
+        this.datetimestopbegin.nativeElement.value=null;
+        this.datetimestopend.nativeElement.value=null;
+      }
+    this.currentstop=null;
     let tempinput=transit_realtime.TripUpdate.StopTimeUpdate.create({
-      stop_sequence:info[1],
-      stop_id:info[0]
+      stop_sequence:null,
+      stop_id:null,
+      arrival:transit_realtime.TripUpdate.StopTimeEvent.create(),
+      departure:transit_realtime.TripUpdate.StopTimeEvent.create()
     });
     this.current.stop_time_update.push(tempinput);
     this.currentstop=tempinput;
+    this.resetstoptime();
+  }
+
+  addroute(routeid){
+    this.current.trip.route_id=routeid;
+  }
+
+  changestopid(stop){
+    this.currentstop.stop_id=stop;
   }
 }
