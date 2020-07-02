@@ -3,7 +3,6 @@ import { StopservService } from '../stopserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {FormControl} from '@angular/forms';
-import {Output,EventEmitter} from '@angular/core'
 
 @Component({
   selector: 'app-pathway',

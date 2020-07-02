@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ZipService } from './zip.service';
 import { CalendarservService } from './calendarserv.service';
 import { FareservService } from './fareserv.service';
 import { StopservService } from './stopserv.service';

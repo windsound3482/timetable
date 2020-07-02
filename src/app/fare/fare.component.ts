@@ -4,7 +4,6 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {FormControl} from '@angular/forms';
 import { FareruleComponent } from '../farerule/farerule.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-fare',

@@ -7,6 +7,7 @@ import {transit_realtime} from 'timetable';
 })
 export class RealtimeservService {
   feed;
+  names="hello.pb";
   setfeed(tempfeed)
   {
     this.feed=tempfeed;
@@ -16,10 +17,16 @@ export class RealtimeservService {
   {
     return this.feed;
   }
+
+  setname(tempname)
+  {
+    this.names=tempname;
+  }
+
   download(){
     let binary=transit_realtime.FeedMessage.encode(this.feed).finish();
     let b = new Blob([binary],{type:"application/octet-binary"});
-    FileSaver.saveAs(b, "hello.pb");
+    FileSaver.saveAs(b, this.names);
   }
   constructor() { 
     let feedhead=transit_realtime.FeedHeader.create({

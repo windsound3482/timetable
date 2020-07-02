@@ -38,17 +38,17 @@ export class FileuploaderComponent implements OnInit {
   num=null;
   uploadrealtimeFile(event) {
     var reader:FileReader = new FileReader();
-    
+    this.realtime.setname(event[0].name);
+    console.log(event[0].name);
     reader.onload = (progressEvent) => {
-  
+      
       let temparray=reader.result as string;
       let element=Buffer.from(temparray,"ascii");
       var feed =transit_realtime.FeedMessage.decode(element);
       this.realtime.setfeed(feed);
       this.num=feed.entity.length;
-
+      
     };
-   
     reader.readAsArrayBuffer(event[0]);
   }
 

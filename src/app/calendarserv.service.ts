@@ -23,10 +23,7 @@ export class CalendarservService {
   public getexp(){
     return this.calendarexp;
   }
-  
 
-
- 
   constructor() { 
     this.setcalender([["service_id","monday","tuesday","wednesday","thursday",
       "friday","saturday","sunday","start_date","end_date"]]);
