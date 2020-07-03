@@ -1,10 +1,11 @@
-import { Component, OnInit,ViewChild,ElementRef} from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, ViewChildren} from '@angular/core';
 import { RealtimeservService } from '../realtimeserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {transit_realtime} from 'timetable';
 import {FormControl} from '@angular/forms';
 import { StopPickerComponent } from '../stop-picker/stop-picker.component';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 
 @Component({
@@ -58,6 +59,7 @@ export class RealtimeComponent implements OnInit {
     this.currenttimedate=null;
     this.current=null;
     this.currentstop=null;
+    this.startatdate=null;
   }
   current;
   displayedStoptimeColumns:string[]=[];
@@ -102,7 +104,7 @@ export class RealtimeComponent implements OnInit {
     this.dataStoptimeTable.paginator = this.Stoptimepaginator;
           
   }
-
+  startatdate=null;
   edit(){
     this.currenttimedate=null;
     this.addmode=true;
@@ -114,9 +116,10 @@ export class RealtimeComponent implements OnInit {
         {
           
           flag=false;
-          if (!this.current.timestamp)
-            this.current.timestamp=Math.round(new Date().getTime()/1000);
-          this.currenttimedate=new FormControl(new Date(this.current.timestamp * 1000).toISOString().slice(0, -5));
+          if (!entity.trip_update.timestamp)
+            entity.trip_update.timestamp=Math.round(new Date().getTime()/1000);
+          this.currenttimedate=new FormControl(new Date(entity.trip_update.timestamp * 1000).toISOString().slice(0, -5));
+          this.startatdate=new FormControl(new Date(entity.trip_update.trip.start_date));
           this.current=entity.trip_update;
           this.resetstoptime();
           return;
@@ -125,6 +128,8 @@ export class RealtimeComponent implements OnInit {
     });
     if (flag==true)
     {
+      this.startatdate=new FormControl(null);
+      this.currenttimedate=new FormControl(new Date(Math.round(new Date().getTime()/1000) * 1000).toISOString().slice(0, -5));
       this.current=transit_realtime.TripUpdate.create({
         trip:transit_realtime.TripDescriptor.create(),
         stop_time_update:[],
@@ -201,17 +206,9 @@ export class RealtimeComponent implements OnInit {
  @ViewChild("stopicker", { static: false }) stoppicker: StopPickerComponent;
  @ViewChild("datetimestopbegin", { static: false }) datetimestopbegin: ElementRef;
  @ViewChild("datetimestopend", { static: false }) datetimestopend: ElementRef;
+
+
   addstoptimeinfo(info){
-    if (this.currentstop)
-      if (!this.checkvalid())
-        return;
-      else
-      {
-        this.stoppicker.currentstop="";
-        this.datetimestopbegin.nativeElement.value=null;
-        this.datetimestopend.nativeElement.value=null;
-      }
-    this.currentstop=null;
     this.startdatetime=null;
     this.enddatetime=null;
     this.current.stop_time_update.forEach((stoptime) => {
@@ -228,12 +225,20 @@ export class RealtimeComponent implements OnInit {
         }
         
         this.currentstop=stoptime; 
-        this.resetstoptime();
-        this.stoppicker.currentstop=stoptime.stop_id;
+        if (this.stoppicker)
+          this.stoppicker.currentstop=stoptime.stop_id;
         return;
       }
     });
    
+  }
+
+  deletestoptimeinfo(element){
+    this.addstoptimeinfo(element);
+    let index=this.current.stop_time_update.indexOf(this.currentstop);
+    this.current.stop_time_update.splice(index,1);
+    this.resetstoptime();
+    this.currentstop=null;
   }
   checkvalid(){
     let elements=document.getElementsByTagName("input");
@@ -251,8 +256,8 @@ export class RealtimeComponent implements OnInit {
     }
     return true;
   }
-  addaLine()
-  {
+
+  checkout(){
     if (this.currentstop)
       if (!this.checkvalid())
         return;
@@ -262,7 +267,12 @@ export class RealtimeComponent implements OnInit {
         this.datetimestopbegin.nativeElement.value=null;
         this.datetimestopend.nativeElement.value=null;
       }
+    this.resetstoptime();
     this.currentstop=null;
+  }
+  addaLine()
+  {
+    
     let tempinput=transit_realtime.TripUpdate.StopTimeUpdate.create({
       stop_sequence:null,
       stop_id:null,
@@ -273,7 +283,7 @@ export class RealtimeComponent implements OnInit {
     this.enddatetime=new FormControl(null);
     this.current.stop_time_update.push(tempinput);
     this.currentstop=tempinput;
-    this.resetstoptime();
+    
   }
 
   addroute(routeid){
@@ -282,5 +292,13 @@ export class RealtimeComponent implements OnInit {
 
   changestopid(stop){
     this.currentstop.stop_id=stop;
+  }
+
+  adddate(event: MatDatepickerInputEvent<Date>){
+    const date:string =
+      event.value.getFullYear() +
+      ("00" + (event.value.getMonth()+1)).slice(-2) +
+      ("00" + event.value.getDate()).slice(-2);
+    this.current.trip.start_date=date;
   }
 }

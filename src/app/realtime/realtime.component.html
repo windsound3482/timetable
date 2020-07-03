@@ -48,7 +48,7 @@
       </mat-form-field>
     </div>
   </mat-step>
-  <mat-step [editable]="true" *ngIf="current">
+  <mat-step [editable]="true" *ngIf="current" [completed]="current.trip.trip_id">
     <ng-template matStepLabel  >Trip id:{{current.trip.trip_id}}</ng-template>
     
     <div *ngIf="this.current"> 
@@ -56,25 +56,32 @@
       &nbsp;&nbsp;&nbsp;&nbsp;
       <mat-form-field >
         <mat-label>trip_id</mat-label>
-        <input matInput type="text" [(ngModel)]="current.trip.trip_id"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}" required> 
+        <input matInput type="text" [(ngModel)]="current.trip.trip_id"  [ngModelOptions]="{standalone: true}" required> 
       </mat-form-field>
       &nbsp;&nbsp;
       <app-router-picker [routernow]="current.trip.route_id" (notify)="addroute($event)"></app-router-picker>
       &nbsp;&nbsp;
       <mat-form-field >
         <mat-label>>direction_id</mat-label>
-        <input matInput type="number" min="0" [(ngModel)]="current.trip.direction_id"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+        <input matInput type="number" min="0" [(ngModel)]="current.trip.direction_id"   [ngModelOptions]="{standalone: true}">
       </mat-form-field>
-      &nbsp;&nbsp;
+      <div class="options"></div>
+      <p></p>
+      &nbsp;&nbsp;&nbsp;&nbsp;
       <mat-form-field >
         <mat-label>start_time</mat-label>
-        <input matInput type="text" [(ngModel)]="current.trip.start_time"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+        <input matInput type="text" [(ngModel)]="current.trip.start_time"   [ngModelOptions]="{standalone: true}" pattern="^[0-9]?[0-9][:]([0-5][0-9]|60)[:]([0-5][0-9]|60)$">
       </mat-form-field>
       &nbsp;&nbsp;
-      <mat-form-field >
-        <mat-label>start_date</mat-label>
-        <input matInput type="text" [(ngModel)]="current.trip.start_date"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
-      </mat-form-field>
+     
+       
+        <mat-form-field> 
+          <mat-label>start_date</mat-label>
+          <input matInput [matDatepicker]="picker1" (dateChange)="adddate($event)"  [formControl]="startatdate">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker  #picker1  readwrite></mat-datepicker>
+        </mat-form-field>
+    
       &nbsp;&nbsp;
       <mat-form-field >
         <mat-label>schedule_relationship</mat-label>
@@ -96,7 +103,7 @@
       &nbsp;&nbsp;
       <mat-form-field >
         <mat-label>trip_delay</mat-label>
-        <input matInput type="number" min="0" [(ngModel)]="current.delay"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+        <input matInput type="number" min="0" [(ngModel)]="current.delay"   [ngModelOptions]="{standalone: true}">
       </mat-form-field>
     </div>
   </mat-step>
@@ -104,7 +111,7 @@
   &nbsp;&nbsp;
    <mat-step [editable]="true" *ngIf="current">
     <ng-template matStepLabel >VehicleDescriptor:
-      <button mat-button *ngIf="!current.VehicleDescriptor" matSuffix [disabled]="!addmode" (click)="addvehicle()">
+      <button mat-button *ngIf="!current.VehicleDescriptor" matSuffix  (click)="addvehicle()">
         <mat-icon>add</mat-icon>
       </button>
     </ng-template>
@@ -149,9 +156,13 @@
                   <div *ngIf="element[i]=='2'" style="color:red">NO_DATA</div>
                 </div>
                 <div *ngIf="pos=='tool'">
-                  <button mat-button matSuffix color="primary"  aria-label="edit" (click)="addstoptimeinfo(element)">
-                  <mat-icon>create</mat-icon>
-                </button>
+                  <button mat-button matSuffix color="primary"  aria-label="edit" (click)="addstoptimeinfo(element)" [disabled]="currentstop">
+                    <mat-icon>create</mat-icon>
+                  </button>
+                  <button mat-button matSuffix color="warn"  aria-label="edit" (click)="deletestoptimeinfo(element)" [disabled]="currentstop">
+                    <mat-icon>delete_forever</mat-icon>
+                  </button>
+
                 </div>
             </mat-cell>
         </ng-container>
@@ -162,7 +173,9 @@
       </table> 
       
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-      <button mat-stroked-button (click)="addaLine()">Add a Line</button>
+      <button mat-stroked-button color='warn' (click)="addaLine()" [disabled]="currentstop">Add a Line</button>
+      &nbsp;&nbsp;&nbsp;
+      <button mat-stroked-button color='primary' (click)="checkout()" [disabled]="!currentstop">Check out</button>
     </div>
    
     <div *ngIf="currentstop">
@@ -180,9 +193,9 @@
       <mat-form-field >
         <mat-label>schedule_relationship</mat-label>
         <mat-select [(ngModel)]="currentstop.schedule_relationship" name="available">
-          <mat-option [value]="1">SCHEDULED</mat-option>
-          <mat-option [value]="2">SKIPPED</mat-option>
-          <mat-option [value]="3">NO_DATA</mat-option>
+          <mat-option [value]="0">SCHEDULED</mat-option>
+          <mat-option [value]="1">SKIPPED</mat-option>
+          <mat-option [value]="2">NO_DATA</mat-option>
           
         </mat-select>
       </mat-form-field>
@@ -191,7 +204,7 @@
       &nbsp;&nbsp;
       <h3>
         arrival
-        <button mat-button *ngIf="!currentstop.arrival" matSuffix  (click)="addarrival()">
+        <button mat-button #stoptimess *ngIf="!currentstop.arrival" matSuffix   (click)="addarrival()">
         <mat-icon>add</mat-icon>
       </button>
       </h3>
@@ -214,7 +227,7 @@
       </div>
       <h3>
         departure
-        <button mat-button *ngIf="!currentstop.departure" matSuffix [disabled]="!addmode" (click)="adddeparture()">
+        <button mat-button *ngIf="!currentstop.departure" matSuffix (click)="adddeparture()">
         <mat-icon>add</mat-icon>
       </button>
       </h3>
