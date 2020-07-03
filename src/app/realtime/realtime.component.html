@@ -56,18 +56,14 @@
       &nbsp;&nbsp;&nbsp;&nbsp;
       <mat-form-field >
         <mat-label>trip_id</mat-label>
-        <input matInput type="text" [(ngModel)]="current.trip.trip_id"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
+        <input matInput type="text" [(ngModel)]="current.trip.trip_id"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}" required> 
       </mat-form-field>
       &nbsp;&nbsp;
       <app-router-picker [routernow]="current.trip.route_id" (notify)="addroute($event)"></app-router-picker>
       &nbsp;&nbsp;
       <mat-form-field >
-        <mat-label>direction_id</mat-label>
-          <mat-select [(ngModel)]="current.trip.direction_id" name="available">
-            <mat-option value="0">in one direction</mat-option>
-            <mat-option value="1">in opposite direction</mat-option>
-            <mat-option value=null>-------------------</mat-option>
-          </mat-select>
+        <mat-label>>direction_id</mat-label>
+        <input matInput type="number" min="0" [(ngModel)]="current.trip.direction_id"  [disabled]="!addmode" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
       &nbsp;&nbsp;
       <mat-form-field >
@@ -82,11 +78,11 @@
       &nbsp;&nbsp;
       <mat-form-field >
         <mat-label>schedule_relationship</mat-label>
-        <mat-select [(ngModel)]="current.schedule_relationship" name="available">
-          <mat-option value="0">SCHEDULED</mat-option>
-          <mat-option value="1">ADDED</mat-option>
-          <mat-option value="2">UNSCHEDULED</mat-option>
-          <mat-option value="3">CANCELED</mat-option>
+        <mat-select [(ngModel)]="current.trip.schedule_relationship" name="available">
+          <mat-option [value]="0">SCHEDULED</mat-option>
+          <mat-option [value]="1">ADDED</mat-option>
+          <mat-option [value]="2">UNSCHEDULED</mat-option>
+          <mat-option [value]="3">CANCELED</mat-option>
         </mat-select>
       </mat-form-field>
      
@@ -149,9 +145,8 @@
                 </div>
                 <div *ngIf="pos=='schedule_relationship'">
                   <div *ngIf="element[i]=='0'" style="color:blue">SCHEDULED</div>
-                  <div *ngIf="element[i]=='1'" style="color:green">ADDED</div>
-                  <div *ngIf="element[i]=='2'" style="color:purple">UNSCHEDULED</div>
-                  <div *ngIf="element[i]=='3'" style="color:red">CANCELED</div>
+                  <div *ngIf="element[i]=='1'" style="color:purple">SKIPPED</div>
+                  <div *ngIf="element[i]=='2'" style="color:red">NO_DATA</div>
                 </div>
                 <div *ngIf="pos=='tool'">
                   <button mat-button matSuffix color="primary"  aria-label="edit" (click)="addstoptimeinfo(element)">
@@ -179,16 +174,16 @@
       &nbsp;&nbsp;
       <mat-form-field >  
         <mat-label>stop_sequence</mat-label>
-        <input matInput type="text" [(ngModel)]="currentstop.stop_sequence"  [ngModelOptions]="{standalone: true}" required>
+        <input matInput type="number" [(ngModel)]="currentstop.stop_sequence"  [ngModelOptions]="{standalone: true}" required>
       </mat-form-field>
       &nbsp;&nbsp;
       <mat-form-field >
         <mat-label>schedule_relationship</mat-label>
         <mat-select [(ngModel)]="currentstop.schedule_relationship" name="available">
-          <mat-option value="0">SCHEDULED</mat-option>
-          <mat-option value="1">ADDED</mat-option>
-          <mat-option value="2">UNSCHEDULED</mat-option>
-          <mat-option value="3">CANCELED</mat-option>
+          <mat-option [value]="1">SCHEDULED</mat-option>
+          <mat-option [value]="2">SKIPPED</mat-option>
+          <mat-option [value]="3">NO_DATA</mat-option>
+          
         </mat-select>
       </mat-form-field>
       <div class="options"></div>

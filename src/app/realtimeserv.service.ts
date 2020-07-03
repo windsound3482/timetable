@@ -24,6 +24,12 @@ export class RealtimeservService {
   }
 
   download(){
+    var errMsg =transit_realtime.FeedMessage.verify(this.feed);
+    if (errMsg)
+    {
+       window.alert(errMsg);
+       return;
+    }
     let binary=transit_realtime.FeedMessage.encode(this.feed).finish();
     let b = new Blob([binary],{type:"application/octet-binary"});
     FileSaver.saveAs(b, this.names);

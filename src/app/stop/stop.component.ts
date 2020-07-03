@@ -434,7 +434,6 @@ export class StopComponent implements OnInit {
  
   currenttype:string[]=[];
   changecol(){
-    console.log("now");
     var value=this.nameget.value;
     let add=false;
     var tempnames:string[]=this.dataSource[0].slice();

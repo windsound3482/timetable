@@ -56,6 +56,8 @@ export class RealtimeComponent implements OnInit {
     this.currentfeedtime=new FormControl(new Date(this.feed.header.timestamp * 1000).toISOString().slice(0, -5));
     this.addmode=false;
     this.currenttimedate=null;
+    this.current=null;
+    this.currentstop=null;
   }
   current;
   displayedStoptimeColumns:string[]=[];
@@ -75,12 +77,12 @@ export class RealtimeComponent implements OnInit {
       if (!stoptime.arrival)
       {
         stoptime.arrival=transit_realtime.TripUpdate.StopTimeEvent.create();
-        stoptime.arrival.time=Date.now().valueOf()/1000;
+        stoptime.arrival.timeMath.round(new Date().getTime()/1000);
       }
       if (!stoptime.departure)
       {
         stoptime.departure=transit_realtime.TripUpdate.StopTimeEvent.create();
-        stoptime.departure.time=Date.now().valueOf()/1000;
+        stoptime.departure.time=Math.round(new Date().getTime()/1000);
       }
       tempinput.push(new Date(stoptime.arrival.time * 1000).toISOString().slice(0, -5));
       tempinput.push(new Date(stoptime.departure.time * 1000).toISOString().slice(0, -5));
@@ -112,8 +114,8 @@ export class RealtimeComponent implements OnInit {
         {
           
           flag=false;
-         
-          this.current.timestamp=Date.now().valueOf()/1000;
+          if (!this.current.timestamp)
+            this.current.timestamp=Math.round(new Date().getTime()/1000);
           this.currenttimedate=new FormControl(new Date(this.current.timestamp * 1000).toISOString().slice(0, -5));
           this.current=entity.trip_update;
           this.resetstoptime();
@@ -125,7 +127,8 @@ export class RealtimeComponent implements OnInit {
     {
       this.current=transit_realtime.TripUpdate.create({
         trip:transit_realtime.TripDescriptor.create(),
-        stop_time_update:[]
+        stop_time_update:[],
+        timestamp:Math.round(new Date().getTime()/1000)
       });
       this.feed.entity.push(transit_realtime.FeedEntity.create({
         id:this.value,
@@ -174,6 +177,9 @@ export class RealtimeComponent implements OnInit {
         return false;
       }
     }
+    if (this.currentstop)
+      if (!this.checkvalid())
+        return;
     stepper.reset();
     this.realtime.setfeed(this.feed);
     this.ngOnInit();
@@ -263,6 +269,8 @@ export class RealtimeComponent implements OnInit {
       arrival:transit_realtime.TripUpdate.StopTimeEvent.create(),
       departure:transit_realtime.TripUpdate.StopTimeEvent.create()
     });
+    this.startdatetime=new FormControl(null);
+    this.enddatetime=new FormControl(null);
     this.current.stop_time_update.push(tempinput);
     this.currentstop=tempinput;
     this.resetstoptime();
