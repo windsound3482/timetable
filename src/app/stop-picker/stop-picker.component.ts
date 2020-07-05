@@ -12,10 +12,15 @@ import {Output,EventEmitter} from '@angular/core';
 
 })
 export class StopPickerComponent implements OnInit {
+  //Detailmode:Show every stops, false:wtih only stations and stops
   @Input() Detailmode:boolean=true;
+  //stopnow: default stations used for show out
   @Input() stopnow:string="";
+  //disabled, whether it is editable or it is only for shows
   @Input() disabled:boolean=false;
+  //label:used to customize the label of the picker
   @Input() label="";
+  //output: the stop id
   @Output() notify= new EventEmitter();
   displayedColumns: string[]=[];
   dataSource :string[][];

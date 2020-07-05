@@ -189,6 +189,28 @@ export class RealtimeComponent implements OnInit {
     this.realtime.setfeed(this.feed);
     this.ngOnInit();
   }
+
+  Deleteline(){
+    let index=0;
+    this.feed.entity.forEach((entity) => {
+      if (entity.trip_update) {
+        if (entity.trip_update==this.current)
+          this.feed.entity.splice(index,1);
+          return;
+      }
+      {
+        index++;
+      }
+    })
+  }
+
+  onDelete(stepper){
+    this.Deleteline();
+    stepper.reset();
+    this.realtime.setfeed(this.feed);
+    this.ngOnInit();
+  }
+
   feed=null;
   addmode=false;
   addvehicle(){

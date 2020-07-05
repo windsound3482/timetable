@@ -182,7 +182,7 @@
       <br>
       &nbsp;&nbsp;&nbsp;&nbsp; 
       
-      <app-stop-picker #stopicker [Detailmode]="true" [label]="'stop_id'" [stopnow]="currentstop.stop_id" [disabled]="false" (notify)="changestopid($event)"> </app-stop-picker>
+      <app-stop-picker #stopicker [Detailmode]="false" [label]="'stop_id'" [stopnow]="currentstop.stop_id" [disabled]="false" (notify)="changestopid($event)"> </app-stop-picker>
     
       &nbsp;&nbsp;
       <mat-form-field >  
@@ -253,13 +253,19 @@
 
   <mat-step [editable]="true" >
     <ng-template matStepLabel>Save or Cancel </ng-template>
+    &nbsp;&nbsp;&nbsp;&nbsp; 
     <mat-form-field >
       <mat-label>Feed_timestamp</mat-label>
       <input matInput [formControl]="currentfeedtime" type="datetime-local" step="1" (change)="changfeedtimedate($event.target.value)" required>
     </mat-form-field>
-    <button mat-raised-button color="warn" (click)="onSave(stepper)" >
+    <div class="options"></div>
+    &nbsp;&nbsp;&nbsp;&nbsp; 
+    <button mat-raised-button color="primary" (click)="onSave(stepper)" >
         Save 
     </button>
-  
+    &nbsp;&nbsp;
+    <button mat-raised-button color="warn" (click)="onDelete(stepper)" >
+      Delete 
+  </button>
   </mat-step>
 </mat-vertical-stepper>
