@@ -46,6 +46,7 @@ import { PathwayTransferEditorComponent } from './pathway-transfer-editor/pathwa
 import { PathwayComponent } from './pathway/pathway.component';
 import { StopTimesComponent } from './stop-times/stop-times.component';
 import { RealtimeComponent } from './realtime/realtime.component';
+import { RealtimeTripComponent } from './realtime-trip/realtime-trip.component';
 
 
 
@@ -81,6 +82,7 @@ import { RealtimeComponent } from './realtime/realtime.component';
     PathwayComponent,
     StopTimesComponent,
     RealtimeComponent,
+    RealtimeTripComponent,
   ],
  
 

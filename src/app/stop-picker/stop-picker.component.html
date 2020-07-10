@@ -24,7 +24,7 @@
                           <button mat-button *ngIf="pos=='stop_id'" matSuffix color="primary"  aria-label="edit" (click)="add_stop_input(element[i])">
                             <mat-icon>create</mat-icon>
                           </button>
-                          <button mat-button *ngIf="pos=='location_type' && ((element[i]=='0') || (element[i]=='1') && Detailmode) " matSuffix color="primary"  aria-label="edit" (click)="editchild(element[0])">
+                          <button mat-button *ngIf="pos=='location_type' && ((element[i]=='0') || (element[i]=='1')) && Detailmode " matSuffix color="primary"  aria-label="edit" (click)="editchild(element[0])">
                             <mat-icon>zoom_in</mat-icon>
                           </button>
 

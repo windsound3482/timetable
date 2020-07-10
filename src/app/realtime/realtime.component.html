@@ -52,6 +52,7 @@
     <ng-template matStepLabel  >Trip id:{{current.trip.trip_id}}</ng-template>
     
     <div *ngIf="this.current"> 
+      <app-realtime-trip (info)="addinfo($event)"></app-realtime-trip>
       <br>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <mat-form-field >
@@ -59,11 +60,14 @@
         <input matInput type="text" [(ngModel)]="current.trip.trip_id"  [ngModelOptions]="{standalone: true}" required> 
       </mat-form-field>
       &nbsp;&nbsp;
-      <app-router-picker [routernow]="current.trip.route_id" (notify)="addroute($event)"></app-router-picker>
+      <app-router-picker #routerpicker [routernow]="current.trip.route_id" (notify)="addroute($event)"></app-router-picker>
       &nbsp;&nbsp;
       <mat-form-field >
-        <mat-label>>direction_id</mat-label>
-        <input matInput type="number" min="0" [(ngModel)]="current.trip.direction_id"   [ngModelOptions]="{standalone: true}">
+        <mat-label>direction_id</mat-label>
+        <mat-select [(ngModel)]="current.trip.direction_id" name="available">
+          <mat-option [value]="0">in one direction</mat-option>
+          <mat-option [value]="1">in the opposite direction</mat-option>
+        </mat-select>
       </mat-form-field>
       <div class="options"></div>
       <p></p>
@@ -217,7 +221,7 @@
         &nbsp;&nbsp;
         <mat-form-field >
           <mat-label>time</mat-label>
-          <input matInput #datetimestopbegin type="datetime-local" step="1" [formControl]="startdatetime" (change)="changbegintimedate($event.target.value)" [disabled]="!addmode" required>
+          <input matInput #datetimestopbegin type="datetime-local" step="1" [formControl]="startdatetime" (change)="changbegintimedate($event.target.value)" [disabled]="!addmode">
         </mat-form-field>
         &nbsp;&nbsp;
         <mat-form-field >
@@ -240,7 +244,7 @@
         &nbsp;&nbsp;
         <mat-form-field >
           <mat-label>time</mat-label>
-          <input matInput #datetimestopend type="datetime-local" step="1" [formControl]="enddatetime" (change)="changendtimedate($event.target.value)" [disabled]="!addmode" required>
+          <input matInput #datetimestopend type="datetime-local" step="1" [formControl]="enddatetime" (change)="changendtimedate($event.target.value)" [disabled]="!addmode">
         </mat-form-field>
         &nbsp;&nbsp;
         <mat-form-field >

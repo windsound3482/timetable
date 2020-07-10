@@ -2,10 +2,12 @@ import { Component, OnInit,ViewChild,ElementRef, ViewChildren} from '@angular/co
 import { RealtimeservService } from '../realtimeserv.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import { TimetableservService } from '../timetableserv.service';
 import {transit_realtime} from 'timetable';
 import {FormControl} from '@angular/forms';
 import { StopPickerComponent } from '../stop-picker/stop-picker.component';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import { RouterPickerComponent } from '../router-picker/router-picker.component';
 
 
 @Component({
@@ -19,6 +21,7 @@ export class RealtimeComponent implements OnInit {
 
   constructor(
     private realtime:RealtimeservService,
+    private timetable:TimetableservService 
   ) { }
   
   applyFilter(event: Event) {
@@ -86,8 +89,14 @@ export class RealtimeComponent implements OnInit {
         stoptime.departure=transit_realtime.TripUpdate.StopTimeEvent.create();
         stoptime.departure.time=Math.round(new Date().getTime()/1000);
       }
-      tempinput.push(new Date(stoptime.arrival.time * 1000).toISOString().slice(0, -5));
-      tempinput.push(new Date(stoptime.departure.time * 1000).toISOString().slice(0, -5));
+      if (stoptime.arrival.time)
+        tempinput.push(new Date(stoptime.arrival.time * 1000).toISOString().slice(0, -5));
+      else
+        tempinput.push("Delay:".concat(stoptime.arrival.delay).concat("s"));
+      if (stoptime.departure.time)
+        tempinput.push(new Date(stoptime.departure.time * 1000).toISOString().slice(0, -5));
+      else
+        tempinput.push("Delay:".concat(stoptime.departure.delay).concat("s"));
       tempinput.push(stoptime.schedule_relationship);
       this.dataStoptimebase.push(tempinput);
     });
@@ -322,5 +331,37 @@ export class RealtimeComponent implements OnInit {
       ("00" + (event.value.getMonth()+1)).slice(-2) +
       ("00" + event.value.getDate()).slice(-2);
     this.current.trip.start_date=date;
+  }
+  @ViewChild("routerpicker", { static: false }) routerpicker: RouterPickerComponent;
+  addinfo(info){
+    this.current.trip.trip_id=info[0];
+    this.current.trip.route_id=info[1];
+    this.routerpicker.routerid=info[1];
+    this.current.trip.direction_id=parseInt(info[2]);
+    this.current.stop_time_update=[];
+    let stoptimes=this.timetable.getstoptimes();
+    let stop_id_index=stoptimes[0].indexOf("stop_id");
+    let trip_id_index=stoptimes[0].indexOf("trip_id");
+    let stop_sequence_index=stoptimes[0].indexOf("stop_sequence");
+    
+    for (var i=1;i<stoptimes.length;i++)
+    {
+      if (info[0]==stoptimes[i][trip_id_index])
+      {
+        let tempinput=transit_realtime.TripUpdate.StopTimeUpdate.create({
+          stop_sequence:parseInt(stoptimes[i][stop_sequence_index]),
+          stop_id:stoptimes[i][stop_id_index],
+          arrival:transit_realtime.TripUpdate.StopTimeEvent.create({
+            delay:0
+          }),
+          departure:transit_realtime.TripUpdate.StopTimeEvent.create({
+            delay:0
+          }),
+          schedule_relationship:0
+        });
+        this.current.stop_time_update.push(tempinput);
+      }
+    }
+    this.resetstoptime();
   }
 }
