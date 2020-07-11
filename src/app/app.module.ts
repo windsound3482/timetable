@@ -83,7 +83,7 @@ import { DeactivateGuard } from './deactivate-guard';
     AppRoutingModule,
     BrowserAnimationsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent,canDeactivate: [DeactivateGuard]},
+      { path: '', component: HomeComponent},
       { path: 'DragDrop',component:FileuploaderComponent},
       { path: 'AgencyEditor', component:AgencytableComponent,canDeactivate: [DeactivateGuard]},
       { path: 'FeedinfoEditor', component:FeedinfoComponent,canDeactivate: [DeactivateGuard]},

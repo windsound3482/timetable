@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ZipService } from '../zip.service';
 import {transit_realtime} from 'timetable';
 import { RealtimeservService } from '../realtimeserv.service';
+
 @Component({
   selector: 'app-fileuploader',
   templateUrl: './fileuploader.component.html',
@@ -52,5 +53,13 @@ export class FileuploaderComponent implements OnInit {
     reader.readAsArrayBuffer(event[0]);
   }
 
+  download(){
+    this.zip.downloadFile();
+  }
+
+  timedownload(){
+    this.realtime.download();
+  }
+ 
   
 }

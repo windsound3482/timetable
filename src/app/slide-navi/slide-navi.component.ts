@@ -24,30 +24,6 @@ export class SlideNaviComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  download(){
-    let elements=document.getElementsByTagName("input");
-    for (var i=0;i<elements.length;i++)
-    {
-      if (!elements[i].checkValidity())
-      {
-        window.alert("Some Input goes wrong, check the red marked space!");
-        return;
-      }
-    }
-    this.zip.downloadFile();
-  }
-
-  timedownload(){
-    let elements=document.getElementsByTagName("input");
-    for (var i=0;i<elements.length;i++)
-    {
-      if (!elements[i].checkValidity())
-      {
-        window.alert("Some Input goes wrong, check the red marked space!");
-        return;
-      }
-    }
-    this.realtime.download();
-  }
+  
   
 }
