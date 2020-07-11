@@ -45,7 +45,7 @@ export class AgencytableComponent implements OnInit {
       if (!elements[i].checkValidity())
       {
         window.alert("Some Input goes wrong, check the red marked space!");
-        return;
+        return false;
       }
     }
     let timezoneindex=this.displayedColumns.indexOf("agency_timezone");
@@ -57,14 +57,14 @@ export class AgencytableComponent implements OnInit {
       if (!this.database[i][timezoneindex])
       {
         window.alert("Please enter an timezone");
-        return;
+        return false;
       }
     }
     this.dataSource=this.dataSource.concat(this.database);
     console.log("saveit");
     this.file.setagencyList(this.dataSource);
-    window.alert('Your File agency.txt has already been saved!');
     this.onReset();
+    return true;
   }
 
   onReset(){
@@ -133,7 +133,9 @@ export class AgencytableComponent implements OnInit {
     this.dataTable.paginator = this.paginator;
   }
   
-  
+  canDeactivate() {
+    return this.onSave();
+  }
 }
  
 

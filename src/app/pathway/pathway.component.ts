@@ -169,6 +169,15 @@ export class PathwayComponent implements OnInit {
   changestop(i,stop){
     this.dataSource[this.current][i]=stop;
   }
+
+  canDeactivate() {
+    if (this.addmode==true)
+    {
+      window.alert("Please Save before you leave this page!");
+      return false;
+    }
+    return true;
+  }
   
 }
  

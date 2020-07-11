@@ -249,12 +249,9 @@ export class StopTimesComponent implements OnInit {
         this.dataSource.push(tempadd);
         this.changeontable();
     this.checked=false;
-      
-   
-   
     
   }
-  tosubmitdata:string[]=[];
+  tosubmitdata:string[]=["00:00:00","00:00:00","","0"];
   changeaddstop(event){
     this.tosubmitdata[2]=event;
   }

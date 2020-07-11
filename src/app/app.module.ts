@@ -14,7 +14,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MapComponent } from './map/map.component';
 import { SlideNaviComponent } from './slide-navi/slide-navi.component';
 import { FileuploaderComponent } from './fileuploader/fileuploader.component';
 import { DragDropDirective } from './drag-drop.directive';
@@ -25,10 +24,6 @@ import { AgencytableComponent } from './agencytable/agencytable.component';
 import { EditorComponent } from './editor/editor.component';
 import { FeedinfoComponent } from './feedinfo/feedinfo.component';
 import { CalendarComponent } from './calendar/calendar.component';
-
-import { ShapetableComponent } from './shapetable/shapetable.component';
-import { AttributionsComponent } from './attributions/attributions.component';
-import { TranslationComponent } from './translation/translation.component';
 
 import { FareComponent } from './fare/fare.component';
 import { FareruleComponent } from './farerule/farerule.component';
@@ -42,11 +37,11 @@ import { LevelPickerComponent } from './level-picker/level-picker.component';
 import { RouterPickerComponent } from './router-picker/router-picker.component';
 import { StopPickerComponent } from './stop-picker/stop-picker.component';
 import { TransferComponent } from './transfer/transfer.component';
-import { PathwayTransferEditorComponent } from './pathway-transfer-editor/pathway-transfer-editor.component';
 import { PathwayComponent } from './pathway/pathway.component';
 import { StopTimesComponent } from './stop-times/stop-times.component';
 import { RealtimeComponent } from './realtime/realtime.component';
 import { RealtimeTripComponent } from './realtime-trip/realtime-trip.component';
+import { DeactivateGuard } from './deactivate-guard';
 
 
 
@@ -54,7 +49,7 @@ import { RealtimeTripComponent } from './realtime-trip/realtime-trip.component';
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent,
+ 
     SlideNaviComponent,
     FileuploaderComponent,
     DragDropDirective,
@@ -63,10 +58,8 @@ import { RealtimeTripComponent } from './realtime-trip/realtime-trip.component';
     EditorComponent,
     FeedinfoComponent,
     CalendarComponent,
-    ShapetableComponent,
-    AttributionsComponent,
-    TranslationComponent,
-  
+
+    
     FareComponent,
     FareruleComponent,
     StopComponent,
@@ -78,7 +71,6 @@ import { RealtimeTripComponent } from './realtime-trip/realtime-trip.component';
     RouterPickerComponent,
     StopPickerComponent,
     TransferComponent,
-    PathwayTransferEditorComponent,
     PathwayComponent,
     StopTimesComponent,
     RealtimeComponent,
@@ -91,16 +83,16 @@ import { RealtimeTripComponent } from './realtime-trip/realtime-trip.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent  },
-      { path: 'CSVEditor', component:MapComponent},
-      { path: 'CalendarEditor', component:CalendarComponent},
-      { path: 'RouteEditor', component:RouteComponent},
+      { path: '', component: HomeComponent,canDeactivate: [DeactivateGuard]},
       { path: 'DragDrop',component:FileuploaderComponent},
+      { path: 'AgencyEditor', component:AgencytableComponent,canDeactivate: [DeactivateGuard]},
+      { path: 'FeedinfoEditor', component:FeedinfoComponent,canDeactivate: [DeactivateGuard]},
       { path: 'FareEditor', component:FareComponent},
-      { path: 'StopEditor', component:StopComponent},
-      { path: 'TimetableEditor', component:EditorComponent},
-      { path: 'Path_Tansfer_Editor', component:PathwayTransferEditorComponent},
-      { path: 'RealTime', component:RealtimeComponent},
+      { path: 'StopEditor', component:StopComponent,canDeactivate: [DeactivateGuard]},
+      { path: 'TimetableEditor', component:EditorComponent,canDeactivate: [DeactivateGuard]},
+      { path: 'PathEditor', component: PathwayComponent,canDeactivate: [DeactivateGuard]},
+      { path: 'TansferEditor', component:TransferComponent,canDeactivate: [DeactivateGuard]},
+      { path: 'RealTime', component:RealtimeComponent,canDeactivate: [DeactivateGuard]},
     ]),
     
     MatSidenavModule,
@@ -115,7 +107,7 @@ import { RealtimeTripComponent } from './realtime-trip/realtime-trip.component';
    
     
   ],
-  providers: [],
+  providers: [DeactivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -24,13 +24,22 @@
         </div>
         <mat-list role="list">
           <mat-list-item role="listitem">
-            <a [routerLink]="['/CSVEditor']">
+            <a [routerLink]="['/AgencyEditor']">
               <button mat-raised-button color="basic" >
-                <mat-icon aria-hidden="false" >assessment</mat-icon>
-                CSV-Editor
+                <mat-icon aria-hidden="false" >account_balance</mat-icon>
+                Agency-Editor
               </button>
             </a>
           </mat-list-item>
+          <mat-list-item role="listitem">
+            <a [routerLink]="['/FeedinfoEditor']">
+              <button mat-raised-button color="basic" >
+                <mat-icon aria-hidden="false" >contact_support</mat-icon>
+                Feedinfo-Editor
+              </button>
+            </a>
+          </mat-list-item>
+          <mat-divider></mat-divider>
           <mat-list-item role="listitem">
             <a [routerLink]="['/FareEditor']">
               <button mat-raised-button color="basic" >
@@ -39,6 +48,7 @@
               </button>
             </a>
           </mat-list-item>
+          <mat-divider></mat-divider>
           <mat-list-item role="listitem">
             <a [routerLink]="['/StopEditor']">
               <button mat-raised-button color="basic" >
@@ -47,7 +57,24 @@
               </button>
             </a>
           </mat-list-item>
-
+          <mat-list-item role="listitem">
+            <a [routerLink]="['/PathEditor']">
+              <button mat-raised-button color="basic" >
+                <mat-icon aria-hidden="false" >directions_walk</mat-icon>
+                Pathway-Editor
+              </button>
+            </a>
+          </mat-list-item>
+  
+          <mat-list-item role="listitem">
+            <a [routerLink]="['/TansferEditor']">
+              <button mat-raised-button color="basic" >
+                <mat-icon aria-hidden="false" >linear_scale</mat-icon>
+                Tansfer-Editor
+              </button>
+            </a>
+          </mat-list-item>
+          <mat-divider></mat-divider>
           <mat-list-item role="listitem">
             <a [routerLink]="['/TimetableEditor']">
               <button mat-raised-button color="basic" >
@@ -56,15 +83,8 @@
               </button>
             </a>
           </mat-list-item>
-
-        <mat-list-item role="listitem">
-          <a [routerLink]="['/Path_Tansfer_Editor']">
-            <button mat-raised-button color="basic" >
-              <mat-icon aria-hidden="false" >call_split</mat-icon>
-              Path_Tansfer_Editor
-            </button>
-          </a>
-        </mat-list-item>
+          <mat-divider></mat-divider>
+        
 
         <mat-list-item role="listitem">
           <a [routerLink]="['/RealTime']">

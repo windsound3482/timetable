@@ -204,4 +204,13 @@ export class EditorComponent implements OnInit {
           this.dataSource[j].splice(tempindex,1);
     }
   }
+
+  canDeactivate() {
+    if (this.editable)
+    {
+      window.alert("Please Save before you leave this page!");
+      return false;
+    }
+    return true;
+  }
 }

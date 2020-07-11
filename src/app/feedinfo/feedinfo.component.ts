@@ -32,7 +32,7 @@ export class FeedinfoComponent implements OnInit {
       if (!elements[i].checkValidity())
       {
         window.alert("Some Input goes wrong, check the red marked space!");
-        return;
+        return false;
       }
     }
     this.dataSource=[];
@@ -41,8 +41,8 @@ export class FeedinfoComponent implements OnInit {
     this.dataSource=this.dataSource.concat(this.database);
     
     this.file.setfeedinfo(this.dataSource);
-    window.alert('Your File feed_info.txt has already been saved!');
     this.onReset();
+    return true;
   }
   startatlist_start:FormControl[];
   startatlist_end:FormControl[];
@@ -143,6 +143,10 @@ export class FeedinfoComponent implements OnInit {
   gettablefrombase(){
     this.dataTable=new MatTableDataSource<string[]>(this.database);
     this.dataTable.paginator = this.paginator;
+  }
+
+  canDeactivate() {
+    return this.onSave();
   }
 }
  

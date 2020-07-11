@@ -51,7 +51,7 @@ export class TransferComponent implements OnInit {
       if (!elements[i].checkValidity())
       {
         window.alert("Some Input goes wrong, check the red marked space!");
-        return;
+        return false;
       }
     }
     this.dataSource=[];
@@ -64,12 +64,13 @@ export class TransferComponent implements OnInit {
       if (!this.database[i][index_from] || !this.database[i][index_to])
       {
         window.alert("please fill in every stop blank");
-        return;
+        return false;
       }
     }
     window.alert("transfer.txt saved");
     this.dataSource=this.dataSource.concat(this.dataTable.data);
     this.stop.settransfer(this.dataSource);
+    return true;
   }
 
   deleteline(j:string[]){
@@ -92,5 +93,9 @@ export class TransferComponent implements OnInit {
   }
   pattern_error=false;
   require_error=false;
+
+  canDeactivate() {
+    return this.onSave();
+  }
 }
 

@@ -479,6 +479,15 @@ export class StopComponent implements OnInit {
   changelevel(level){
     this.currentvalue[this.dataSource[0].indexOf("level_id")]=level;
   }
+
+  canDeactivate() {
+    if (this.editmode)
+    {
+      window.alert("Please Save before you leave this page!");
+      return false;
+    }
+    return true;
+  }
 }
 
 @Component({

@@ -364,4 +364,14 @@ export class RealtimeComponent implements OnInit {
     }
     this.resetstoptime();
   }
+
+  canDeactivate() {
+    if (this.addmode==true)
+    {
+      window.alert("Please Save before you leave this page!");
+      return false;
+    }
+    return true;
+  }
+
 }

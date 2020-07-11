@@ -14,7 +14,6 @@
         <ng-container [matColumnDef]= "pos">
           <mat-header-cell *matHeaderCellDef> {{pos}} </mat-header-cell>
               <mat-cell *matCellDef="let element"> 
-                
                 {{element[i]}} 
                 <button mat-button *ngIf="i==0" matSuffix (click)="add_trip_input(element[i])" [disabled]="editable"> 
                   <mat-icon>create</mat-icon>
