@@ -55,12 +55,11 @@ export class StopComponent implements OnInit {
     let latindex=this.dataSource[0].indexOf("stop_lat");
     if (this.dataSource[this.current][lonindex])
     {
-      this.map.flyTo({
+      this.map.jumpTo({
         center: [
           parseFloat(this.dataSource[this.current][lonindex]),
           parseFloat(this.dataSource[this.current][latindex])
-        ],
-        essential: true // this animation is considered essential with respect to prefers-reduced-motion
+        ]
       });
     }
     
@@ -95,12 +94,11 @@ export class StopComponent implements OnInit {
           this.map.setZoom(10);
         else
           this.map.setZoom(16);
-        this.map.flyTo({
+        this.map.jumpTo({
           center: [
             parseFloat(this.dataSource[i][lonindex]),
             parseFloat(this.dataSource[i][latindex])
-          ],
-          essential: true // this animation is considered essential with respect to prefers-reduced-motion
+          ]
         });
         
         this.addmode=true;
@@ -150,12 +148,11 @@ export class StopComponent implements OnInit {
         console.log(this.dataSource[this.current][lonindex]);
         this.map.setZoom(16);
         if (this.dataSource[this.current][lonindex])
-          this.map.flyTo({
+          this.map.jumpTo({
             center: [
               parseFloat(this.dataSource[this.current][lonindex]),
               parseFloat(this.dataSource[this.current][latindex])
-            ],
-            essential: true // this animation is considered essential with respect to prefers-reduced-motion
+            ]
           });
         
         this.value="";
@@ -315,11 +312,21 @@ export class StopComponent implements OnInit {
           if (!result)
           { window.alert("You need an ID to define the stop!!!");}
           else{
+            let idindex=this.dataSource[0].indexOf("stop_id");
+            for (var i=1;i<this.dataSource.length;i++)
+            {
+              if (this.dataSource[i][idindex]==result)
+              {
+                window.alert("You need an another ID to define the stop,because the id you type in is already a stop");
+                return;
+              }
+            }
             this.createElement(result, e.lngLat.lat,e.lngLat.lng,this.addtype);
             this.value=result;
             this.addnewelemnt();
             this.dataSource[this.dataSource.length-1][this.dataSource[0].indexOf("stop_lat")]=e.lngLat.lat.toString();
             this.dataSource[this.dataSource.length-1][this.dataSource[0].indexOf("stop_lon")]=e.lngLat.lng.toString();
+            this.edit();
           }
         });
        
@@ -388,12 +395,11 @@ export class StopComponent implements OnInit {
       {
         if (this.dataSource[i][lonindex])
         {
-          this.map.flyTo({
+          this.map.jumpTo({
             center: [
               parseFloat(this.dataSource[i][lonindex]),
               parseFloat(this.dataSource[i][latindex])
-            ],
-            essential: true // this animation is considered essential with respect to prefers-reduced-motion
+            ]
           });
           break;
         }
