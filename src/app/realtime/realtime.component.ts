@@ -337,7 +337,7 @@ export class RealtimeComponent implements OnInit {
     this.current.trip.trip_id=info[0];
     this.current.trip.route_id=info[1];
     this.routerpicker.routerid=info[1];
-    this.current.trip.direction_id=parseInt(info[2])*10;
+    this.current.trip.direction_id=parseInt(info[2]);
     this.current.stop_time_update=[];
     let stoptimes=this.timetable.getstoptimes();
     let stop_id_index=stoptimes[0].indexOf("stop_id");
@@ -349,7 +349,7 @@ export class RealtimeComponent implements OnInit {
       if (info[0]==stoptimes[i][trip_id_index])
       {
         let tempinput=transit_realtime.TripUpdate.StopTimeUpdate.create({
-          stop_sequence:parseInt(stoptimes[i][stop_sequence_index]),
+          stop_sequence:parseInt(stoptimes[i][stop_sequence_index])*10,
           stop_id:stoptimes[i][stop_id_index],
           arrival:transit_realtime.TripUpdate.StopTimeEvent.create({
             delay:0

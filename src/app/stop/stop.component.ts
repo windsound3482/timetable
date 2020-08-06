@@ -55,6 +55,7 @@ export class StopComponent implements OnInit {
     let latindex=this.dataSource[0].indexOf("stop_lat");
     if (this.dataSource[this.current][lonindex])
     {
+      this.map.setZoom(16);
       this.map.jumpTo({
         center: [
           parseFloat(this.dataSource[this.current][lonindex]),
@@ -91,7 +92,7 @@ export class StopComponent implements OnInit {
         let latindex=this.dataSource[0].indexOf("stop_lat");
         let lonindex=this.dataSource[0].indexOf("stop_lon");
         if (!this.currentparent)
-          this.map.setZoom(10);
+          this.map.setZoom(8);
         else
           this.map.setZoom(16);
         this.map.jumpTo({
