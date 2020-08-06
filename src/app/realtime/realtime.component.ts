@@ -82,7 +82,7 @@ export class RealtimeComponent implements OnInit {
       if (!stoptime.arrival)
       {
         stoptime.arrival=transit_realtime.TripUpdate.StopTimeEvent.create();
-        stoptime.arrival.timeMath.round(new Date().getTime()/1000);
+        stoptime.arrival.time=Math.round(new Date().getTime()/1000);
       }
       if (!stoptime.departure)
       {
@@ -128,7 +128,17 @@ export class RealtimeComponent implements OnInit {
           if (!entity.trip_update.timestamp)
             entity.trip_update.timestamp=Math.round(new Date().getTime()/1000);
           this.currenttimedate=new FormControl(new Date(entity.trip_update.timestamp * 1000).toISOString().slice(0, -5));
-          this.startatdate=new FormControl(new Date(entity.trip_update.trip.start_date));
+          if (!entity.trip_update.trip.start_date)
+            entity.trip_update.trip.start_date=new Date().getFullYear() +
+              ("00" + (new Date().getMonth()+1)).slice(-2) +
+              ("00" + new Date().getDate()).slice(-2);
+          let x=entity.trip_update.trip.start_date;
+          let start_year=parseInt(x.slice(0,4));
+          let start_month=parseInt(x.slice(4,6));
+          let start_day=parseInt(x.slice(6));
+          this.startatdate=new FormControl(new Date(start_year,start_month-1,start_day));
+          
+
           this.current=entity.trip_update;
           this.resetstoptime();
           return;
@@ -140,15 +150,20 @@ export class RealtimeComponent implements OnInit {
       this.startatdate=new FormControl(null);
       this.currenttimedate=new FormControl(new Date(Math.round(new Date().getTime()/1000) * 1000).toISOString().slice(0, -5));
       this.current=transit_realtime.TripUpdate.create({
-        trip:transit_realtime.TripDescriptor.create(),
+        trip:transit_realtime.TripDescriptor.create({
+          start_date:new Date().getFullYear() +
+            ("00" + (new Date().getMonth()+1)).slice(-2) +
+            ("00" + new Date().getDate()).slice(-2)
+        }),
         stop_time_update:[],
         timestamp:Math.round(new Date().getTime()/1000)
       });
+      this.startatdate=new FormControl(new Date());
       this.feed.entity.push(transit_realtime.FeedEntity.create({
         id:this.value,
         trip_update:this.current
       }));
-      console.log("hello");
+      this.resetstoptime();
     }
     
   }
@@ -178,8 +193,6 @@ export class RealtimeComponent implements OnInit {
   editentity(addvalue){
     this.value=addvalue as string;
   }
-
-
   
   onSave(stepper){
     let elements=document.getElementsByTagName("input");
@@ -331,6 +344,35 @@ export class RealtimeComponent implements OnInit {
       ("00" + (event.value.getMonth()+1)).slice(-2) +
       ("00" + event.value.getDate()).slice(-2);
     this.current.trip.start_date=date;
+    this.current.stop_time_update.forEach((stoptime) => {
+           
+      let tempinput=[];
+      tempinput.push(stoptime.stop_sequence);
+      tempinput.push(stoptime.stop_id);
+      if (!stoptime.arrival)
+      {
+        stoptime.arrival=transit_realtime.TripUpdate.StopTimeEvent.create();
+        stoptime.arrival.time=Math.round(event.value.getTime()/1000);
+      }
+      else{
+        let arr_time=new Date(stoptime.arrival.time*1000);
+        let temp=new Date(new Date(event.value).setHours(arr_time.getHours())).setMinutes(arr_time.getMinutes());
+        temp=new Date(temp).setSeconds(arr_time.getSeconds());
+        stoptime.arrival.time=Math.round(temp/1000);
+      }
+      if (!stoptime.departure)
+      {
+        stoptime.departure=transit_realtime.TripUpdate.StopTimeEvent.create();
+        stoptime.departure.time=Math.round(event.value.getTime()/1000);
+      }
+      else{
+        let arr_time=new Date(stoptime.departure.time*1000);
+        let temp=new Date(new Date(event.value).setHours(arr_time.getHours())).setMinutes(arr_time.getMinutes());
+        temp=new Date(temp).setSeconds(arr_time.getSeconds());
+        stoptime.departure.time=Math.round(temp/1000);
+      }
+    })
+    this.resetstoptime();
   }
   @ViewChild("routerpicker", { static: false }) routerpicker: RouterPickerComponent;
   addinfo(info){
@@ -344,19 +386,33 @@ export class RealtimeComponent implements OnInit {
     let stop_id_index=stoptimes[0].indexOf("stop_id");
     let trip_id_index=stoptimes[0].indexOf("trip_id");
     let stop_sequence_index=stoptimes[0].indexOf("stop_sequence");
-    
+    let arrival_time_index=stoptimes[0].indexOf("arrival_time");
+    let departure_time_index=stoptimes[0].indexOf("departure_time");
     for (var i=1;i<stoptimes.length;i++)
     {
       if (info[0]==stoptimes[i][trip_id_index])
       {
+        var arrival_time = stoptimes[i][arrival_time_index].split(':'); // split it at the colons
+        var departure_time = stoptimes[i][departure_time_index].split(':');
+        // minutes are worth 60 seconds. Hours are worth 60 minutes.
+
+        let x=this.current.trip.start_date;
+        let start_year=parseInt(x.slice(0,4));
+        let start_month=parseInt(x.slice(4,6));
+        let start_day=parseInt(x.slice(6));
+        
+        let arrival_time_seconds = new Date(start_year,start_month-1,start_day,parseInt(arrival_time[0]),parseInt(arrival_time[1]),parseInt(arrival_time[2])).valueOf()/1000;
+        let departure_time_seconds = new Date(start_year,start_month-1,start_day,parseInt(departure_time[0]),parseInt(departure_time[1]),parseInt(departure_time[2])).valueOf()/1000;
+        
+
         let tempinput=transit_realtime.TripUpdate.StopTimeUpdate.create({
           stop_sequence:parseInt(stoptimes[i][stop_sequence_index])*10,
           stop_id:stoptimes[i][stop_id_index],
           arrival:transit_realtime.TripUpdate.StopTimeEvent.create({
-            delay:0
+            time: arrival_time_seconds
           }),
           departure:transit_realtime.TripUpdate.StopTimeEvent.create({
-            delay:0
+            time: departure_time_seconds
           }),
           schedule_relationship:0
         });

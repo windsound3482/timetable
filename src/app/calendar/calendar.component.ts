@@ -31,7 +31,7 @@ export class CalendarComponent implements OnInit {
     this.calendars.first._goToDateInView(tempmonth,'month');
     this.calendar_updateTodaysDate();
   }
-
+  //year not month
   nextmonth(){
     let tempmonth:Date=new Date(this.calendars.first.activeDate);
     tempmonth.setFullYear(tempmonth.getFullYear()+1);
@@ -101,6 +101,7 @@ export class CalendarComponent implements OnInit {
     { return [null,null];}
     let x:string=this.calendarData[this.current][this.c_start_date];
     let y:string=this.calendarData[this.current][this.c_end_date];
+    //change yymmdd to datatyp
     let start_year=parseInt(x.slice(0,4));
     let start_month=parseInt(x.slice(4,6));
     let start_day=parseInt(x.slice(6));

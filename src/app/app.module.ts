@@ -25,8 +25,8 @@ import { EditorComponent } from './editor/editor.component';
 import { FeedinfoComponent } from './feedinfo/feedinfo.component';
 import { CalendarComponent } from './calendar/calendar.component';
 
-import { FareComponent } from './fare/fare.component';
-import { FareruleComponent } from './farerule/farerule.component';
+
+
 import { StopComponent } from './stop/stop.component';
 import { InsertDialog } from './stop/stop.component';
 import { FreqComponent } from './freq/freq.component';
@@ -60,8 +60,7 @@ import { DeactivateGuard } from './deactivate-guard';
     CalendarComponent,
 
     
-    FareComponent,
-    FareruleComponent,
+    
     StopComponent,
     InsertDialog,
     FreqComponent,
@@ -87,7 +86,6 @@ import { DeactivateGuard } from './deactivate-guard';
       { path: 'DragDrop',component:FileuploaderComponent},
       { path: 'AgencyEditor', component:AgencytableComponent,canDeactivate: [DeactivateGuard]},
       { path: 'FeedinfoEditor', component:FeedinfoComponent,canDeactivate: [DeactivateGuard]},
-      { path: 'FareEditor', component:FareComponent},
       { path: 'StopEditor', component:StopComponent,canDeactivate: [DeactivateGuard]},
       { path: 'TimetableEditor', component:EditorComponent,canDeactivate: [DeactivateGuard]},
       { path: 'PathEditor', component: PathwayComponent,canDeactivate: [DeactivateGuard]},
