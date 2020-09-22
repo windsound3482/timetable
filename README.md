@@ -42,16 +42,14 @@ Users can use this tool in an easy way.
 
 ### File upload and download
 
-Click the side-navigator, which hidden in the left side. And then click the File-Upload Button. The software supports Drag and drop, as well as click and upload. One thing you may mention is that if you upload two .zip as well as two .pb files at the same thing. The latest version will overwrite the older one.
-Gtfs Files support only one .zip and Realtime support only one .pb
-You can also edit both of them without upload anything. But only the stops and routes you added to the static file can be used later in the Realtime Files.
+Click the side-navigator, which is hidden in the left side. And then click the File-Upload Button. The software supports Drag and drop, as well as click and upload. One thing you may mention is that if you upload two .zip as well as two .pb files at the same thing, the latest version will overwrite the older one.
+Gtfs Files support only one .zip and Realtime support only one .pb to be edited at the same time.
+You can also edit both of them without upload anything. But only the stops and routes, which you have added to the static file, can be used later in the Realtime Files.
 
 ### Edit
 
-You need to save the file before you leave the page. A warning will be added later if needed.
-
-### Download
-Use both of the download button in the side navigator to download Files.
+The programm show only the basic items at the viewer's vision, you can change the other attributes of every items later, if you add it with the drag down menu.
+It is no need to save with the save button. Once you leave the page, the things you have added or deleted will automatically changed into the file, that you want to download later. A warning will be showed, if you have done something wrong.
 
 #### GTFS File
 
