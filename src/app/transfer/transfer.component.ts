@@ -67,7 +67,6 @@ export class TransferComponent implements OnInit {
         return false;
       }
     }
-    window.alert("transfer.txt saved");
     this.dataSource=this.dataSource.concat(this.dataTable.data);
     this.stop.settransfer(this.dataSource);
     return true;
