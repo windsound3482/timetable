@@ -47,6 +47,7 @@ export class StopPickerComponent implements OnInit {
     }
   }
 
+  //get station list after change(with zoom in and zoom out)
   getstation(parentstation){
 
     let index=[];
@@ -117,6 +118,7 @@ export class StopPickerComponent implements OnInit {
   } 
   currentparent="";
   currentstop="";
+  //get a new stop
   add_stop_input(input:string){
     this.notify.emit(input);
     this.currentstop="";
@@ -134,6 +136,7 @@ export class StopPickerComponent implements OnInit {
     }
   }
 
+  //apply the filter of stops
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataTable.filter = filterValue.trim().toLowerCase();

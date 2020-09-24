@@ -75,10 +75,12 @@ export class FreqComponent implements OnInit {
     this.onSave();
   }
 
+  //set filter value from editor
   setfilter(value:string) {
     this.value_trp=value;
     this.dataTable.filter=value; 
   }
+
   deleteline(j:string[]){
     this.database=this.dataTable.data;
     this.database.splice(this.database.indexOf(j),1);

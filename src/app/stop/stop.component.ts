@@ -68,7 +68,7 @@ export class StopComponent implements OnInit {
     this.addtype=this.currentvalue[this.dataSource[0].indexOf("location_type")];
     
   }
-
+  //get list of the parent station
   editparent(){
     let idindex=this.dataSource[0].indexOf("stop_id");
     for (var i=1;i<this.dataSource.length;i++)
@@ -109,7 +109,7 @@ export class StopComponent implements OnInit {
       }
     }
   }
-
+  //get the list of the child station
   editchild(){
     let idindex=this.dataSource[0].indexOf("stop_id");
     let flag=true;
@@ -177,7 +177,7 @@ export class StopComponent implements OnInit {
     this.stops.setstop(this.dataSource);
     this.onReset();
   }
-
+  //create new element
   createElement(id,lat,lon,type){
     var ell = document.createElement('div');
     if (type=='0' || !type)
@@ -223,6 +223,7 @@ export class StopComponent implements OnInit {
     this.database.push(tempinput);
    
   }
+  //get station from map
   getstation(parentstation){
     var tempmap=document.getElementById("map");
       tempmap.innerHTML=null;
@@ -230,7 +231,7 @@ export class StopComponent implements OnInit {
         container: 'map', // container id
         style: this.stops.getstyle()
         ,
-        center: [8.646927, 49.878708], // starting position
+        center: [8.646927, 49.878708], // starting position:darmstadt
         zoom: 10 // starting zoom
       });
       this.map.addControl(new mapboxgl.NavigationControl());

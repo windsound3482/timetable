@@ -44,7 +44,6 @@ export class PathwayComponent implements OnInit {
       return;
     }
     this.file.setpathway(this.dataSource);
-    window.alert('Your File pathways.txt has already been saved!');
   
     this.onReset();
   }
@@ -104,6 +103,8 @@ export class PathwayComponent implements OnInit {
   value_rou="";
   addmode=false;
   
+
+  //change other settings
   changecol(){
     var value=this.nameget.value;
     let add=false;

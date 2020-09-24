@@ -167,7 +167,7 @@ export class RealtimeComponent implements OnInit {
     }
     
   }
-
+  //change iso to seconds
   changtimedate(value)
   {
     this.current.timestamp=new Date(value).valueOf()/1000;
@@ -284,6 +284,7 @@ export class RealtimeComponent implements OnInit {
     this.resetstoptime();
     this.currentstop=null;
   }
+
   checkvalid(){
     let elements=document.getElementsByTagName("input");
     for (var i=0;i<elements.length;i++)
@@ -301,6 +302,7 @@ export class RealtimeComponent implements OnInit {
     return true;
   }
 
+  //change frequency on the table of it
   checkout(){
     if (this.currentstop)
       if (!this.checkvalid())

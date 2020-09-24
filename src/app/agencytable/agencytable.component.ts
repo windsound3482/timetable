@@ -94,7 +94,7 @@ export class AgencytableComponent implements OnInit {
   }
 
   nameget = new FormControl();
-  
+  //change the settings it needed
   changecol(){
     var value=this.nameget.value;
     let add=false;

@@ -312,6 +312,7 @@ export class CalendarComponent implements OnInit {
     this.onSave(begininput,endinput);
   }
 
+  //paint the dexpections on the calendar  
   paintwithexp(){
     let expidindex=this.calendarexpData[0].indexOf("service_id");
     let exptypeindex=this.calendarexpData[0].indexOf("exception_type");
@@ -333,6 +334,7 @@ export class CalendarComponent implements OnInit {
     this.calendar_updateTodaysDate();
   }
 
+  //paint the details withut exceptions on the calendar 
   paintOnCalend(datenow:Date,dateend:Date,dayava:number[])
   {
     let tempdate=new Date(datenow);

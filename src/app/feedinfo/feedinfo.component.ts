@@ -99,6 +99,7 @@ export class FeedinfoComponent implements OnInit {
     this.gettablefrombase();
   }
 
+  //change the settings it needed
   changecol(){
     
     var value=this.nameget.value;
@@ -130,6 +131,7 @@ export class FeedinfoComponent implements OnInit {
     this.gettablefrombase();
   }
 
+  //change MatDatepickerInputEvent<Date> to string
   adddate(event: MatDatepickerInputEvent<Date>,i,j){
     const date:string =
       event.value.getFullYear() +
@@ -145,6 +147,7 @@ export class FeedinfoComponent implements OnInit {
     this.dataTable.paginator = this.paginator;
   }
 
+  //check if change page is available
   canDeactivate() {
     return this.onSave();
   }
